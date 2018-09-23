@@ -1,1 +1,63 @@
-# boiler
+# Boiler
+
+Boiler is a graphics and rasterization framework build on top of SDL 2.
+
+## Summary
+
+This header file is a boilerplate header for making graphical projects using the SDL library. I created this header to help me begin SDL projects quickly and efficiently, so that I don't need to write boilerplate code every time.
+
+This header is not meant for creating games in the traditional way of loading textures and drawing them directly to the screen. This header requires that you place each pixel yourself, so that you have more control over the graphics displayed on the screen.
+
+Finally, this header requires an object to be used for each project. This means that you will need to overload functions and create child classes, but that is very simple. A sample project is included with this header to show you how to use it. Thank you!
+
+## Usage
+
+You can create a window that displays the default gradient using this simple code
+
+```cpp
+#include "boiler.h"
+
+struct game: boiler
+{	
+	void steam() override
+	{
+		width = 800;
+		height = 600;
+
+		title = "Software renderer (using Boiler)";
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
+```
+
+It is extremely easy to draw shapes to the screen. Boiler currently supports drawing circles, triangles, lines, and rectangles.
+
+## Building
+
+To build any project that uses the Boiler framework, you must link the SDL 2 library. There are many tutorials that show you how to do this. For Clang, I use the following command
+
+```bash
+clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
+```
+
+## Demonstrations
+
+Boiler comes with a few simple demonstrations, which can be found in the `/boiler/demos/` directory. The framework is extremely simple, looking at `boiler.h` should suffice for most applications.
