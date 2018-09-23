@@ -8,6 +8,13 @@ translation, projection, and limited clipping. The clipping is very buggy, so ob
 rendered at a distance. Texturing is not supported, objects are colored with a color derived from
 their normals. Only flat shading is implemented.
 
+I used @javidx9#3371's awesome tutorials to help me make this awesome rasterizer
+
+	https://www.youtube.com/watch?v=nBzCS-Y0FcY&t=2385s
+	https://www.youtube.com/watch?v=HXSuNxpCzdM
+	https://www.youtube.com/watch?v=XgMWc6LumG4&t=1971s
+	https://www.youtube.com/watch?v=ih20l3pJoeU
+
 */
 
 #include "../boiler/boiler.h"
