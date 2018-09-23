@@ -61,3 +61,11 @@ clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
 ## Demonstrations
 
 Boiler comes with a few simple demonstrations, which can be found in the `/boiler/demos/` directory. The framework is extremely simple, looking at `boiler.h` should suffice for most applications.
+
+## Made with Boiler
+
+### Balls
+
+Balls is a simple, inaccurate and fun toy for simulating the physics of rigid circular bodies. This simulation supports circle vs. circle collisions, along with circle vs. capsule collisions. It also supports momentum conservation, displacement and gravity.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_balls_1.png "Balls collecting in a bowl")
