@@ -920,6 +920,22 @@ struct boiler
 	}
 };
 
+// Pointless nuke, big explosion without radiation cleansing.
+
+void nuke()
+{
+	exit(1);
+}
+
+// Nuke, big explosion without radiation cleansing.
+
+void nuke(std::string death_note)
+{
+	std::cerr << death_note << std::endl;
+
+	exit(1);
+}
+
 // Load image function. Supports Windows BMP Image (.bmp) image files. This function will return
 // a pointer to an array of pixel data, which consists of w * h elements. The integers w and h
 // will contain the dimensions of the image (or zero) when the function returns. This function
