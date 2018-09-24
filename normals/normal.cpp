@@ -7,6 +7,9 @@ normal map) and uses the color values to generate a map of normals. The normals 
 shading (diffuse) and combined with point lights can generate extremely realistic lighting 
 effects. This code was written by me, CobaltXII, and is licensed under the GNU GPLv3 license.
 
+Left click to bring light closer to the object
+Right click to move light farther away from the object
+
 The normal maps included with this project are not my property. Their authors reserve all rights
 associated with their image(s).
 
