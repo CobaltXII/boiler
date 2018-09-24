@@ -1,6 +1,6 @@
 # Boiler
 
-Boiler is a graphics and rasterization framework build on top of SDL 2.
+Boiler is a graphics and rasterization framework built on top of SDL 2.
 
 ## Summary
 
