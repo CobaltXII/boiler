@@ -919,3 +919,75 @@ struct boiler
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
 	}
 };
+
+// Load image function. Supports Windows BMP Image (.bmp) image files. This function will return
+// a pointer to an array of pixel data, which consists of w * h elements. The integers w and h
+// will contain the dimensions of the image (or zero) when the function returns. This function
+// supports 24- and 32- bit bitmaps. Returns NULL on error.
+
+Uint32* loadbmp(std::string path, int &w, int &h)
+{
+	SDL_Surface* s_bitmap = SDL_LoadBMP(path.c_str());
+
+	if (s_bitmap == NULL)
+	{
+		std::cerr << "Could not load image." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		return NULL;
+	}
+
+	w = s_bitmap->w;
+	h = s_bitmap->h;
+
+	int bpp = s_bitmap->format->BytesPerPixel;
+
+	if 
+	(
+		bpp != 4 &&
+		bpp != 3
+	)
+	{
+		std::cerr << "Only 32-bit and 24-bit bitmaps are supported." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		return NULL;
+	}
+
+	// Allocate space for the texture.
+
+	Uint32* m_bmp = (Uint32*)malloc(s_bitmap->w * s_bitmap->h * sizeof(Uint32));
+
+	// Loop through each pixel in the surface and apply it to the correct memory offset of the raw
+	// texture (m_bmp).
+
+	for (int x = 0; x < s_bitmap->w; x++)
+	{
+		for (int y = 0; y < s_bitmap->h; y++)
+		{
+			Uint8* p = (Uint8*)s_bitmap->pixels + y * s_bitmap->pitch + x * bpp;
+
+			if (bpp == 3)
+			{
+				if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+				{
+					m_bmp[y * s_bitmap->w + x] = p[0] << 16 | p[1] << 8 | p[2];
+				}
+				else
+				{
+					m_bmp[y * s_bitmap->w + x] = p[0] | p[1] << 8 | p[2] << 16;
+				}
+			}
+			else
+			{
+				m_bmp[y * s_bitmap->w + x] = *(Uint32*)p;
+			}
+		}
+	}
+
+	return m_bmp;
+}
