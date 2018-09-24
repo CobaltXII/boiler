@@ -1,4 +1,25 @@
-// Normal mapping?
+/*
+
+normal.cpp
+
+This is an extremely simple normal mapping implementation. This code takes an image (called a 
+normal map) and uses the color values to generate a map of normals. The normals are then used with
+shading (diffuse) and combined with point lights can generate extremely realistic lighting 
+effects. This code was written by me, CobaltXII, and is licensed under the GNU GPLv3 license.
+
+The normal maps included with this project are not my property. Their authors reserve all rights
+associated with their image(s).
+
+The images were taken from
+
+	https://learnopengl.com/Advanced-Lighting/Normal-Mapping
+	https://docs.knaldtech.com/doku.php?id=normal_maps_knald
+	http://dansinteractive.blogspot.com/2012/02/normal-maps-of-coins-part-2.html
+	https://www.nvidia.com/object/real-time-normal-map-dxt-compression.html
+
+Thank you!
+
+*/
 
 #include "../boiler/boiler.h"
 
@@ -117,7 +138,7 @@ struct game: boiler
 		int w = 0;
 		int h = 0;
 
-		Uint32* m_img_map = loadbmp("maps/normal_map_3.bmp", w, h);
+		Uint32* m_img_map = loadbmp("maps/normal_map_5.bmp", w, h);
 
 		if (w == 0 || h == 0)
 		{
