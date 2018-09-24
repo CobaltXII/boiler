@@ -69,3 +69,9 @@ Boiler comes with a few simple demonstrations, which can be found in the `/boile
 Balls is a simple, inaccurate and fun toy for simulating the physics of rigid circular bodies. This simulation supports circle vs. circle collisions, along with circle vs. capsule collisions. It also supports momentum conservation, displacement and gravity.
 
 ![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_balls_1.png "Balls collecting in a bowl")
+
+### Raster
+
+Raster is a software rasterizer. It is capable of rendering three-dimensional objects to the screen as pixels; this is called rasterization. Currently, this rasterizer supports rotation, scaling, translation, projection, and limited clipping. The clipping is very buggy, so objects must be rendered at a distance. Texturing is not supported, objects are colored with a color derived from their normals. Only flat shading is implemented.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_raster_1.png "Schizophrenic teapot")
