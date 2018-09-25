@@ -67,7 +67,7 @@ struct game: boiler
 
 		my_object.rot_x = degrad(180.0);
 
-		my_object.rot_y = iteration / 100.0;
+		my_object.rot_y = iteration / 55.0;
 
 		my_object.rot_z = 0.0;
 
@@ -75,11 +75,11 @@ struct game: boiler
 		my_object.v_origin.y = 0.0;
 		my_object.v_origin.z = 0.0;
 
-		my_object.v_scalar.x = 6.1;
-		my_object.v_scalar.y = 6.1;
-		my_object.v_scalar.z = 6.1;
+		my_object.v_scalar.x = 6.3;
+		my_object.v_scalar.y = 6.3;
+		my_object.v_scalar.z = 6.3;
 
-		my_object.v_translate.x = 0.0;
+		my_object.v_translate.x = 0.1;
 		my_object.v_translate.y = 0.6;
 		my_object.v_translate.z = 1.0;
 
