@@ -60,7 +60,7 @@ clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
 
 ## Demonstrations
 
-Boiler comes with a few simple demonstrations, which can be found in the `/boiler/demos/` directory. The framework is extremely simple, looking at `boiler.h` should suffice for most applications.
+Boiler comes with a few simple demonstrations, which can be found in the `boiler/` directory. The framework is extremely simple, looking at `boiler.h` should suffice for most applications.
 
 ## Made with Boiler
 
