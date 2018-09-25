@@ -569,6 +569,10 @@ struct game: boiler
 
 		title = "Software renderer (using Boiler)";
 
+		// Initialize random number generator.
+
+		srand((unsigned int)time(NULL));
+
 		// Initialize vertices with random values.
 
 		tx1 = rand() % width;
