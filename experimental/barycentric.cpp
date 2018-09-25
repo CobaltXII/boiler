@@ -97,9 +97,9 @@ struct game: boiler
 
 	void shadetriangle
 	(
-		int x1, int y1, 
-		int x2, int y2, 
-		int x3, int y3, 
+		int tx1, int ty1, 
+		int tx2, int ty2, 
+		int tx3, int ty3, 
 
 		void* d1,
 		void* d2,
@@ -150,6 +150,15 @@ struct game: boiler
 
 		int e1;
 		int e2;
+
+		int x1 = tx1;
+		int y1 = ty1;
+
+		int x2 = tx2;
+		int y2 = ty2;
+
+		int x3 = tx3;
+		int y3 = ty3;
 		
 		if (y1 > y2) 
 		{ 
@@ -329,9 +338,9 @@ struct game: boiler
 					(
 						x, y,
 
-						x1, y1,
-						x2, y2,
-						x3, y3,
+						tx1, ty1,
+						tx2, ty2,
+						tx3, ty3,
 
 						d1,
 						d2,
@@ -504,9 +513,9 @@ struct game: boiler
 					(
 						x, y,
 
-						x1, y1,
-						x2, y2,
-						x3, y3,
+						tx1, ty1,
+						tx2, ty2,
+						tx3, ty3,
 
 						d1,
 						d2,
