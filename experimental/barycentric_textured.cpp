@@ -35,7 +35,7 @@ struct uv
 
 struct game: boiler
 {	
-	// Simple shader. Treats vertex data as color objects.
+	// Simple shader. Treats vertex data as UV coordinates.
 
 	static Uint32 my_shader
 	(
@@ -86,7 +86,7 @@ struct game: boiler
 
 		double w3 = 1.0 - w1 - w2;
 
-		// Use the weights to calculate the weighted color channel values.
+		// Use the weights to calculate the UV coordinates of the current pixel.
 
 		uv* uv1 = (uv*)d1;
 		uv* uv2 = (uv*)d2;
@@ -95,7 +95,7 @@ struct game: boiler
 		double cu = w1 * (double)(uv1->u) + w2 * (double)(uv2->u) + w3 * (double)(uv3->u); 
 		double cv = w1 * (double)(uv1->v) + w2 * (double)(uv2->v) + w3 * (double)(uv3->v); 
 
-		// Average the color values.
+		// Fetch the corresponding color from the texture.
 
 		return g->t[(int)(cv * g->t_h) * g->t_w + (int)(cu * g->t_w)];
 	}
