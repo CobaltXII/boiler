@@ -74,7 +74,7 @@ Balls is a simple, inaccurate and fun toy for simulating the physics of rigid ci
 
 Raster is a software rasterizer. It is capable of rendering three-dimensional objects to the screen as pixels; this is called rasterization. Currently, this rasterizer supports rotation, scaling, translation, projection, and limited clipping. The clipping is very buggy, so objects must be rendered at a distance. Texturing is not supported, objects are colored with a color derived from their normals. Only flat shading is implemented.
 
-![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_raster_1.png "Schizophrenic teapot")
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_raster_4.png "Stanford bunny")
 
 ### Normals
 
