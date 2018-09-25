@@ -892,6 +892,62 @@ struct boiler
 		}
 	}
 
+	// Bresenham's ellipse drawing algorithm. This code was taken from https://sites.google.com/si
+	// te/ruslancray/lab/projects/bresenhamscircleellipsedrawingalgorithm/bresenham-s-circle-ellip
+	// se-drawing-algorithm. I modified it.
+	
+	void ellipsergb(int yc, int xc, int w, int h, unsigned int c)
+	{
+		int a2 = w * w;
+		int b2 = h * h;
+
+		int fa2 = 4 * a2;
+		int fb2 = 4 * b2;
+
+		int x;
+		int y;
+
+		int sigma;
+
+		// First half.
+
+		for (x = 0, y = h, sigma = 2 * b2 + a2 * (1 - 2 * h); b2 * x <= a2 * y; x++)
+		{
+			putp(xc + x, yc + y, c);
+			putp(xc - x, yc + y, c);
+			putp(xc + x, yc - y, c);
+			putp(xc - x, yc - y, c);
+
+			if (sigma >= 0)
+			{
+				sigma += fa2 * (1 - y);
+
+				y--;
+			}
+
+			sigma += b2 * ((4 * x) + 6);
+		}
+
+		// Second half.
+
+		for (x = w, y = 0, sigma = 2 * a2 + b2 * (1 - 2 * w); a2 * y <= b2 * x; y++)
+		{
+			putp(xc + x, yc + y, c);
+			putp(xc - x, yc + y, c);
+			putp(xc + x, yc - y, c);
+			putp(xc - x, yc - y, c);
+
+			if (sigma >= 0)
+			{
+				sigma += fb2 * (1 - x);
+
+				x--;
+			}
+
+			sigma += a2 * ((4 * y) + 6);
+		}
+	}
+
 	// Draws a rectangle using lines.
 
 	void rectrgb(int x, int y, int w, int h, unsigned int c)
