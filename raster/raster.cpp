@@ -38,7 +38,7 @@ struct game: boiler
 	// Load an object from a file. This is the only object we will be rendering, although this
 	// renderer can render much more than one object.
 
-	object my_object = loadobj("obj/teapot.obj");
+	object my_object = loadobj("obj/bunny.obj");
 
 	// Generate the projection matrix. This renderer will modify the whole world relative to the
 	// camera, so that the projection matrix does not need to change.
@@ -65,20 +65,22 @@ struct game: boiler
 
 		// Define all transformations here.
 
-		my_object.rot_x = iteration / 65.0;
-		my_object.rot_y = iteration / 55.0;
-		my_object.rot_z = iteration / 45.0;
+		my_object.rot_x = degrad(180.0);
+
+		my_object.rot_y = iteration / 100.0;
+
+		my_object.rot_z = 0.0;
 
 		my_object.v_origin.x = 0.0;
 		my_object.v_origin.y = 0.0;
 		my_object.v_origin.z = 0.0;
 
-		my_object.v_scalar.x = 0.2;
-		my_object.v_scalar.y = 0.2;
-		my_object.v_scalar.z = 0.2;
+		my_object.v_scalar.x = 6.1;
+		my_object.v_scalar.y = 6.1;
+		my_object.v_scalar.z = 6.1;
 
 		my_object.v_translate.x = 0.0;
-		my_object.v_translate.y = 0.0;
+		my_object.v_translate.y = 0.6;
 		my_object.v_translate.z = 1.0;
 
 		// Transform the object and reduce it into a bag of triangles.
