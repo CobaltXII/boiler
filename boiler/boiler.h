@@ -34,6 +34,20 @@ inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
 	return a << 24 | r << 16 | g << 8 | b;
 }
 
+// Convert degrees to radians.
+
+inline double degrad(double x)
+{
+	return 2 * M_PI * (x / 360);
+}
+
+// Clamp a value to the range 0 to 255.
+
+inline double clamprgb(double x)
+{
+	return std::max(0.0, std::min(255.0, x));
+}
+
 // This structure contains all the code needed to initialize, use, and destroy an instance of a
 // boiler.
 
