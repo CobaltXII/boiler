@@ -87,3 +87,9 @@ This is an extremely simple normal mapping implementation. This code takes an im
 Barycentric is a triangle renderer. It renders triangles using a hard-coded shader, which can manipulate the triangle in any way. The renderer uses barycentric coordinates to 'weigh' the vertex data of the triangle, and then uses those weights to fetch texture information or generate a color value. The renderer is moderately fast, and I hope to use it in my future projects. Barycentric currently has color and texture interpolation support.
 
 ![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_barycentric_1.png "Colorful triangle")
+
+### Additive
+
+Additive is an additive blending demonstration. It features three circles, which are red, green and blue. The circles pulse, spin, and swap positions at a fast pace. Additive blending is a form of color blending, which closely mimics the effect produced by blending physical lights. Additive blending can be used in many applications, such as dynamic lighting, realistic particle effects, glowing sprites, and rendering.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_additive_1.png "Additive blending")
