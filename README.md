@@ -68,7 +68,7 @@ Boiler comes with a few simple demonstrations, which can be found in the `boiler
 
 Balls is a simple, inaccurate and fun toy for simulating the physics of rigid circular bodies. This simulation supports circle vs. circle collisions, along with circle vs. capsule collisions. It also supports momentum conservation, displacement and gravity. It is oddly satisfying to create hourglasses, slopes, marble runs and other physics demonstrations with this tool.
 
-![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_balls_1.png "Balls collecting in a bowl")
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_balls_2.png "Balls on slopes")
 
 ### Raster
 
