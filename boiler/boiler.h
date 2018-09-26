@@ -29,6 +29,11 @@ inline Uint32 rgb(Uint8 r, Uint32 g, Uint32 b)
 	return r << 16 | g << 8 | b;
 }
 
+inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
+{
+	return a << 24 | r << 16 | g << 8 | b;
+}
+
 // This structure contains all the code needed to initialize, use, and destroy an instance of a
 // boiler.
 
