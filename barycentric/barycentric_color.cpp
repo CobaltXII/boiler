@@ -1,3 +1,19 @@
+/*
+
+barycentric_color.cpp
+
+Barycentric is a triangle renderer. It renders triangles using a hard-coded shader, which can 
+manipulate the triangle in any way. The renderer uses barycentric coordinates to 'weigh' the 
+vertex data of the triangle, and then uses those weights to fetch texture information or generate
+a color value. The renderer is moderately fast, and I hope to use it in my future projects. 
+Barycentric currently has color and texture interpolation support.
+
+The following article was very helpful, thanks to Lewis Van Winkle.
+
+	https://codeplea.com/triangular-interpolation
+
+*/
+
 #include "../boiler/boiler.h"
 
 // Clamp a value to the range 0 to 255.
