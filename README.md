@@ -1,6 +1,6 @@
 # Boiler
 
-Boiler is a graphics and rasterization framework built on top of SDL 2.
+Boiler is a graphics and rasterization framework built on top of SDL2.
 
 ## Summary
 
@@ -52,7 +52,7 @@ It is extremely easy to draw shapes to the screen. Boiler currently supports dra
 
 ## Building
 
-To build any project that uses the Boiler framework, you must link the SDL 2 library. There are many tutorials that show you how to do this. For Clang, I use the following command
+To build any project that uses the Boiler framework, you must link the SDL2 library. There are many tutorials that show you how to do this. For Clang, I use the following command
 
 ```bash
 clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
