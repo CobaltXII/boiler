@@ -1,4 +1,4 @@
-// Additive blending?
+// Additive blending? Yup.
 
 #include "../boiler/boiler.h"
 
