@@ -606,7 +606,7 @@ struct game: boiler
 
 		// Initialize texture.
 
-		t = loadbmp("stone_texture.bmp", t_w, t_h);
+		t = loadbmp("xor.bmp", t_w, t_h);
 	}
 
 	void draw() override
