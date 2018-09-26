@@ -82,10 +82,10 @@ struct game: boiler
 		{
 			ab_fcirclergb
 			(
-				(96.0 * cos(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + width / 2,
-				(96.0 * sin(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + height / 2,
+				(((sin(iteration / 20.0) * 76.0) + 20.0) * cos(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + width / 2,
+				(((sin(iteration / 20.0) * 76.0) + 20.0) * sin(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + height / 2,
 
-				118.0,
+				std::abs(sin(iteration / 30.0) * 118.0),
 
 				n == 2 ? rgb(255, 0, 0) :
 				n == 1 ? rgb(0, 255, 0) :
