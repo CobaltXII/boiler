@@ -81,3 +81,9 @@ Raster is a software rasterizer. It is capable of rendering three-dimensional ob
 This is an extremely simple normal mapping implementation. This code takes an image (called a normal map) and uses the color values to generate a map of normals. The normals are then used with shading (diffuse) and combined with point lights can generate extremely realistic lighting effects. This program renders a few lights interacting with a normal mapped image in three-dimensional space.
 
 ![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_normals_3.png "Schizophrenic normal mapped coin")
+
+### Barycentric
+
+Barycentric is a triangle renderer. It renders triangles using a hard-coded shader, which can manipulate the triangle in any way. The renderer uses barycentric coordinates to 'weigh' the vertex data of the triangle, and then uses those weights to fetch texture information or generate a color value. The renderer is moderately fast, and I hope to use it in my future projects. Barycentric currently has color and texture interpolation support.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_barycentric_1.png "Colorful triangle")
