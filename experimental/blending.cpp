@@ -80,16 +80,29 @@ struct game: boiler
 
 		for (int n = 0; n < 3; n++)
 		{
+			Uint32 o_c;
+
+			if (n == 0)
+			{
+				o_c = rgb(255, 0, 0);
+			}
+			else if (n == 1)
+			{
+				o_c = rgb(0, 255, 0);
+			}
+			else
+			{
+				o_c = rgb(0, 0, 255);
+			}
+
 			ab_fcirclergb
 			(
-				(((sin(iteration / 20.0) * 76.0) + 20.0) * cos(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + width / 2,
-				(((sin(iteration / 20.0) * 76.0) + 20.0) * sin(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + height / 2,
+				(((sin(iteration / 20.0) * 76.0) + 30.0) * cos(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + width / 2,
+				(((sin(iteration / 20.0) * 76.0) + 30.0) * sin(2.0 * M_PI * n / 3.0 + iteration / 100.0)) + height / 2,
 
-				std::abs(sin(iteration / 30.0) * 118.0),
+				std::abs(sin(iteration / 30.0) * 128.0),
 
-				n == 2 ? rgb(255, 0, 0) :
-				n == 1 ? rgb(0, 255, 0) :
-						 rgb(0, 0, 255)
+				o_c
 			);
 		}
 	}
