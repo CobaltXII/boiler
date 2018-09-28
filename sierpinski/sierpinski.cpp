@@ -167,11 +167,17 @@ struct game: boiler
 			sierpinski = n_triangles;
 		}
 
+		// Log fractal information.
+
 		std::cout << sierpinski.size() << " triangles at iteration " << iteration << "." << std::endl;
 	}
 
 	void draw() override
 	{
+		// Get keypresses.
+
+		const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
 
 		// Draw the Sierpiński triangle.
@@ -180,19 +186,38 @@ struct game: boiler
 		{
 			triangle triangle_i = sierpinski[i];
 
-			trianglergb
-			(
-				triangle_i.ax,
-				triangle_i.ay,
+			if (keyboard[SDL_SCANCODE_RETURN] == true)
+			{
+				ftrianglergb
+				(
+					triangle_i.ax,
+					triangle_i.ay,
 
-				triangle_i.bx,
-				triangle_i.by,
+					triangle_i.bx,
+					triangle_i.by,
 
-				triangle_i.cx,
-				triangle_i.cy,
+					triangle_i.cx,
+					triangle_i.cy,
 
-				rgb(255, 255, 255)
-			);
+					rgb(255, 255, 255)
+				);
+			}
+			else
+			{
+				trianglergb
+				(
+					triangle_i.ax,
+					triangle_i.ay,
+
+					triangle_i.bx,
+					triangle_i.by,
+
+					triangle_i.cx,
+					triangle_i.cy,
+
+					rgb(255, 255, 255)
+				);
+			}
 		}
 	}
 };
