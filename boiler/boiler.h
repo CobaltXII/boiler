@@ -77,7 +77,7 @@ struct boiler
 
 	// Flags.
 
-	SDL_bool f_Clear_Renderer = true;
+	SDL_bool f_Clear_Renderer = SDL_TRUE;
 
 	// This function will initialize the width, height, and title of the boiler. You must overload
 	// it if you would like to modify it's values.
@@ -269,7 +269,7 @@ struct boiler
 			// The texture information is now stored in the texture, so we can transfer this 
 			// texture to the screen by using the renderer.
 
-			if (f_Clear_Renderer)
+			if (f_Clear_Renderer == SDL_TRUE)
 			{
 				SDL_RenderClear(renderer);
 			}
