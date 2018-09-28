@@ -165,11 +165,11 @@ struct game: boiler
 			}
 
 			sierpinski = n_triangles;
+
+			// Log fractal information.
+
+			std::cout << sierpinski.size() << " triangles at iteration " << iteration << "." << std::endl;
 		}
-
-		// Log fractal information.
-
-		std::cout << sierpinski.size() << " triangles at iteration " << iteration << "." << std::endl;
 	}
 
 	void draw() override
