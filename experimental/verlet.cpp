@@ -186,7 +186,7 @@ struct constraint
 
 		// Break when stretched too long.
 
-		if (nd * 2.0 < -0.85)
+		if (nd * 2.0 < -1.0)
 		{
 			active = false;
 		}
@@ -195,6 +195,13 @@ struct constraint
 
 struct game: boiler
 {	
+	// The image to texture the cloth with.
+
+	int iw;
+	int ih;
+
+	Uint32* image = loadbmp("india.bmp", iw, ih);
+
 	// The points in the simulation.
 
 	std::vector<point*> points;
@@ -460,9 +467,47 @@ struct game: boiler
 			}
 		}
 
+		// Texture the cloth.
+
+		for (int i = 0; i < 29; i++)
+		{
+			for (int j = 0; j < 29; j++)
+			{
+				Uint32 c = image[j * iw + i];
+
+				ftrianglergb
+				(
+					points[i * 30 + j]->px,
+					points[i * 30 + j]->py,
+
+					points[i * 30 + j + 1]->px,
+					points[i * 30 + j + 1]->py,
+
+					points[(i + 1) * 30 + j]->px,
+					points[(i + 1) * 30 + j]->py,
+
+					c
+				);
+
+				ftrianglergb
+				(
+					points[i * 30 + j + 1]->px,
+					points[i * 30 + j + 1]->py,
+
+					points[(i + 1) * 30 + j + 1]->px,
+					points[(i + 1) * 30 + j + 1]->py,
+
+					points[(i + 1) * 30 + j]->px,
+					points[(i + 1) * 30 + j]->py,	
+
+					c
+				);
+			}
+		}
+
 		// Render all points.
 
-		for (int i = 0; i < points.size(); i++)
+		for (int i = 0; i < 0; i++)
 		{
 			point* p = points[i];
 
@@ -479,7 +524,7 @@ struct game: boiler
 
 		// Render all constraints.
 
-		for (int i = 0; i < constraints.size(); i++)
+		for (int i = 0; i < 0; i++)
 		{
 			constraint c = constraints[i];
 
