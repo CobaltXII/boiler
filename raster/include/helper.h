@@ -6,20 +6,6 @@
 #include "vertex.h"
 #include "triangle.h"
 
-// Convert degrees to radians.
-
-inline double degrad(double x)
-{
-	return 2 * M_PI * (x / 360);
-}
-
-// Clamp a value to the range 0 to 255.
-
-inline double clamprgb(double x)
-{
-	return std::max(0.0, std::min(255.0, x));
-}
-
 // Cull triangles which's normals are facing away from the camera.
 
 inline bool cull(vector norm, triangle tri)
