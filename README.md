@@ -93,3 +93,9 @@ Barycentric is a triangle renderer. It renders triangles using a hard-coded shad
 Additive is an additive blending demonstration. It features three circles, which are red, green and blue. The circles pulse, spin, and swap positions at a fast pace. Additive blending is a form of color blending, which closely mimics the effect produced by blending physical lights. Additive blending can be used in many applications, such as dynamic lighting, realistic particle effects, glowing sprites, and rendering.
 
 ![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_additive_1.png "Additive blending")
+
+### Sierpiński
+
+Sierpiński is a simple program to render the Sierpiński triangle fractal. I thought of the algorithm to render the fractal myself, but I am sure that someone else has thought of a similar (if not identical) algorithm before. No recursive functions are used, just a vector of triangles that mutate on demand. I find watching the Sierpiński triangle progress very satisfying, and the resulting pattern is beautiful.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_sierpinski_1.png "Recursive triforce (Twister#6074)")
