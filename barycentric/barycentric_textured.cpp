@@ -16,13 +16,6 @@ The following article was very helpful, thanks to Lewis Van Winkle.
 
 #include "../boiler/boiler.h"
 
-// Clamp a value to the range 0 to 255.
-
-inline double clamprgb(double x)
-{
-	return std::max(0.0, std::min(255.0, x));
-}
-
 struct color
 {
 	Uint8 r;
