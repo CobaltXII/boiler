@@ -1000,6 +1000,20 @@ struct boiler
 	{
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
 	}
+
+	// Random X coordinate.
+
+	int randx()
+	{
+		return rand() % width;
+	}
+
+	// Random Y coordinate.
+
+	int randy()
+	{
+		return rand() % height;
+	}
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
