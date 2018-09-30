@@ -142,7 +142,7 @@ struct constraint
 
 	// Affector.
 
-	void do_constraint()
+	void do_constraint(bool mouse_r)
 	{
 		double dx = p2->px - p1->px;
 		double dy = p2->py - p1->py;
@@ -188,7 +188,7 @@ struct constraint
 
 		// Break when stretched too long.
 
-		if (nd * 2.0 < -0.875)
+		if (mouse_r && nd * 2.0 < -0.85)
 		{
 			active = false;
 		}
@@ -296,9 +296,9 @@ struct game: boiler
 	{
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
 
-		// Drag points with left click.
+		// Drag points with left or right click.
 
-		if (mouse_l && sx == nullptr)
+		if ((mouse_l || mouse_r) && sx == nullptr)
 		{
 			for (int i = 0; i < points.size(); i++)
 			{
@@ -317,7 +317,7 @@ struct game: boiler
 				}
 			}
 		}
-		else if (mouse_l && sx != nullptr)
+		else if ((mouse_l || mouse_r) && sx != nullptr)
 		{
 			*sx = mouse_x;
 			*sy = mouse_y;
@@ -394,7 +394,7 @@ struct game: boiler
 		{
 			if (constraints[i].active)
 			{
-				constraints[i].do_constraint();
+				constraints[i].do_constraint(mouse_r);
 			}
 		}
 
