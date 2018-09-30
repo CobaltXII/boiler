@@ -262,6 +262,13 @@ struct game: boiler
 
 			fabric();
 		}
+		else if (e.key.keysym.sym == SDLK_x)
+		{
+			if (sl != nullptr)
+			{
+				*sl = !(*sl);
+			}
+		}
 	}
 
 	// Initialize the Boiler framework.
@@ -287,8 +294,7 @@ struct game: boiler
 	double* sx = nullptr;
 	double* sy = nullptr;
 
-	double* csx = nullptr;
-	double* csy = nullptr;
+	bool* sl = nullptr;
 
 	// Render a frame using the Boiler framework.
 
@@ -314,6 +320,8 @@ struct game: boiler
 				{
 					sx = &(points[i]->px);
 					sy = &(points[i]->py);
+
+					sl = &(points[i]->locked);
 				}
 			}
 		}
@@ -326,6 +334,8 @@ struct game: boiler
 		{
 			sx = nullptr;
 			sy = nullptr;
+
+			sl = nullptr;
 		}
 
 		// Update all points.
