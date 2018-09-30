@@ -62,6 +62,9 @@ struct boiler
 	Uint32 width;
 	Uint32 height;
 
+	Uint32 h_width;
+	Uint32 h_height;
+
 	std::string title;
 
 	SDL_bool running = SDL_FALSE;
@@ -94,6 +97,9 @@ struct boiler
 	virtual Uint32 make()
 	{
 		steam();
+
+		h_width = width / 2;
+		h_height = height / 2;
 
 		iteration = 0;
 
