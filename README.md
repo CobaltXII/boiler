@@ -99,3 +99,9 @@ Additive is an additive blending demonstration. It features three circles, which
 Sierpiński is a simple program to render the Sierpiński triangle fractal. I thought of the algorithm to render the fractal myself, but I am sure that someone else has thought of a similar (if not identical) algorithm before. No recursive functions are used, just a vector of triangles that mutate on demand. I find watching the Sierpiński triangle progress very satisfying, and the resulting pattern is beautiful.
 
 ![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_sierpinski_1.png "Recursive triforce (Twister#6074)")
+
+### Cloth
+
+Cloth is a cloth simulation using Verlet integration. The cloth simulation is made up of tiny point masses arranged in a net or grid pattern, which are linked together with rigid constraints. The constraints try hard to keep the two points they are tethered to a certain distance from each other, but sometimes external forces are too great; the constraints pop. Currently, this project supports untextured, rippable cloth, and textured, unrippable cloth.
+
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_cloth_2.png "Canadian flag")
