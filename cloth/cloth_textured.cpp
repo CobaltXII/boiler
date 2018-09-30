@@ -1,4 +1,13 @@
-// Verlet integration? Using code from my barycentric triangle renderer.
+/*
+
+Verlet integration? Using code from my barycentric triangle renderer.
+
+https://www.youtube.com/watch?v=3HjO_RGIjCU
+https://www.youtube.com/watch?v=pBMivz4rIJY&t=508s
+https://www.youtube.com/watch?v=tAd7ttKbugA
+https://www.youtube.com/watch?v=YgRZDCBLDfs
+
+*/
 
 #include "../boiler/boiler.h"
 
