@@ -40,6 +40,66 @@ image_rgb lena_rgb = loadbmp
 	lena_h
 );
 
+// The classic 2 by 2 Bayer dither matrix.
+
+d_matrix bayer_2 =
+{
+	{
+		0, 3
+	},
+	{
+		2, 1
+	}
+};
+
+// The classic 4 by 4 Bayer dither matrix.
+
+d_matrix bayer_4 =
+{
+	{
+		0, 12, 13, 15
+	},
+	{
+		8, 4, 11, 7
+	},
+	{
+		2, 14, 1, 13
+	},
+	{
+		10, 6, 8, 5
+	}
+};
+
+// The classic 8 by 8 Bayer dither matrix.
+
+d_matrix bayer_8 =
+{
+	{
+		0, 48, 12, 60, 3, 51, 15, 63
+	},
+	{
+		32, 16, 44, 28, 35, 19, 47, 31
+	},
+	{
+		8, 56, 4, 52, 11, 59, 7, 55,
+	},
+	{
+		40, 24, 36, 20, 43, 27, 39, 23
+	},
+	{
+		2, 50, 14, 62, 1, 49, 13, 61
+	},
+	{
+		34, 18, 46, 30, 33, 17, 45, 29
+	},
+	{
+		10, 58, 6, 54, 9, 57, 5, 53
+	},
+	{
+		42, 26, 38, 22, 41, 25, 37, 21
+	}
+};
+
 // This function will convert a value of type image_rgb to a value of type image_gs. The color to
 // grayscale conversion is done by averaging the individual components of each pixel.
 
@@ -321,7 +381,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_2), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
