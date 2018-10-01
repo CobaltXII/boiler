@@ -125,6 +125,55 @@ image_rgb to_b(image_gs img, int w, int h)
 	return o_rgb;
 }
 
+// The following functions will convert a color image into a grayscale image, in which the value
+// of each pixel is equal to the R, G or B component of the corresponding pixel of the color 
+// image.
+
+image_gs splice_r(image_rgb img, int w, int h)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_gs[y * w + x] = getr(img[y * w + x]);
+		}
+	}
+
+	return o_gs;
+}
+
+image_gs splice_g(image_rgb img, int w, int h)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_gs[y * w + x] = getg(img[y * w + x]);
+		}
+	}
+
+	return o_gs;
+}
+
+image_gs splice_b(image_rgb img, int w, int h)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_gs[y * w + x] = getb(img[y * w + x]);
+		}
+	}
+
+	return o_gs;
+}
+
 struct game: boiler
 {	
 	int lena_m_w;
@@ -141,7 +190,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_b(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h);
+		lena_m = to_rgb(splice_b(lena_rgb, lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
