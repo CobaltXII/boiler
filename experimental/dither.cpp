@@ -16,6 +16,11 @@ typedef Uint32* image_rgb;
 
 typedef Uint8* image_gs;
 
+// Grayscale palettes are simply a list of 8-bit colors. We could represent this as a pointer or
+// array, but using STL vectors is a neater and simpler solution.
+
+typedef std::vector<Uint8> palette_gs;
+
 // Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
 // would be rude to not declare her as a global variable.
 
@@ -181,7 +186,7 @@ image_gs splice_b(image_rgb img, int w, int h)
 // This function will take a grayscale image as input. It will compare the value of each pixel to
 // a static set of values, and choose the closest match. This value will be assigned to the pixel.
 
-image_gs threshold_gs(image_gs img, int w, int h, std::vector<Uint8> pal)
+image_gs threshold_gs(image_gs img, int w, int h, palette_gs pal)
 {
 	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
 
@@ -225,9 +230,9 @@ image_gs threshold_gs(image_gs img, int w, int h, std::vector<Uint8> pal)
 // between black and white. Passing a value of 256 will result in a 8-bit palette. Similarly, 
 // passing a value of 16 will result in a 4-bit palette.
 
-std::vector<Uint8> gs_palette(int n)
+palette_gs gs_palette(int n)
 {
-	std::vector<Uint8> gs_pal;
+	palette_gs gs_pal;
 
 	for (int i = 0; i < n; i++)
 	{
@@ -235,6 +240,31 @@ std::vector<Uint8> gs_palette(int n)
 	}
 
 	return gs_pal;
+}
+
+// This function will dither a grayscale image using a random threshold value. Pixels below the
+// threshold will be black, pixels above will be white.
+
+image_gs random_dither(image_gs img, int w, int h)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			if (img[y * w + x] < rand() % 256)
+			{
+				o_gs[y * w + x] = 0;
+			}
+			else
+			{
+				o_gs[y * w + x] = 255;
+			}
+		}
+	}
+
+	return o_gs;
 }
 
 // The Boiler structured used to render Lena.
@@ -255,9 +285,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		std::vector<Uint8> my_palette = gs_palette(16);
-
-		lena_m = to_rgb(threshold_gs(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, my_palette), lena_w, lena_h);
+		lena_m = to_rgb(random_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
