@@ -2,6 +2,10 @@
 
 #include "../boiler/boiler.h"
 
+#include <vector>
+#include <utility>
+#include <iostream>
+
 // An image is a one-dimensional array of unsigned integers. However, a one-dimensional array of
 // unsigned integers can be any number of other things as well. For clarity, we use a typedef.
 
@@ -174,6 +178,51 @@ image_gs splice_b(image_rgb img, int w, int h)
 	return o_gs;
 }
 
+// This function will take a grayscale image as input. It will compare the value of each pixel to
+// a static set of values, and choose the closest match. This value will be assigned to the pixel.
+
+image_gs threshold_gs(image_gs img, int w, int h, std::vector<Uint8> pal)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			// Pick the closest matching value.
+
+			Uint8 best_match = pal[0];
+
+			// The current closest distance will be set to a value that is not representable by a
+			// Uint8. This forces a color to be chosen by the for loop.
+
+			Uint32 closest_distance = 256 * 256;
+
+			for (int i = 0; i < pal.size(); i++)
+			{
+				Uint32 color_distance = 
+				(
+					(img[y * w + x] - pal[i]) *
+					(img[y * w + x] - pal[i])
+				);
+
+				if (color_distance < closest_distance)
+				{
+					best_match = pal[i];
+
+					closest_distance = color_distance;
+				}
+			} 
+
+			o_gs[y * w + x] = best_match;
+		}
+	}
+
+	return o_gs;
+}
+
+// The Boiler structured used to render Lena.
+
 struct game: boiler
 {	
 	int lena_m_w;
@@ -190,7 +239,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(splice_b(lena_rgb, lena_w, lena_h), lena_w, lena_h);
+		lena_m = to_rgb(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
