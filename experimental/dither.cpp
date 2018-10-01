@@ -221,6 +221,22 @@ image_gs threshold_gs(image_gs img, int w, int h, std::vector<Uint8> pal)
 	return o_gs;
 }
 
+// This function will generate a grayscale palette of n values. The values will be evenly spaced
+// between black and white. Passing a value of 256 will result in a 8-bit palette. Similarly, 
+// passing a value of 16 will result in a 4-bit palette.
+
+std::vector<Uint8> gs_palette(int n)
+{
+	std::vector<Uint8> gs_pal;
+
+	for (int i = 0; i < n; i++)
+	{
+		gs_pal.push_back(255.0 * ((double)i / ((double)n - 1)));
+	}
+
+	return gs_pal;
+}
+
 // The Boiler structured used to render Lena.
 
 struct game: boiler
@@ -239,7 +255,9 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h);
+		std::vector<Uint8> my_palette = gs_palette(16);
+
+		lena_m = to_rgb(threshold_gs(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, my_palette), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
