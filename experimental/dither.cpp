@@ -21,6 +21,11 @@ typedef Uint8* image_gs;
 
 typedef std::vector<Uint8> palette_gs;
 
+// Dither matrices are two-dimensional matrices of integer values. They do not need to be squares,
+// and the values may be anything. They can be represented with vectors.
+
+typedef std::vector<std::vector<int>> d_matrix;
+
 // Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
 // would be rude to not declare her as a global variable.
 
@@ -267,6 +272,37 @@ image_gs random_dither(image_gs img, int w, int h)
 	return o_gs;
 }
 
+// This function will dither a grayscale image using a dithering matrix. Pixels below the
+// calculated threshold will be black, pixels above will be white.
+
+image_gs ordered_dither(image_gs img, int w, int h, d_matrix matrix)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	int m_w = matrix[0].size();
+
+	int m_h = matrix.size();
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			int m = matrix[x % m_w][y % m_h];
+
+			if (img[y * w + x] < ((1.0 + m) / (1.0 + m_w * m_h)) * 255)
+			{
+				o_gs[y * w + x] = 0;
+			}
+			else
+			{
+				o_gs[y * w + x] = 255;
+			}
+		}
+	}
+
+	return o_gs;
+}
+
 // The Boiler structured used to render Lena.
 
 struct game: boiler
@@ -285,7 +321,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(random_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_2), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
