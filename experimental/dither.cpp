@@ -77,6 +77,54 @@ image_rgb to_rgb(image_gs img, int w, int h)
 	return o_rgb;
 }
 
+// The following functions will convert a grayscale image into a color image which uses the 
+// grayscale value as either the R, G, or B component of the color image.
+
+image_rgb to_r(image_gs img, int w, int h)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_rgb[y * w + x] = rgb(img[y * w + x], 0, 0);
+		}
+	}
+
+	return o_rgb;
+}
+
+image_rgb to_g(image_gs img, int w, int h)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_rgb[y * w + x] = rgb(0, img[y * w + x], 0);
+		}
+	}
+
+	return o_rgb;
+}
+
+image_rgb to_b(image_gs img, int w, int h)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_rgb[y * w + x] = rgb(0, 0, img[y * w + x]);
+		}
+	}
+
+	return o_rgb;
+}
+
 struct game: boiler
 {	
 	int lena_m_w;
@@ -93,7 +141,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h);
+		lena_m = to_b(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
