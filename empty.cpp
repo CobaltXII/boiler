@@ -2,6 +2,10 @@
 
 #include "../boiler/boiler.h"
 
+#include <vector>
+#include <utility>
+#include <iostream>
+
 struct game: boiler
 {	
 	void steam() override
