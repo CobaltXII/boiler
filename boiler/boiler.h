@@ -48,6 +48,28 @@ inline double clamprgb(double x)
 	return std::max(0.0, std::min(255.0, x));
 }
 
+// Get the A, R, G and B components of a Uint32.
+
+inline Uint8 geta(Uint32 argb)
+{
+	return argb >> 24;
+}
+
+inline Uint8 getr(Uint32 argb)
+{
+	return argb >> 16;
+}
+
+inline Uint8 getg(Uint32 argb)
+{
+	return argb >> 8;
+}
+
+inline Uint8 getb(Uint32 argb)
+{
+	return argb;
+}
+
 // This structure contains all the code needed to initialize, use, and destroy an instance of a
 // boiler.
 
