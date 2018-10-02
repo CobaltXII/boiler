@@ -163,6 +163,27 @@ d_matrix vertical_line =
 	}
 };
 
+// A 3 by 5 horizontal line matrix.
+
+d_matrix horizontal_line =
+{
+	{
+		9, 10, 11
+	},
+	{
+		3, 4, 5
+	},
+	{
+		0, 1, 2
+	},
+	{
+		6, 7, 8
+	},
+	{
+		12, 13, 14
+	}
+};
+
 // This function will convert a value of type image_rgb to a value of type image_gs. The color to
 // grayscale conversion is done by averaging the individual components of each pixel.
 
@@ -444,7 +465,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, vertical_line), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, horizontal_line), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
