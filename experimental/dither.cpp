@@ -118,6 +118,36 @@ d_matrix cluster_4 =
 	}
 };
 
+// The 8 by 8 cluster dot matrix.
+
+d_matrix cluster_8 =
+{
+	{
+		24, 10, 12, 26, 35, 47, 49, 37
+	},
+	{
+		8, 0, 2, 14, 45, 59, 61, 51
+	},
+	{
+		22, 6, 4, 16, 43, 57, 63, 53
+	},
+	{
+		30, 30, 18, 28, 33, 41, 55, 39
+	},
+	{
+		34, 46, 48, 36, 25, 11, 13, 27
+	},
+	{
+		44, 58, 60, 50, 9, 1, 3, 15
+	},
+	{
+		42, 56, 62, 52, 23, 7, 5, 17
+	},
+	{
+		32, 40, 54, 38, 31, 21, 19, 29
+	}
+};
+
 // This function will convert a value of type image_rgb to a value of type image_gs. The color to
 // grayscale conversion is done by averaging the individual components of each pixel.
 
@@ -399,7 +429,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, cluster_4), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, cluster_8), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
