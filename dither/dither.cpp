@@ -178,6 +178,29 @@ image_gs splice_b(image_rgb img, int w, int h)
 	return o_gs;
 }
 
+// This function will create a color image using three grayscale images as input. The grayscale
+// images are used to obtain the color components of each pixel.
+
+image_rgb combine_rgb(image_gs r, image_gs g, image_gs b, int w, int h)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_rgb[y * w + x] = rgb
+			(
+				r[y * w + x],
+				g[y * w + x],
+				b[y * w + x]
+			);
+		}
+	}
+
+	return o_rgb;
+}
+
 // This function will take a grayscale image as input. It will compare the value of each pixel to
 // a static set of values, and choose the closest match. This value will be assigned to the pixel.
 
@@ -341,7 +364,19 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(lena_gs, lena_w, lena_h, horizontal_line), lena_w, lena_h);
+		image_gs r_channel = ordered_dither_bw(splice_r(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
+		image_gs g_channel = ordered_dither_bw(splice_g(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
+		image_gs b_channel = ordered_dither_bw(splice_b(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
+
+		lena_m = combine_rgb
+		(
+			r_channel,
+			g_channel,
+			b_channel,
+
+			lena_w,
+			lena_h
+		);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
