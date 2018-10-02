@@ -26,20 +26,6 @@ typedef std::vector<Uint8> palette_gs;
 
 typedef std::vector<std::vector<int>> d_matrix;
 
-// Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
-// would be rude to not declare her as a global variable.
-
-int lena_w;
-int lena_h;
-
-image_rgb lena_rgb = loadbmp
-(
-	"lena.bmp", 
-
-	lena_w, 
-	lena_h
-);
-
 // The classic 2 by 2 Bayer dither matrix.
 
 d_matrix bayer_2 =
@@ -447,7 +433,37 @@ image_gs ordered_dither_bw(image_gs img, int w, int h, d_matrix matrix)
 	return o_gs;
 }
 
-// The Boiler structured used to render Lena.
+// Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
+// would be rude to not declare her as a global variable.
+
+int lena_w;
+int lena_h;
+
+image_rgb lena_rgb = loadbmp
+(
+	"lena_color.bmp", 
+
+	lena_w, 
+	lena_h
+);
+
+image_rgb lena_gs_rgb = loadbmp
+(
+	"lena_grayscale.bmp", 
+
+	lena_w, 
+	lena_h
+);
+
+image_gs lena_gs = to_grayscale
+(
+	lena_gs_rgb,
+
+	lena_w,
+	lena_h
+);
+
+// The Boiler structure used to render Lena.
 
 struct game: boiler
 {	
@@ -465,7 +481,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, horizontal_line), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(lena_gs, lena_w, lena_h, horizontal_line), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
