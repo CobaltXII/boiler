@@ -148,6 +148,21 @@ d_matrix cluster_8 =
 	}
 };
 
+// A 5 by 3 vertical line matrix.
+
+d_matrix vertical_line =
+{
+	{
+		9, 3, 0, 6, 12
+	},
+	{
+		10, 4, 1, 7, 13
+	},
+	{
+		11, 5, 2, 8, 14
+	}
+};
+
 // This function will convert a value of type image_rgb to a value of type image_gs. The color to
 // grayscale conversion is done by averaging the individual components of each pixel.
 
@@ -395,7 +410,7 @@ image_gs ordered_dither_bw(image_gs img, int w, int h, d_matrix matrix)
 	{
 		for (int y = 0; y < h; y++)
 		{
-			int m = matrix[x % m_w][y % m_h];
+			int m = matrix[y % m_h][x % m_w];
 
 			if (img[y * w + x] < ((1.0 + m) / (1.0 + m_w * m_h)) * 255)
 			{
@@ -429,7 +444,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, cluster_8), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, vertical_line), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
