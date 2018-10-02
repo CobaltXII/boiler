@@ -335,7 +335,7 @@ image_gs random_dither(image_gs img, int w, int h)
 // This function will dither a grayscale image using a dithering matrix. Pixels below the
 // calculated threshold will be black, pixels above will be white.
 
-image_gs ordered_dither(image_gs img, int w, int h, d_matrix matrix)
+image_gs ordered_dither_bw(image_gs img, int w, int h, d_matrix matrix)
 {
 	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
 
@@ -381,7 +381,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
