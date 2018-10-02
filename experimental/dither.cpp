@@ -100,6 +100,24 @@ d_matrix bayer_8 =
 	}
 };
 
+// The 4 by 4 cluster dot matrix.
+
+d_matrix cluster_4 =
+{
+	{
+		15, 5, 6, 13
+	},
+	{
+		4, 0, 1, 7
+	},
+	{
+		11, 3, 2, 8
+	},
+	{
+		15, 10, 9, 14
+	}
+};
+
 // This function will convert a value of type image_rgb to a value of type image_gs. The color to
 // grayscale conversion is done by averaging the individual components of each pixel.
 
@@ -381,7 +399,7 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8), lena_w, lena_h);
+		lena_m = to_rgb(ordered_dither_bw(to_grayscale(lena_rgb, lena_w, lena_h), lena_w, lena_h, cluster_4), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
