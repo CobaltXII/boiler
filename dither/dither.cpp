@@ -391,7 +391,7 @@ struct game: boiler
 
 		title = "Dithering (using Boiler)";
 
-		// Do something to Lena.
+		// Do something to Lena. Doesn't clean up after itself!
 
 		lena_rgb = gamma_rgb(lena_rgb, lena_w, lena_h, 2.2);
 
