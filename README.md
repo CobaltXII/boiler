@@ -110,4 +110,4 @@ Cloth is a cloth simulation using Verlet integration. The cloth simulation is ma
 
 Dither is a tiny dithering library. It supports black and white thresholding, random dithering, Gaussian dithering, and ordered dithering. It also supports splicing color images into their one-dimensional channels, and joining grayscale images to create color images. It includes Bayer matrices of varying sizes, cluster dot matrices, horizontal line matrices and vertical line matrices. Gamma correction is also implemented. It can be used for 1-bit grayscale dithering, or 3-bit color dithering.
 
-![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_dither_bayer_8_gamma_rgb.png "Canadian flag")
+![Screenshot](https://github.com/CobaltXII/boiler/blob/master/img/s_dither_bayer_8_gamma_rgb.png "Gamma corrected 3-bit Bayer ordered dithering")
