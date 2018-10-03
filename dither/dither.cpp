@@ -306,6 +306,45 @@ image_gs ordered_dither_bw(image_gs img, int w, int h, d_matrix matrix)
 	return o_gs;
 }
 
+// This function will gamma correct a grayscale image using the given gamma value.
+
+image_gs gamma_gs(image_gs img, int w, int h, double gamma)
+{
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_gs[y * w + x] = std::pow(img[y * w + x] / 255.0, gamma) * 255;
+		}
+	}
+
+	return o_gs;
+}
+
+// This function will gamma correct a color image using the given gamma value.
+
+image_rgb gamma_rgb(image_rgb img, int w, int h, double gamma)
+{
+	image_rgb o_gs = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			o_gs[y * w + x] = rgb
+			(
+				std::pow(getr(img[y * w + x]) / 255.0, gamma) * 255,
+				std::pow(getg(img[y * w + x]) / 255.0, gamma) * 255,
+				std::pow(getb(img[y * w + x]) / 255.0, gamma) * 255
+			);
+		}
+	}
+
+	return o_gs;
+}
+
 // Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
 // would be rude to not declare her as a global variable.
 
@@ -354,9 +393,9 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		/*
+		lena_rgb = gamma_rgb(lena_rgb, lena_w, lena_h, 2.2);
 
-		d_matrix m = cluster_8;
+		d_matrix m = bayer_8;
 
 		image_gs r_channel = ordered_dither_bw(splice_r(lena_rgb, lena_w, lena_h), lena_w, lena_h, m);
 		image_gs g_channel = ordered_dither_bw(splice_g(lena_rgb, lena_w, lena_h), lena_w, lena_h, m);
@@ -371,10 +410,6 @@ struct game: boiler
 			lena_w,
 			lena_h
 		);
-
-		*/
-
-		lena_m = to_rgb(threshold_bw(lena_gs, lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
