@@ -2,9 +2,14 @@
 
 #include "../boiler/boiler.h"
 
+#include <random>
 #include <vector>
 #include <utility>
 #include <iostream>
+
+// Initialize a good random number generator.
+
+std::default_random_engine rng_source;
 
 // An image is a one-dimensional array of unsigned integers. However, a one-dimensional array of
 // unsigned integers can be any number of other things as well. For clarity, we use a typedef.
@@ -15,16 +20,6 @@ typedef Uint32* image_rgb;
 // of unsigned chars. An array of unsigned chars is ambiguous, so we use a typedef.
 
 typedef Uint8* image_gs;
-
-// Grayscale palettes are simply a list of 8-bit colors. We could represent this as a pointer or
-// array, but using STL vectors is a neater and simpler solution.
-
-typedef std::vector<Uint8> palette_gs;
-
-// Dither matrices are two-dimensional matrices of integer values. They do not need to be squares,
-// and the values may be anything. They can be represented with vectors.
-
-typedef std::vector<std::vector<int>> d_matrix;
 
 // Import some common dithering matrices.
 
@@ -202,9 +197,9 @@ image_rgb combine_rgb(image_gs r, image_gs g, image_gs b, int w, int h)
 }
 
 // This function will take a grayscale image as input. It will compare the value of each pixel to
-// a static set of values, and choose the closest match. This value will be assigned to the pixel.
+// pure black and pure white, and set the output pixel to the closest color.
 
-image_gs threshold_gs(image_gs img, int w, int h, palette_gs pal)
+image_gs threshold_bw(image_gs img, int w, int h)
 {
 	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
 
@@ -212,58 +207,24 @@ image_gs threshold_gs(image_gs img, int w, int h, palette_gs pal)
 	{
 		for (int y = 0; y < h; y++)
 		{
-			// Pick the closest matching value.
-
-			Uint8 best_match = pal[0];
-
-			// The current closest distance will be set to a value that is not representable by a
-			// Uint8. This forces a color to be chosen by the for loop.
-
-			Uint32 closest_distance = 256 * 256;
-
-			for (int i = 0; i < pal.size(); i++)
+			if (img[y * w + x] < 0.5 * 255.0)
 			{
-				Uint32 color_distance = 
-				(
-					(img[y * w + x] - pal[i]) *
-					(img[y * w + x] - pal[i])
-				);
-
-				if (color_distance < closest_distance)
-				{
-					best_match = pal[i];
-
-					closest_distance = color_distance;
-				}
-			} 
-
-			o_gs[y * w + x] = best_match;
+				o_gs[y * w + x] = 0;
+			}
+			else
+			{
+				o_gs[y * w + x] = 255;
+			}
 		}
 	}
 
 	return o_gs;
 }
 
-// This function will generate a grayscale palette of n values. The values will be evenly spaced
-// between black and white. Passing a value of 256 will result in a 8-bit palette. Similarly, 
-// passing a value of 16 will result in a 4-bit palette.
-
-palette_gs gs_palette(int n)
-{
-	palette_gs gs_pal;
-
-	for (int i = 0; i < n; i++)
-	{
-		gs_pal.push_back(255.0 * ((double)i / ((double)n - 1)));
-	}
-
-	return gs_pal;
-}
-
 // This function will dither a grayscale image using a random threshold value. Pixels below the
 // threshold will be black, pixels above will be white.
 
-image_gs random_dither(image_gs img, int w, int h)
+image_gs random_dither_bw(image_gs img, int w, int h)
 {
 	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
 
@@ -272,6 +233,35 @@ image_gs random_dither(image_gs img, int w, int h)
 		for (int y = 0; y < h; y++)
 		{
 			if (img[y * w + x] < rand() % 256)
+			{
+				o_gs[y * w + x] = 0;
+			}
+			else
+			{
+				o_gs[y * w + x] = 255;
+			}
+		}
+	}
+
+	return o_gs;
+}
+
+// This function is the same as the above, except that it uses a Gaussian distribution to 
+// calculate threshold values.
+
+image_gs gaussian_dither_bw(image_gs img, int w, int h, double mean = 0.5, double stddev = 0.15)
+{
+	// Create a Gaussian distribution device.
+
+	std::normal_distribution<double> n_device = std::normal_distribution<double>(mean, stddev);
+
+	image_gs o_gs = (image_gs)malloc(sizeof(Uint8) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			if (img[y * w + x] < n_device(rng_source) * 255)
 			{
 				o_gs[y * w + x] = 0;
 			}
@@ -364,9 +354,13 @@ struct game: boiler
 
 		// Do something to Lena.
 
-		image_gs r_channel = ordered_dither_bw(splice_r(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
-		image_gs g_channel = ordered_dither_bw(splice_g(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
-		image_gs b_channel = ordered_dither_bw(splice_b(lena_rgb, lena_w, lena_h), lena_w, lena_h, bayer_8);
+		/*
+
+		d_matrix m = cluster_8;
+
+		image_gs r_channel = ordered_dither_bw(splice_r(lena_rgb, lena_w, lena_h), lena_w, lena_h, m);
+		image_gs g_channel = ordered_dither_bw(splice_g(lena_rgb, lena_w, lena_h), lena_w, lena_h, m);
+		image_gs b_channel = ordered_dither_bw(splice_b(lena_rgb, lena_w, lena_h), lena_w, lena_h, m);
 
 		lena_m = combine_rgb
 		(
@@ -377,6 +371,10 @@ struct game: boiler
 			lena_w,
 			lena_h
 		);
+
+		*/
+
+		lena_m = to_rgb(threshold_bw(lena_gs, lena_w, lena_h), lena_w, lena_h);
 
 		lena_m_w = lena_w;
 		lena_m_h = lena_h;
