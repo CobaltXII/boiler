@@ -1,5 +1,10 @@
 #pragma once
 
+// Dither matrices are two-dimensional matrices of integer values. They do not need to be squares,
+// and the values may be anything. They can be represented with vectors.
+
+typedef std::vector<std::vector<int>> d_matrix;
+
 // The classic 2 by 2 Bayer dither matrix.
 
 d_matrix bayer_2 =
