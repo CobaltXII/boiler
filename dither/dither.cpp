@@ -1,4 +1,22 @@
-// Dithering? Awesome.
+/*
+
+Dithering? Awesome.
+
+Massive thanks to the people at http://caca.zoy.org/
+
+	http://caca.zoy.org/study/part1.html
+	http://caca.zoy.org/study/part2.html
+	http://caca.zoy.org/study/part3.html
+	http://caca.zoy.org/study/part4.html
+	http://caca.zoy.org/study/part5.html
+	http://caca.zoy.org/study/part6.html
+	http://caca.zoy.org/study/part7.html
+
+And also to everyone listed in
+
+	http://caca.zoy.org/study/biblio.html
+
+*/
 
 #include "../boiler/boiler.h"
 
