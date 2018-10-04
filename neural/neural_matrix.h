@@ -46,4 +46,17 @@ struct matrix
 			}
 		}
 	}
+
+	// Calculate the Hadamard product of two matrices with the same dimensions.
+
+	void scale(matrix _M)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] *= _M.u_M[i][j];
+			}
+		}
+	}
 };
