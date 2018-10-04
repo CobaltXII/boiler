@@ -170,4 +170,19 @@ struct matrix
 			}
 		}
 	}
+
+	// Randomize the matrix (integers between 0 and 10, inclusive).
+
+	void randomize()
+	{
+		std::uniform_real_distribution<double> r_distr = std::uniform_real_distribution<double>(0.0, 10.0);
+
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] = std::round(r_distr(r_device));
+			}
+		}
+	}
 };
