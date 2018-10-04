@@ -131,4 +131,30 @@ struct matrix
 			}
 		}
 	}
+
+	// Print the matrix.
+
+	void print(std::string _T)
+	{
+		std::cout << _T << ":\n";
+
+		for (int j = 0; j < c_C; j++)
+		{
+			std::cout << "\tc" << j << ": ";
+		}
+
+		std::cout << std::endl;
+
+		for (int i = 0; i < r_C; i++)
+		{
+			std::cout << "r" << i << ":";
+
+			for (int j = 0; j < c_C; j++)
+			{
+				std::cout << "\t" << u_M[i][j];
+			}
+
+			std::cout << std::endl;
+		}
+	}
 };
