@@ -1012,6 +1012,18 @@ struct boiler
 		linergb(x, y + h, x, y, c);
 	}
 
+	// Fills a rectangle using scanlines.
+
+	void frectrgb(int x, int y, int w, int h, unsigned int c)
+	{
+		w--;
+		
+		for (int y_ = y; y_ < y + h; y_++)
+		{
+			scanlinergb(x, x + w, y_, c);
+		}
+	}
+
 	// Clears the screen to any color (fast).
 
 	void clear(unsigned int c)
