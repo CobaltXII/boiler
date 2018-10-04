@@ -157,4 +157,17 @@ struct matrix
 			std::cout << std::endl;
 		}
 	}
+
+	// Apply a function to each element of the matrix.
+
+	void map(double(*func)(double))
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] = func(u_M[i][j]);
+			}
+		}
+	}
 };
