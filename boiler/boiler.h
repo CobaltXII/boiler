@@ -1055,6 +1055,74 @@ struct boiler
 	{
 		return rand() % height;
 	}
+
+	// Draws an image to the screen. Clips the image beforehand. Source and destination 
+	// coordinates accepted. Does not honour transparency, but is extremely fast.
+
+	void blitrgb(Uint32* img, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh)
+	{
+		dw--;
+		dh--;
+
+		// Trivial rejection.
+
+		if (dx >= (int)width || dy >= (int)height)
+		{
+			return;
+		}
+		else if (dx + dw < 0 || dy + dh < 0)
+		{
+			return;
+		}
+
+		if (sx >= sw || sy >= sh || sx < 0 || sy < 0)
+		{
+			return;
+		}
+		else if (sx + dw > sw || sy + dh > sh)
+		{
+			return;
+		}
+
+		// If any component of the destination coordinate is less than zero, then we must only 
+		// draw the part of the scanline of the image that lies on the right side of the left
+		// boundary. We must also scale the texture coordinates to match the offset.
+
+		if (dx < 0)
+		{
+			dw += dx;
+			sx -= dx;
+
+			dx = 0;
+		}
+
+		if (dy < 0)
+		{
+			dh += dy;
+			sy -= dy;
+
+			dy = 0;
+		}
+
+		// The same thing as above is done for components greater than the dimensions of the 
+		// destination plane. This is simpler, because we do not need to offset texture 
+		// coordinates as the texture coordinates are relative to the top-left origin.
+
+		if (dx + dw >= (int)width)
+		{
+			dw -= (dx + dw) - (int)width;
+		}
+
+		if (dy + dh >= (int)height)
+		{
+			dh -= (dy + dh) - (int)height;
+		}
+
+		for (int y = 0; y < dh + 1; y++)
+		{
+			memcpy(&(pixels[(y + dy) * width + dx]), &(img[(y + sy) * sw + sx]), sizeof(Uint32) * dw);
+		}
+	}
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
