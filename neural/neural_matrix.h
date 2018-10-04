@@ -105,4 +105,17 @@ struct matrix
 
 		return _O;
 	}
+
+	// Add a scalar value to each value in the matrix.
+
+	void add(double _R)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] += _R;
+			}
+		}
+	}
 };
