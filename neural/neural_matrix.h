@@ -118,4 +118,17 @@ struct matrix
 			}
 		}
 	}
+
+	// Add two matrices of the same dimensions together, element-wise.
+
+	void add(matrix _M)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] += _M.u_M[i][j];
+			}
+		}
+	}
 };
