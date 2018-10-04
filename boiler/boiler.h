@@ -1017,7 +1017,8 @@ struct boiler
 	void frectrgb(int x, int y, int w, int h, unsigned int c)
 	{
 		w--;
-		
+		h--;
+
 		for (int y_ = y; y_ < y + h; y_++)
 		{
 			scanlinergb(x, x + w, y_, c);
