@@ -88,4 +88,21 @@ struct matrix
 
 		return _O;
 	}
+
+	// Transpose a matrix.
+
+	static matrix transpose(matrix _M)
+	{
+		matrix _O = matrix(_M.c_C, _M.r_C);
+
+		for (int i = 0; i < _M.r_C; i++)
+		{
+			for (int j = 0; j < _M.c_C; j++)
+			{
+				_O.u_M[j][i] = _M.u_M[i][j];
+			}
+		}
+
+		return _O;
+	}
 };
