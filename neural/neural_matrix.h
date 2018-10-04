@@ -59,4 +59,33 @@ struct matrix
 			}
 		}
 	}
+
+	// Calculate the matrix product of two matrices.
+
+	static matrix multiply(matrix _A, matrix _B)
+	{
+		if (_A.c_C != _B.r_C)
+		{
+			throw std::runtime_error("Column count of _A must match row count of _B.");
+		}
+
+		matrix _O = matrix(_A.r_C, _B.c_C);
+
+		for (int i = 0; i < _O.r_C; i++)
+		{
+			for (int j = 0; j < _O.c_C; j++)
+			{
+				double _S = 0.0;
+
+				for (int k = 0; k < _A.c_C; k++)
+				{
+					_S += _A.u_M[i][k] * _B.u_M[k][j];
+				}
+
+				_O.u_M[i][j] = _S;
+			}
+		}
+
+		return _O;
+	}
 };
