@@ -33,4 +33,17 @@ struct matrix
 			u_M.push_back(_R);
 		}
 	}
+
+	// Multiply each value in the matrix by a scalar value.
+
+	void scale(double _S)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] *= _S;
+			}
+		}
+	}
 };
