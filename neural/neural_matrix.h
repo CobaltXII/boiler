@@ -48,6 +48,14 @@ struct matrix
 		c_C = 1;
 	}
 
+	matrix()
+	{
+		// Shut up, compiler.
+
+		r_C = 0;
+		c_C = 0;
+	}
+
 	// Multiply each value in the matrix by a scalar value.
 
 	matrix scale(double _S)
