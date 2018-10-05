@@ -14,4 +14,6 @@ struct neural_network
 
 	matrix h_b;
 	matrix o_b;
+
+	double l_R; 
 };
