@@ -64,6 +64,68 @@ struct matrix
 		return *this;
 	}
 
+	// Add a scalar value to each value in the matrix.
+
+	matrix add(double _R)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] += _R;
+			}
+		}
+
+		return *this;
+	}
+
+	// Add two matrices of the same dimensions together, element-wise.
+
+	matrix add(matrix& _M)
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] += _M.u_M[i][j];
+			}
+		}
+
+		return *this;
+	}
+
+	// Apply a function to each element of the matrix.
+
+	matrix map(double(*func)(double))
+	{
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] = func(u_M[i][j]);
+			}
+		}
+
+		return *this;
+	}
+
+	// Randomize the matrix (integers between 0 and 10, inclusive).
+
+	matrix randomize()
+	{
+		std::uniform_real_distribution<double> r_distr = std::uniform_real_distribution<double>(-1.0, 1.0);
+
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				u_M[i][j] = std::round(r_distr(r_device));
+			}
+		}
+
+		return *this;
+	}
+
 	// Calculate the matrix product of two matrices.
 
 	static matrix multiply(matrix& _A, matrix& _B)
@@ -110,36 +172,6 @@ struct matrix
 		return _O;
 	}
 
-	// Add a scalar value to each value in the matrix.
-
-	matrix add(double _R)
-	{
-		for (int i = 0; i < r_C; i++)
-		{
-			for (int j = 0; j < c_C; j++)
-			{
-				u_M[i][j] += _R;
-			}
-		}
-
-		return *this;
-	}
-
-	// Add two matrices of the same dimensions together, element-wise.
-
-	matrix add(matrix& _M)
-	{
-		for (int i = 0; i < r_C; i++)
-		{
-			for (int j = 0; j < c_C; j++)
-			{
-				u_M[i][j] += _M.u_M[i][j];
-			}
-		}
-
-		return *this;
-	}
-
 	// Print the matrix.
 
 	void print(std::string _T)
@@ -164,37 +196,5 @@ struct matrix
 
 			std::cout << std::endl;
 		}
-	}
-
-	// Apply a function to each element of the matrix.
-
-	matrix map(double(*func)(double))
-	{
-		for (int i = 0; i < r_C; i++)
-		{
-			for (int j = 0; j < c_C; j++)
-			{
-				u_M[i][j] = func(u_M[i][j]);
-			}
-		}
-
-		return *this;
-	}
-
-	// Randomize the matrix (integers between 0 and 10, inclusive).
-
-	matrix randomize()
-	{
-		std::uniform_real_distribution<double> r_distr = std::uniform_real_distribution<double>(-1.0, 1.0);
-
-		for (int i = 0; i < r_C; i++)
-		{
-			for (int j = 0; j < c_C; j++)
-			{
-				u_M[i][j] = std::round(r_distr(r_device));
-			}
-		}
-
-		return *this;
 	}
 };
