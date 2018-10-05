@@ -104,4 +104,67 @@ struct neural_network
 
 		return _Mo.vector();
 	}
+
+	void train(std::vector<double>& _In, std::vector<double>& _Target)
+	{
+		// Feed the inputs through the neural network to find the current result. This result will
+		// be compared to the target result, and the weights and biases of the neural network will
+		// be adjusted so that the next result will (hopefully) be closer to the target result.
+
+		matrix _Im = matrix(_In);
+
+		matrix _Mh = matrix::multiply(ih_w, _Im).add(h_b).map(sigmoid);
+
+		matrix _Om = matrix::multiply(ho_w, _Mh).add(o_b).map(sigmoid);
+
+		// Convert the targets to a matrix.
+
+		matrix _Tm = matrix(_Target);
+
+		// Calculate the error.
+
+		matrix _Oem = matrix::subtract(_Tm, _Om);
+
+		// Calculate the gradient.
+
+		matrix _Gm = matrix::map(_Om, deriv_sigmoid).scale(_Oem).scale(l_R);
+
+		// Calculate the hidden to output deltas.
+
+		matrix _Mh_t = matrix::transpose(_Mh);
+
+		matrix _Who_d = matrix::multiply(_Gm, _Mh_t);
+
+		// Adjust the hidden to output weights by their corresponding deltas.
+
+		ho_w.add(_Who_d);
+
+		// Adjust the output bias by the gradients (it's deltas).
+
+		o_b.add(_Gm);
+
+		// Calculate the hidden layer error.
+
+		matrix _Ho_wt = matrix::transpose(ho_w);
+
+		matrix _Hem = matrix::multiply(_Ho_wt, _Oem);
+
+		// Calculate the hidden gradient.
+
+		matrix _Hgm = matrix::map(_Mh, deriv_sigmoid).scale(_Hem).scale(l_R);
+
+		// Calculate the input to hidden deltas.
+
+		matrix _Im_t = matrix::transpose(_Im);
+
+    	matrix _Wih_d = matrix::multiply(_Hgm, _Im_t);
+
+    	// Adjust the input to hidden weights by their corresponding deltas.
+
+    	ih_w.add(_Wih_d);
+
+    	// Adjust the hidden bias by the hidden gradients (it's deltas).
+
+		h_b.add(_Hgm);
+	}
 };
