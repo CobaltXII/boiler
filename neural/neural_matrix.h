@@ -155,6 +155,23 @@ struct matrix
 		return _O;
 	}
 
+	// Subtract a matrix from another matrix and return the result as a matrix.
+
+	static matrix subtract(matrix& _A, matrix& _B)
+	{
+		matrix _O = matrix(_A.r_C, _A.c_C);
+
+		for (int i = 0; i < _O.r_C; i++)
+		{
+			for (int j = 0; j < _O.c_C; j++)
+			{
+				_O.u_M[i][j] = _A.u_M[i][j] - _B.u_M[i][j];
+			}
+		}
+
+		return _O;
+	}
+
 	// Transpose a matrix.
 
 	static matrix transpose(matrix& _M)
