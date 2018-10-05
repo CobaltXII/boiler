@@ -11,4 +11,7 @@ struct neural_network
 
 	matrix ih_w;
 	matrix ho_w;
+
+	matrix h_b;
+	matrix o_b;
 };
