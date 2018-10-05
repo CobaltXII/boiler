@@ -1,5 +1,12 @@
 #pragma once
 
+// The Sigmoid activation function.
+
+inline double sigmoid(double _Arg)
+{
+	return 1.0 / (1.0 + std::exp(-_Arg));
+}
+
 // A neural network with a variable (positive) and constant after created amount of input, hidden
 // and output nodes.
 
