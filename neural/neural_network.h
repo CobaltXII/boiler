@@ -7,6 +7,11 @@ inline double sigmoid(double _Arg)
 	return 1.0 / (1.0 + std::exp(-_Arg));
 }
 
+inline double deriv_sigmoid(double _Sig_Arg)
+{
+	return _Sig_Arg * (1.0 - _Sig_Arg);
+}
+
 // A neural network with a variable (positive) and constant after created amount of input, hidden
 // and output nodes.
 
