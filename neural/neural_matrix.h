@@ -36,7 +36,7 @@ struct matrix
 
 	// Multiply each value in the matrix by a scalar value.
 
-	void scale(double _S)
+	matrix scale(double _S)
 	{
 		for (int i = 0; i < r_C; i++)
 		{
@@ -45,11 +45,13 @@ struct matrix
 				u_M[i][j] *= _S;
 			}
 		}
+
+		return *this;
 	}
 
 	// Calculate the Hadamard product of two matrices with the same dimensions.
 
-	void scale(matrix _M)
+	matrix scale(matrix& _M)
 	{
 		for (int i = 0; i < r_C; i++)
 		{
@@ -58,11 +60,13 @@ struct matrix
 				u_M[i][j] *= _M.u_M[i][j];
 			}
 		}
+
+		return *this;
 	}
 
 	// Calculate the matrix product of two matrices.
 
-	static matrix multiply(matrix _A, matrix _B)
+	static matrix multiply(matrix& _A, matrix& _B)
 	{
 		if (_A.c_C != _B.r_C)
 		{
@@ -91,7 +95,7 @@ struct matrix
 
 	// Transpose a matrix.
 
-	static matrix transpose(matrix _M)
+	static matrix transpose(matrix& _M)
 	{
 		matrix _O = matrix(_M.c_C, _M.r_C);
 
@@ -108,7 +112,7 @@ struct matrix
 
 	// Add a scalar value to each value in the matrix.
 
-	void add(double _R)
+	matrix add(double _R)
 	{
 		for (int i = 0; i < r_C; i++)
 		{
@@ -117,11 +121,13 @@ struct matrix
 				u_M[i][j] += _R;
 			}
 		}
+
+		return *this;
 	}
 
 	// Add two matrices of the same dimensions together, element-wise.
 
-	void add(matrix _M)
+	matrix add(matrix& _M)
 	{
 		for (int i = 0; i < r_C; i++)
 		{
@@ -130,6 +136,8 @@ struct matrix
 				u_M[i][j] += _M.u_M[i][j];
 			}
 		}
+
+		return *this;
 	}
 
 	// Print the matrix.
@@ -160,7 +168,7 @@ struct matrix
 
 	// Apply a function to each element of the matrix.
 
-	void map(double(*func)(double))
+	matrix map(double(*func)(double))
 	{
 		for (int i = 0; i < r_C; i++)
 		{
@@ -169,13 +177,15 @@ struct matrix
 				u_M[i][j] = func(u_M[i][j]);
 			}
 		}
+
+		return *this;
 	}
 
 	// Randomize the matrix (integers between 0 and 10, inclusive).
 
-	void randomize()
+	matrix randomize()
 	{
-		std::uniform_real_distribution<double> r_distr = std::uniform_real_distribution<double>(0.0, 10.0);
+		std::uniform_real_distribution<double> r_distr = std::uniform_real_distribution<double>(-1.0, 1.0);
 
 		for (int i = 0; i < r_C; i++)
 		{
@@ -184,5 +194,7 @@ struct matrix
 				u_M[i][j] = std::round(r_distr(r_device));
 			}
 		}
+
+		return *this;
 	}
 };
