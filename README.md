@@ -60,6 +60,8 @@ To build any project that uses the Boiler framework, you must link the SDL2 libr
 clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
 ```
 
+**To Mojave users:** Since the release of Mojave, the Boiler framework has a few bugs which are associated with the SDL2 library. These bugs cause errors in many OpenGL frameworks (including Boiler), so you may experience them in your project. The most common bug is the one that causes the window to appear black until it is moved (by the user, drag it using the title bar). This will be fixed in SDL 2.0.9, which should be released soon.
+
 ## Other
 
 **If all you are looking for is the single Boiler header**, and not the associated projects, then do not clone the repository! Most of the repository is not the framework itself, but projects that I have created which utilize the framework. You can find a direct link to the header [here](https://raw.githubusercontent.com/CobaltXII/boiler/master/boiler/boiler.h "Direct download"). 
