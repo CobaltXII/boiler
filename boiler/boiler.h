@@ -140,7 +140,12 @@ struct boiler
 			width,
 			height,
 
-			SDL_WINDOW_SHOWN
+			SDL_WINDOW_SHOWN |
+
+			// This fixes the blurred screen bug in macOS Mojave. For other operating systems, it
+			// won't have any effect.
+
+			SDL_WINDOW_ALLOW_HIGHDPI
 		);
 
 		if (window == NULL)
