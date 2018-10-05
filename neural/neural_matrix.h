@@ -172,6 +172,23 @@ struct matrix
 		return _O;
 	}
 
+	// Apply a function to each element of a matrix.
+
+	static matrix map(matrix& _M, double(*func)(double))
+	{
+		matrix _O = matrix(_M.r_C, _M.c_C);
+
+		for (int i = 0; i < _O.r_C; i++)
+		{
+			for (int j = 0; j < _O.c_C; j++)
+			{
+				_O.u_M[i][j] = func(_M.u_M[i][j]);
+			}
+		}
+
+		return _O;
+	}
+
 	// Print the matrix.
 
 	void print(std::string _T)
