@@ -82,4 +82,26 @@ struct neural_network
 
 		l_R = _l_R;
 	}
+
+	std::vector<double> feed_forward(std::vector<double>& _In)
+	{
+		// Convert our inputs into a matrix, so that it can be used as an operand for all matrix
+		// operations. This makes the code more convenient, legible and faster.
+
+		matrix _Im = matrix(_In);
+
+		// Use the Sigmoid activation function to calculate the outputs of the hidden layer of 
+		// this neural network.
+
+		matrix _Mh = matrix::multiply(ih_w, _Im).add(h_b).map(sigmoid);
+
+		// Use the Sigmoid activation function to calculate the outputs of the output layer of 
+		// this neural network, using the outputs of the hidden layer as input.
+
+		matrix _Mo = matrix::multiply(ho_w, _Mh).add(o_b).map(sigmoid);
+
+		// Convert to a vector, and return.
+
+		return _Mo.vector();
+	}
 };
