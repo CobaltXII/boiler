@@ -34,6 +34,20 @@ struct matrix
 		}
 	}
 
+	// Create a matrix from an array.
+
+	matrix(std::vector<double> _A)
+	{
+		r_C = _A.size();
+
+		for (int i = 0; i < _A.size(); i++)
+		{
+			u_M.push_back({_A[i]});
+		}
+
+		c_C = 1;
+	}
+
 	// Multiply each value in the matrix by a scalar value.
 
 	matrix scale(double _S)
