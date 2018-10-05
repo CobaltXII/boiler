@@ -220,6 +220,23 @@ struct matrix
 		return _O;
 	}
 
+	// Convert to vector.
+
+	std::vector<double> vector()
+	{
+		std::vector<double> _O;
+
+		for (int i = 0; i < r_C; i++)
+		{
+			for (int j = 0; j < c_C; j++)
+			{
+				_O.push_back(u_M[i][j]);
+			}
+		}
+
+		return _O;
+	}
+
 	// Print the matrix.
 
 	void print(std::string _T)
