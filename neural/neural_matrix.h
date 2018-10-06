@@ -1,3 +1,14 @@
+/*
+
+Matrix library for neural networks. Based heavily off Daniel Shiffman's tutorials.
+
+	https://www.youtube.com/watch?v=uSzGdfdOoG8
+	https://www.youtube.com/watch?v=n6q9D2wd1bE
+	https://www.youtube.com/watch?v=NgZAIkDcPkI
+	https://www.youtube.com/watch?v=nAz9AA_pQUQ
+
+*/
+
 #pragma once
 
 std::random_device r_device;
