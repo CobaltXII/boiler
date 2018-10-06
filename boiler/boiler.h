@@ -1373,6 +1373,10 @@ Uint32* loadimg(std::string path, int &w, int &h, int stb_f = STBI_rgb)
 
 	SDL_FreeSurface(s_bitmap);
 
+	// Annihilate the stbi stuff.
+
+	stbi_image_free(data);
+
 	return m_bmp;
 }
 
