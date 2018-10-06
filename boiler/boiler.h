@@ -14,7 +14,7 @@
 //
 // This code is licensed under the GNU GPLv3 license. All rights reserved.
 
-#ifdef BOIL_USE_STB_IMAGE
+#ifndef BOIL_NO_STB_IMAGE
 
 #define STB_IMAGE_IMPLEMENTATION
 
