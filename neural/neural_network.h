@@ -1,3 +1,15 @@
+/*
+
+Neural network library. Based off of Daniel Shiffman's tutorials.
+
+	https://www.youtube.com/watch?v=qWK7yW8oS0I
+	https://www.youtube.com/watch?v=MPmLWsHzPlU
+	https://www.youtube.com/watch?v=QJoa0JYaX1I
+
+	...
+
+*/
+
 #pragma once
 
 // The Sigmoid activation function.
