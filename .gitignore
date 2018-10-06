@@ -3,6 +3,10 @@
 *.DS_Store
 *.sh
 
+# Ignore neural network snapshots.
+
+*.neu
+
 # Ignore the MNIST dataset.
 
 digits/mnist_png/*
