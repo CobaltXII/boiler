@@ -12,6 +12,8 @@ Neural network library. Based off of Daniel Shiffman's tutorials.
 
 #pragma once
 
+#include <sstream>
+
 // The Sigmoid activation function.
 
 inline double sigmoid(double _Arg)
@@ -178,5 +180,44 @@ struct neural_network
     	// Adjust the hidden bias by the hidden gradients (it's deltas).
 
 		h_b.add(_Hgm);
+	}
+
+	std::string stringify()
+	{
+		std::stringstream _S;
+
+		_S << i_nodes << std::endl;
+		_S << h_nodes << std::endl;
+		_S << o_nodes << std::endl;
+
+		for (int i = 0; i < h_nodes; i++)
+		{
+			for (int j = 0; j < i_nodes; j++)
+			{
+				_S << ih_w.u_M[i][j] << std::endl;
+			}
+		}
+
+		for (int i = 0; i < o_nodes; i++)
+		{
+			for (int j = 0; j < h_nodes; j++)
+			{
+				_S << ho_w.u_M[i][j] << std::endl;
+			}
+		}
+
+		for (int i = 0; i < h_nodes; i++)
+		{
+			_S << h_b.u_M[i][0] << std::endl;
+		}
+
+		for (int i = 0; i < o_nodes; i++)
+		{
+			_S << o_b.u_M[i][0] << std::endl;
+		}
+
+		_S << l_R << std::endl;
+
+		return _S.str();
 	}
 };
