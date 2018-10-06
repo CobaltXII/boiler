@@ -1,3 +1,9 @@
+*.app
 *.out
 *.DS_Store
 *.sh
+
+# Don't ignore the common build and release scripts.
+
+!build_any.sh
+!release_mac.sh
