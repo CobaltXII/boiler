@@ -1,5 +1,7 @@
 // Blitting demonstration.
 
+#define BOIL_USE_STB_IMAGE
+
 #include "boiler.h"
 
 struct game: boiler
@@ -7,7 +9,7 @@ struct game: boiler
 	int lena_w;
 	int lena_h;
 
-	Uint32* lena = loadbmp("lena_color.bmp", lena_w, lena_h);
+	Uint32* lena = loadimg("lena_color.bmp", lena_w, lena_h);
 
 	void steam() override
 	{
