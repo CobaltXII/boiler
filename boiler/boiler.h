@@ -1237,3 +1237,143 @@ Uint32* loadbmp(std::string path, int &w, int &h)
 
 	return m_bmp;
 }
+
+#ifdef BOIL_USE_STB_IMAGE
+
+// A much better image loading function. This may be redundant in a few ways, such as converting 
+// into a surface and then back, but I haven't tested that yet. Code is based off of the sample
+// provided by https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormatFrom.
+
+Uint32* loadimg(std::string path, int &w, int &h, int stb_f = STBI_rgb)
+{
+	int width;
+	int height;
+
+	int orig_format;
+
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &orig_format, stb_f);
+
+	if (data == NULL)
+	{
+		std::cerr << "Error on stbi_load; could not load image." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		return NULL;
+	}
+
+	int depth;
+	int pitch;
+
+	Uint32 pixel_format;
+
+	if (stb_f == STBI_rgb)
+	{
+		depth = 24;
+
+		pitch = 3 * width;
+
+		pixel_format = SDL_PIXELFORMAT_RGB24;
+	}
+	else if (stb_f == STBI_rgb_alpha)
+	{
+		depth = 32;
+
+		pitch = 4 * width;
+
+		pixel_format = SDL_PIXELFORMAT_RGBA32;
+	}
+	else
+	{
+		std::cerr << "Supported formats include STBI_rgb and STBI_rgb_alpha." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		return NULL;
+	}
+
+	SDL_Surface* s_bitmap = SDL_CreateRGBSurfaceWithFormatFrom
+	(
+		(void*)data,
+
+		width,
+		height,
+
+		depth,
+		pitch,
+
+		pixel_format
+	);
+
+	if (s_bitmap == NULL)
+	{
+		std::cerr << "Error on SDL_CreateRGBSurfaceWithFormatFrom; could not load image." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		stbi_image_free(data);
+
+		return NULL;
+	}
+
+	w = s_bitmap->w;
+	h = s_bitmap->h;
+
+	int bpp = s_bitmap->format->BytesPerPixel;
+
+	if 
+	(
+		bpp != 4 &&
+		bpp != 3
+	)
+	{
+		std::cerr << "Only 32-bit and 24-bit images are supported." << std::endl;
+
+		w = 0;
+		h = 0;
+
+		return NULL;
+	}
+
+	// Allocate space for the texture.
+
+	Uint32* m_bmp = (Uint32*)malloc(s_bitmap->w * s_bitmap->h * sizeof(Uint32));
+
+	// Loop through each pixel in the surface and apply it to the correct memory offset of the raw
+	// texture (m_bmp).
+
+	for (int x = 0; x < s_bitmap->w; x++)
+	{
+		for (int y = 0; y < s_bitmap->h; y++)
+		{
+			Uint8* p = (Uint8*)s_bitmap->pixels + y * s_bitmap->pitch + x * bpp;
+
+			if (bpp == 3)
+			{
+				if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+				{
+					m_bmp[y * s_bitmap->w + x] = p[2] << 16 | p[1] << 8 | p[0];
+				}
+				else
+				{
+					m_bmp[y * s_bitmap->w + x] = p[2] | p[1] << 8 | p[0] << 16;
+				}
+			}
+			else
+			{
+				m_bmp[y * s_bitmap->w + x] = *(Uint32*)p;
+			}
+		}
+	}
+
+	// Annihilate the surface.
+
+	SDL_FreeSurface(s_bitmap);
+
+	return m_bmp;
+}
+
+#endif
