@@ -14,6 +14,18 @@
 //
 // This code is licensed under the GNU GPLv3 license. All rights reserved.
 
+#ifdef BOIL_USE_STB_IMAGE
+
+#define STB_IMAGE_IMPLEMENTATION
+
+// stb_image.h is a great, lightweight image loading API. Much better than linking large libraries
+// such as SDL_image, or using difficult, massive APIs like libpng. Thanks to Sean T. Barrett and
+// other contributors.
+
+#include "stb_image.h"
+
+#endif
+
 #include <SDL2/SDL.h>
 
 #include <string>
