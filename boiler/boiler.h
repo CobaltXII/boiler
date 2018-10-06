@@ -1228,5 +1228,9 @@ Uint32* loadbmp(std::string path, int &w, int &h)
 		}
 	}
 
+	// Annihilate the surface.
+
+	SDL_FreeSurface(s_bitmap);
+
 	return m_bmp;
 }
