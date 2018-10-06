@@ -14,7 +14,10 @@
 //
 // This code is licensed under the GNU GPLv3 license. All rights reserved.
 
-#ifndef BOIL_NO_STB_IMAGE
+#ifdef BOIL_USE_STB_IMAGE
+
+// You need to set this flag if you want to be able to use stb_image dependant functions such as
+// loadimg. Not setting the flag greatly increases compile time.
 
 #define STB_IMAGE_IMPLEMENTATION
 
