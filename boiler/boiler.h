@@ -104,6 +104,8 @@ struct boiler
 
 	SDL_bool f_Clear_Renderer = SDL_TRUE;
 
+	SDL_bool f_No_Debug = SDL_FALSE;
+
 	// This function will initialize the width, height, and title of the boiler. You must overload
 	// it if you would like to modify it's values.
 
@@ -321,7 +323,7 @@ struct boiler
 				SDL_Delay(std::max(0, (int)(expected - elapsed)));
 			}
 
-			if (iteration % 60 == 0)
+			if (!f_No_Debug && iteration % 60 == 0)
 			{
 				std::cout << "Frame " << iteration << " rendered in " << elapsed << " ms." << std::endl;
 			}
