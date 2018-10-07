@@ -51,14 +51,6 @@ struct game: boiler
 		{
 			my_brain = neural_network(2, 4, 3, 0.5);
 		}
-		else if (e.key.keysym.sym == SDLK_x)
-		{
-			std::ofstream _Out_File = std::ofstream("snapshot.neu");
-
-			_Out_File << my_brain.stringify();
-
-			_Out_File.close();
-		}
 	}
 
 	void draw() override
