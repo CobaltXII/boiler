@@ -46,11 +46,11 @@ struct game: boiler
 
 		// Load from save, if a previous save exists.
 
-		std::ifstream _In_File = std::ifstream("brain_xor");
+		std::ifstream _In_File = std::ifstream("brain_xor.neu");
 
 		if (_In_File.good())
 		{
-			my_brain = neural_network::load("brain_xor");
+			my_brain = neural_network::load("brain_xor.neu");
 		}
 	}
 
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
 
 	// Save to file.
 
-	std::ofstream _Out_File = std::ofstream("brain_xor");
+	std::ofstream _Out_File = std::ofstream("brain_xor.neu");
 
 	_Out_File << demo.my_brain.stringify();
 
