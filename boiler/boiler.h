@@ -14,6 +14,12 @@
 //
 // This code is licensed under the GNU GPLv3 license. All rights reserved.
 
+// Known bugs
+//
+// - Black screen on macOS Mojave
+//
+//		- Will be fixed with the release of SDL 2.0.9, for now just move the window
+
 #ifdef BOIL_USE_STB_IMAGE
 
 // You need to set this flag if you want to be able to use stb_image dependant functions such as
