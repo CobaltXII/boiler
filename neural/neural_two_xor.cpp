@@ -168,5 +168,13 @@ int main(int argc, char** argv)
 	demo.engine();
 	demo.sweep();
 
+	// Save to file.
+
+	std::ofstream _Out_File = std::ofstream("brain_xor");
+
+	_Out_File << demo.my_brain.stringify();
+
+	_Out_File.close();
+
 	return 0;
 }
