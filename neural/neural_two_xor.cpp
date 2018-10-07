@@ -43,6 +43,15 @@ struct game: boiler
 		f_No_Debug = SDL_TRUE;
 
 		title = "Neural network solving XOR (using Boiler)";
+
+		// Load from save, if a previous save exists.
+
+		std::ifstream _In_File = std::ifstream("brain_xor");
+
+		if (_In_File.good())
+		{
+			my_brain = neural_network::load("brain_xor");
+		}
 	}
 
 	void keydown(SDL_Event e) override
