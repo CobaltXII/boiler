@@ -21,10 +21,13 @@ Train a neural network to recognize handwritten digits using the MNIST dataset.
 #include <random>
 #include <vector>
 #include <utility>
+#include <fstream>
 #include <iostream>
 
 #include "../neural/neural_matrix.h"
 #include "../neural/neural_network.h"
+
+#define TRAIN_DIGIT(_Digit) for (int k = 0; k < train_glyphs_##_Digit.size(); k++) { My_Awesome_Brain.train(train_glyphs_##_Digit[k], dess_output_##_Digit); } std::cout << "#" << std::flush;
 
 std::vector<std::string> enum_files(std::string _Path)
 {
@@ -43,6 +46,8 @@ std::vector<std::string> enum_files(std::string _Path)
 
 	_Out.erase(_Out.begin());
 	_Out.erase(_Out.begin());
+
+	std::cout << "Retrieved names of files in " << _Path << std::endl;
 
 	return _Out;
 }
@@ -75,6 +80,8 @@ std::vector<mnist_t> fetch_glyphs(std::string _Parent, std::vector<std::string> 
 		_Out.push_back(My_Glorious_Glyph);
 	}
 
+	std::cout << "Parsed glyph files in " << _Parent << std::endl;
+
 	return _Out;
 }
 
@@ -97,13 +104,6 @@ std::vector<double> dess_output(int _Which)
 	return _Dess;
 }
 
-void nuke(std::string _Note)
-{
-	std::cout << _Note << std::endl;
-
-	exit(1);
-}
-
 int main(int argc, char** argv)
 {
 	if (argc != 4)
@@ -113,11 +113,11 @@ int main(int argc, char** argv)
 
 	int _Usage;
 
-	if (argv[1] == "-o")
+	if (std::string(argv[1]) == "-o")
 	{
 		_Usage = 1;
 	}
-	else if (argv[1] == "-r")
+	else if (std::string(argv[1]) == "-r")
 	{
 		_Usage = 2;
 	}
@@ -136,7 +136,26 @@ int main(int argc, char** argv)
 		}
 	}
 
+	std::string _Iter_String = argv[3];
+
+	for (int i = 0; i < _Iter_String.size(); i++)
+	{
+		if (!isdigit(_Iter_String[i]))
+		{
+			nuke("Invalid parameter.");
+		}
+	}
+
+	int _Iter = std::stoi(_Iter_String);
+
+	if (_Iter == 0)
+	{
+		nuke("Invalid parameter.");
+	}
+
 	std::ofstream _File = std::ofstream(argv[2]);
+
+	// Get list of training file names.
 
 	std::vector<std::string> train_names_0 = enum_files("mnist_png/training/0");
 	std::vector<std::string> train_names_1 = enum_files("mnist_png/training/1");
@@ -149,6 +168,10 @@ int main(int argc, char** argv)
 	std::vector<std::string> train_names_8 = enum_files("mnist_png/training/8");
 	std::vector<std::string> train_names_9 = enum_files("mnist_png/training/9");
 
+	std::cout << std::endl;
+
+	// Generate the training inputs.
+
 	std::vector<mnist_t> train_glyphs_0 = fetch_glyphs("mnist_png/training/0/", train_names_0);
 	std::vector<mnist_t> train_glyphs_1 = fetch_glyphs("mnist_png/training/1/", train_names_1);
 	std::vector<mnist_t> train_glyphs_2 = fetch_glyphs("mnist_png/training/2/", train_names_2);
@@ -160,6 +183,10 @@ int main(int argc, char** argv)
 	std::vector<mnist_t> train_glyphs_8 = fetch_glyphs("mnist_png/training/8/", train_names_8);
 	std::vector<mnist_t> train_glyphs_9 = fetch_glyphs("mnist_png/training/9/", train_names_9);
 
+	std::cout << std::endl;
+
+	// Generate the expected training outputs.
+
 	std::vector<double> dess_output_0 = dess_output(0);
 	std::vector<double> dess_output_1 = dess_output(1);
 	std::vector<double> dess_output_2 = dess_output(2);
@@ -170,4 +197,39 @@ int main(int argc, char** argv)
 	std::vector<double> dess_output_7 = dess_output(7);
 	std::vector<double> dess_output_8 = dess_output(8);
 	std::vector<double> dess_output_9 = dess_output(9);
+
+	// Create the neural network.
+
+	neural_network My_Awesome_Brain = neural_network(28 * 28, 200, 10, 0.1);
+
+	if (_Usage == 2)
+	{
+		My_Awesome_Brain = neural_network::load(argv[2]);
+	}
+
+	// Train the neural network.
+
+	for (int i = 0; i < _Iter; i++)
+	{
+		std::cout << "Starting iteration " << i + 1 << "/" << _Iter << " (" << ((i + 1) / _Iter) * 100 << ")."  << std::endl;
+
+		std::cout << "\t" << std::flush;
+
+		TRAIN_DIGIT(0);
+		TRAIN_DIGIT(1);
+		TRAIN_DIGIT(2);
+		TRAIN_DIGIT(3);
+		TRAIN_DIGIT(4);
+		TRAIN_DIGIT(5);
+		TRAIN_DIGIT(6);
+		TRAIN_DIGIT(7);
+		TRAIN_DIGIT(8);
+		TRAIN_DIGIT(9);
+	}
+
+	// Export the trained network.
+
+	_File << My_Awesome_Brain.stringify();
+
+	_File.close();
 }
