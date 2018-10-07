@@ -94,9 +94,9 @@ struct game: boiler
 
 					rgb
 					(
-						f[0] * 256, 
-						f[1] * 256, 
-						f[2] * 256
+						clamprgb(f[0] * 256), 
+						clamprgb(f[1] * 256), 
+						clamprgb(f[2] * 256)
 					)
 				);
 			}
