@@ -290,4 +290,17 @@ struct neural_network
 
 		return _Network;
 	}
+
+	// Create from a file.
+
+	static neural_network load(std::string _Path)
+	{
+		std::ifstream _In_File = std::ifstream(_Path);
+	
+		std::stringstream _Buffer;
+
+		_Buffer << _In_File.rdbuf();
+
+		return parse(_Buffer.str());
+	}
 };
