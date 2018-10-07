@@ -152,7 +152,7 @@ struct matrix
 		{
 			for (int j = 0; j < c_C; j++)
 			{
-				u_M[i][j] = std::round(r_distr(r_device));
+				u_M[i][j] = r_distr(r_device);
 			}
 		}
 
