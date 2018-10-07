@@ -182,6 +182,8 @@ struct neural_network
 		h_b.add(_Hgm);
 	}
 
+	// Convert to a string.
+
 	std::string stringify()
 	{
 		std::stringstream _S;
@@ -219,5 +221,73 @@ struct neural_network
 		_S << l_R << std::endl;
 
 		return _S.str();
+	}
+
+	// Create from a string.
+
+	static neural_network parse(std::string _In)
+	{
+		std::stringstream _Str = std::stringstream(_In);
+
+		std::vector<std::string> _Lines;
+
+		std::string _Line;
+
+		while (std::getline(_Str, _Line))
+		{
+			_Lines.push_back(_Line);
+		}
+
+		unsigned int _I_Nodes = std::stoi(_Lines[0]);
+		unsigned int _H_Nodes = std::stoi(_Lines[1]);
+		unsigned int _O_Nodes = std::stoi(_Lines[2]);
+
+		_Lines.erase(_Lines.begin());
+		_Lines.erase(_Lines.begin());
+		_Lines.erase(_Lines.begin());
+
+		matrix _ih_w = matrix(_H_Nodes, _I_Nodes);
+		matrix _ho_w = matrix(_O_Nodes, _H_Nodes);
+
+		matrix _h_b = matrix(_H_Nodes, 1);
+		matrix _o_b = matrix(_O_Nodes, 1);
+
+		for (int i = 0; i < _H_Nodes; i++)
+		{
+			for (int j = 0; j < _I_Nodes; j++)
+			{
+				_ih_w.u_M[i][j] = std::stod(_Lines[(i * _I_Nodes) + j]);
+			}
+		}
+
+		for (int i = 0; i < _O_Nodes; i++)
+		{
+			for (int j = 0; j < _H_Nodes; j++)
+			{
+				_ho_w.u_M[i][j] = std::stod(_Lines[(_H_Nodes * _I_Nodes) + (i * _H_Nodes) + j]);
+			}
+		}
+
+		for (int i = 0; i < _H_Nodes; i++)
+		{
+			_h_b.u_M[i][0] = std::stod(_Lines[(_H_Nodes * _I_Nodes) + (_O_Nodes * _H_Nodes) + i]);
+		}
+
+		for (int i = 0; i < _O_Nodes; i++)
+		{
+			_o_b.u_M[i][0] = std::stod(_Lines[(_H_Nodes * _I_Nodes) + (_O_Nodes * _H_Nodes) + _H_Nodes + i]);
+		}
+
+		double _l_R = std::stod(_Lines[_Lines.size() - 1]);
+
+		neural_network _Network = neural_network(_I_Nodes, _H_Nodes, _O_Nodes, _l_R);
+
+		_Network.ih_w = _ih_w;
+		_Network.ho_w = _ho_w;
+
+		_Network.h_b = _h_b;
+		_Network.o_b = _o_b;
+
+		return _Network;
 	}
 };
