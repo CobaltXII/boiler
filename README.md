@@ -16,6 +16,8 @@ To set up Boiler, you must create your own class that inherits from the generic 
 
 To use Boiler, you must create a default instance of your child class which inherits from `boiler`. You then call `make`, which will return a non-zero value if it fails. After that, you should call `engine`, which will execute until the program exits. After calling `engine`, calling `sweep` is good practise to ensure all memory is freed.
 
+You can find a few well commented and detailed (yet simple) demonstrations using the Boiler framework in the `demos` directory. These demonstrations showcase the simplicity of the framework.
+
 You can create a window that displays the default gradient sample using this simple code
 
 ```cpp
@@ -101,6 +103,10 @@ Cloth is a cloth simulation implemented using Verlet integration. The cloth simu
 ### Dither
 
 Dither is a tiny dithering library. It supports black and white thresholding, random dithering, Gaussian dithering, and ordered dithering. It also supports splicing color images into their one-dimensional channels, and joining grayscale images to create color images. It includes Bayer matrices of varying sizes, cluster dot matrices, horizontal line matrices and vertical line matrices. Gamma correction is also implemented. It can be used for 1-bit grayscale dithering, or 3-bit color dithering.
+
+## Dependencies
+
+The Boiler framework by default does not have any dependancies. However, to unlock certain features such as the `loadimg` function, you must define `BOIL_USE_STB_IMAGE`, which includes the `stb_image` header file. Thanks to Sean T. Barrett and contributors for creating that wonderful API.
 
 ## License
 
