@@ -70,10 +70,6 @@ You may have noticed that there are many directories in this repository, and the
 
 If you ever use any concepts or code from any of the files in this repository, I would greatly appreciate it if you could credit (or link) this repository. Notifying me that you have used this code would also be appreciated. Thank you!
 
-## Showcase
-
-You can find the full showcase [here](https://github.com/CobaltXII/boiler/blob/master/SHOWCASE.md "Showcase"). Bear in mind that all existing projects may not be documented yet, if they are still in development.
-
 ### Balls
 
 Balls is a simple, inaccurate and fun toy for simulating the physics of rigid circular bodies. The simulation supports circle vs. circle collisions, along with circle vs. capsule collisions. It also supports momentum conservation, displacement and gravity. It is oddly satisfying to create hourglasses, slopes, marble runs and other physics demonstrations with this tool.
