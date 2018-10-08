@@ -3,6 +3,8 @@
 *.DS_Store
 *.sh
 
+empty.cpp
+
 # Ignore neural network snapshots.
 
 *.neu
@@ -16,4 +18,4 @@ digits/mnist_png/*
 # !build_any.sh
 # !release_mac.sh
 
-!rebuild.sh
+# !rebuild.sh
