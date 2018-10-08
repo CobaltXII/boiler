@@ -3,7 +3,7 @@
 *.DS_Store
 *.sh
 
-empty.cpp
+dev/empty.cpp
 
 # Ignore neural network snapshots.
 
