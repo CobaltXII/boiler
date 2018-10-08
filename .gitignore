@@ -13,5 +13,7 @@ digits/mnist_png/*
 
 # Don't ignore the common build and release scripts.
 
-!build_any.sh
-!release_mac.sh
+# !build_any.sh
+# !release_mac.sh
+
+!rebuild.sh
