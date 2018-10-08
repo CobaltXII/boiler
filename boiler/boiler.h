@@ -31,7 +31,7 @@
 // such as SDL_image, or using difficult, massive APIs like libpng. Thanks to Sean T. Barrett and
 // other contributors.
 
-#include "stb_image.hpp"
+#include "stb/stb_image.hpp"
 
 #endif
 
