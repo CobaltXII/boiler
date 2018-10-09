@@ -20,9 +20,6 @@
 //
 //		- Will be fixed with the release of SDL 2.0.9, for now just move the window
 
-#define BOIL_INIT_VIDEO
-#define BOIL_INIT_AUDIO
-
 #ifdef BOIL_USE_STB_IMAGE
 
 // You need to set this flag if you want to be able to use stb_image dependant functions such as
@@ -39,6 +36,9 @@
 #endif
 
 #include <SDL2/SDL.h>
+
+Uint32 BOIL_EX_INIT_NOSUB = 1;
+Uint32 BOIL_EX_INIT_AUDIO = 2;
 
 #include <string>
 #include <iostream>
@@ -124,6 +124,11 @@ struct boiler
 
 	Uint32 iteration;
 
+	// Audio.
+
+	Uint32 _Audio_Samples;
+	Uint32 _Audio_Buffers;
+
 	// Flags.
 
 	SDL_bool f_Clear_Renderer = SDL_TRUE;
@@ -137,12 +142,17 @@ struct boiler
 	{
 		width = 640;
 		height = 480;
+
+		// Below are good parameters.
+
+		_Audio_Samples = 44100;
+		_Audio_Buffers = 2048;
 	}
 
 	// This function will create the window, renderer, and texture required to use the boiler.
 	// This function will not fail, but will return a non-zero value if an error occurs.
 
-	virtual Uint32 make()
+	virtual Uint32 make(Uint32 _Extra = BOIL_EX_INIT_NOSUB)
 	{
 		steam();
 
@@ -154,6 +164,11 @@ struct boiler
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		{
 			return 1;
+		}
+
+		if (Uint32 _Extra = BOIL_EX_INIT_AUDIO)
+		{
+			// To do
 		}
 
 		window = SDL_CreateWindow
