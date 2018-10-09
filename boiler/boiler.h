@@ -20,6 +20,9 @@
 //
 //		- Will be fixed with the release of SDL 2.0.9, for now just move the window
 
+#define BOIL_INIT_VIDEO
+#define BOIL_INIT_AUDIO
+
 #ifdef BOIL_USE_STB_IMAGE
 
 // You need to set this flag if you want to be able to use stb_image dependant functions such as
