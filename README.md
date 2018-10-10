@@ -114,6 +114,6 @@ The Boiler framework by default does not have any dependancies. However, to unlo
 
 ## License
 
-The Boiler framework and all other included projects are licensed under the [GNU General Public License v3.0](https://github.com/CobaltXII/boiler/blob/master/LICENSE "GNU General Public License v3.0"). A short paragraph provided by Github briefly summarizes the license
+The Boiler framework and all other included projects are licensed under the [GNU General Public License v3.0](https://github.com/CobaltXII/boiler/blob/master/LICENSE "GNU General Public License v3.0"). A short paragraph provided by GitHub briefly summarizes the license
 
 > Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights. This is not legal advice.
