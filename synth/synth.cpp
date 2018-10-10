@@ -22,9 +22,9 @@ enum osc
 	osc_noise
 };
 
-inline double fosc(double _Time, double _Hertz, osc _Type)
+inline double fosc(double _Time, double _Hertz, double _Vibrato_Amp, double _Vibrato_Hertz, osc _Type)
 {
-	double _Freq = ftoa(_Hertz) * _Time;
+	double _Freq = ftoa(_Hertz) * _Time + _Vibrato_Amp * _Hertz * sin(ftoa(_Vibrato_Hertz) * _Time);
 
 	if (_Type == osc_sine)
 	{
@@ -81,7 +81,7 @@ struct note
 
 	inline double sound(double _Time)
 	{
-		if (_Time > n_Started + 2.0)
+		if (_Time > n_Started + 1.0)
 		{
 			n_Active = false;
 
@@ -89,7 +89,7 @@ struct note
 		}
 		else
 		{
-			return fosc(_Time - n_Started, n_Frequency, osc_sawtooth) * (1.0 - (_Time - n_Started) / 2.0);
+			return fosc(_Time - n_Started, n_Frequency, 0.001, 5.0, osc_square) * (1.0 - (_Time - n_Started) / 1.0);
 		}
 	}
 };
@@ -140,7 +140,27 @@ struct game: boiler
 		{
 			if (e.key.keysym.sym == i + 49)
 			{
+				/*
+
+				for (int i = 0; i < _Notes.size(); i++)
+				{
+					if 
+					(
+						_Notes[i].n_Frequency > (i + 1) * 100.0 - 0.1 &&
+						_Notes[i].n_Frequency < (i + 1) * 100.0 + 0.1
+					)
+					{
+						_Notes[i].n_Started = _Time;
+
+						return;
+					}
+				}
+
+				*/
+
 				_Notes.push_back(note((i + 1) * 100.0, 1.0, _Time));
+
+				return;
 			}
 		}
 	}
