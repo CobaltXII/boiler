@@ -104,6 +104,10 @@ Cloth is a cloth simulation implemented using Verlet integration. The cloth simu
 
 Dither is a tiny dithering library. It supports black and white thresholding, random dithering, Gaussian dithering, and ordered dithering. It also supports splicing color images into their one-dimensional channels, and joining grayscale images to create color images. It includes Bayer matrices of varying sizes, cluster dot matrices, horizontal line matrices and vertical line matrices. Gamma correction is also implemented. It can be used for 1-bit grayscale dithering, or 3-bit color dithering.
 
+### Neural
+
+Neural is a tiny neural network library. It supports creating neural networks with any amount of input, hidden and output nodes. It supports forward propagation using Sigmoid activation, and back propagation using gradient descent. The library also implements it's own matrix library, which has many common functions and is useable for other applications as well. Currently, a 1-dimensional XOR solver and a 3-dimensional RGB solver have been created with this library.
+
 ## Dependencies
 
 The Boiler framework by default does not have any dependancies. However, to unlock certain features such as the `loadimg` function, you must define `BOIL_USE_STB_IMAGE`, which includes the `stb_image` header file. Thanks to Sean T. Barrett and contributors for creating that wonderful API.
