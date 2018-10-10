@@ -94,6 +94,41 @@ inline Uint8 getb(Uint32 argb)
 	return argb;
 }
 
+// Don't overload! Used as a 'middleman' between sound_callback and SDL.
+
+double(*__BOIL_USER_CALLBACK__)(double);
+
+int __BOIL_HALF_SHORT__ = pow(2, 16 - 1) - 1;
+
+int __BOIL_AUDIO_SAMPLE__ = 0;
+
+void __BOIL_AUDIO_CALLBACK__(void* _User, Uint8* _Buffer, int _Bytes)
+{
+	Sint16* _New_Buffer = (Sint16*)_Buffer;
+
+	int _Length = _Bytes / 2;
+
+	int& _Sample_Number = (*(int*)_User);
+
+	for (int i = 0; i < _Length; i++, _Sample_Number++)
+	{
+		double _Time = (double)_Sample_Number / 44100;
+
+		double _User_Data = sound_callback(_Time);
+
+		if (_User_Data > 1.0)
+		{
+			_User_Data = 1.0;
+		}
+		else if (_User_Data < -1.0)
+		{
+			_User_Data = -1.0;
+		}
+
+		_New_Buffer[i] = (Sint16)(_User_Data * __BOIL_HALF_SHORT__);
+	}
+}
+
 // This structure contains all the code needed to initialize, use, and destroy an instance of a
 // boiler.
 
@@ -135,6 +170,14 @@ struct boiler
 
 	SDL_bool f_No_Debug = SDL_FALSE;
 
+	// Audio driver, please define if using! The return value should be from -1.0 to 1.0. If not, 
+	// it will be clipped.
+
+	virtual inline double sound_callback(double _Time)
+	{
+		return sin(2.0 * M_PI * 440.0 * _Time);
+	}
+
 	// This function will initialize the width, height, and title of the boiler. You must overload
 	// it if you would like to modify it's values.
 
@@ -168,7 +211,35 @@ struct boiler
 
 		if (Uint32 _Extra = BOIL_EX_INIT_AUDIO)
 		{
-			// To do
+			SDL_AudioSpec _Request;
+
+			// The 'frequency' refers to the sample rate, or the amount of samples to be taken per
+			// second. This value is initialized by the user, but a good amount is 44100.
+
+			_Request.freq = _Audio_Samples;
+
+			// The 'format' member refers to the format of the audio written to the output buffer.
+			// In other words, it is the digital accuracy (in bits) of the audio.
+
+			_Request.format = AUDIO_S16SYS;
+
+			// Boiler current only supports mono audio, perhaps stereo will be implemented in a
+			// later patch.
+
+			_Request.channels = 1;
+
+			// The buffer size of the audio stream. Audio output is always a bit delayed, so 
+			// having a appropriately sized buffer helps to compensate.
+
+			_Request.samples = 2048;
+
+			// SDL will invoke a function to fill up the buffer. That function is provided by 
+			// Boiler, and is a bit unwieldy, so Boiler calls a simple function from within that 
+			// callback. 
+
+			_Request.callback = __BOIL_AUDIO_CALLBACK__;
+
+			//
 		}
 
 		window = SDL_CreateWindow
