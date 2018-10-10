@@ -89,7 +89,7 @@ struct game: boiler
 		{
 			if (_Key[SDL_GetScancodeFromKey(i + 49)] == true)
 			{
-				_Frequency = i * 100.0;
+				_Frequency = (i + 1) * 100.0;
 			}
 		}
 	}
