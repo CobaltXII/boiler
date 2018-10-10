@@ -6,7 +6,7 @@
 #include <utility>
 #include <iostream>
 
-double _Frequency = 882.0;
+double _Frequency = 441.0;
 
 inline double ftoa(double _Frequency)
 {
@@ -50,9 +50,62 @@ inline double fosc(double _Time, double _Hertz, osc _Type)
 	return 0.0;
 }
 
+struct note
+{
+	// The frequency of the note.
+
+	double n_Frequency;
+
+	// The amplitude of the note.
+
+	double n_Amplitude;
+
+	// The start time of the note.
+
+	double n_Started;
+
+	// A boolean to indicate whether the note is still producing audible sound.
+
+	bool n_Active = true;
+
+	// Default constructor.
+
+	note(double _n_Frequency, double _n_Amplitude, double _n_Started)
+	{
+		n_Frequency = _n_Frequency;
+		n_Amplitude = _n_Amplitude;
+		n_Started = _n_Started;
+	}
+
+	// Generate the sound wave.
+
+	inline double sound(double _Time)
+	{
+		if (_Time > n_Started + 2.0)
+		{
+			n_Active = false;
+
+			return 0.0;
+		}
+		else
+		{
+			return fosc(_Time - n_Started, n_Frequency, osc_sawtooth) * (1.0 - (_Time - n_Started) / 2.0);
+		}
+	}
+};
+
+std::vector<note> _Notes;
+
 double sound_callback(double _Time)
 {
-	return fosc(_Time, _Frequency, osc_sawtooth);
+	double _Sum = 0.0;
+
+	for (int i = 0; i < _Notes.size(); i++)
+	{
+		_Sum += _Notes[i].sound(_Time);
+	}
+
+	return _Sum;
 }
 
 struct game: boiler
@@ -70,26 +123,45 @@ struct game: boiler
 		_Audio_Buffers = 2048;
 
 		_Audio_Callback = sound_callback;
+
+		_Notes.push_back(note(_Frequency, 1.0, 0.0));
 	}
 
-	void draw() override
+	void keydown(SDL_Event e) override
 	{
-		const Uint8* _Key = SDL_GetKeyboardState(NULL);
-
-		memset((void*)pixels, 0, width * height * sizeof(Uint32));
-
 		// Get the current time in seconds. This can be done by dividing the current sample number
 		// by the samples per second measurement.
 
 		double _Time = (double)__BOIL_AUDIO_SAMPLE__ / (double)_Audio_Samples;
 
-		// Keys will modify the frequency of the wave.
+		// Keys will add notes.
 
 		for (int i = 0; i < 9; i++)
 		{
-			if (_Key[SDL_GetScancodeFromKey(i + 49)] == true)
+			if (e.key.keysym.sym == i + 49)
 			{
-				_Frequency = (i + 1) * 100.0;
+				_Notes.push_back(note((i + 1) * 100.0, 1.0, _Time));
+			}
+		}
+	}
+
+	void draw() override
+	{
+		memset((void*)pixels, 0, width * height * sizeof(Uint32));
+
+		// Remove inaudible notes.
+
+		auto _Iter = _Notes.begin();
+
+		while (_Iter != _Notes.end())
+		{
+			if (_Iter->n_Active == false)
+			{
+				_Iter = _Notes.erase(_Iter);
+			}
+			else
+			{
+				_Iter++;
 			}
 		}
 	}
