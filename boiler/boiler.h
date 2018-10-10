@@ -94,7 +94,7 @@ inline Uint8 getb(Uint32 argb)
 	return argb;
 }
 
-// Don't overload! Used as a 'middleman' between sound_callback and SDL.
+// Don't overload! Used as a 'middleman' between _Audio_Callback and SDL.
 
 double(*__BOIL_USER_CALLBACK__)(double);
 
@@ -114,7 +114,7 @@ void __BOIL_AUDIO_CALLBACK__(void* _User, Uint8* _Buffer, int _Bytes)
 	{
 		double _Time = (double)_Sample_Number / 44100;
 
-		double _User_Data = sound_callback(_Time);
+		double _User_Data = __BOIL_USER_CALLBACK__(_Time);
 
 		if (_User_Data > 1.0)
 		{
@@ -164,19 +164,15 @@ struct boiler
 	Uint32 _Audio_Samples;
 	Uint32 _Audio_Buffers;
 
+	// You need to override this if you want use the audio functionality.
+
+	double (*_Audio_Callback)(double);
+
 	// Flags.
 
 	SDL_bool f_Clear_Renderer = SDL_TRUE;
 
 	SDL_bool f_No_Debug = SDL_FALSE;
-
-	// Audio driver, please define if using! The return value should be from -1.0 to 1.0. If not, 
-	// it will be clipped.
-
-	virtual inline double sound_callback(double _Time)
-	{
-		return sin(2.0 * M_PI * 440.0 * _Time);
-	}
 
 	// This function will initialize the width, height, and title of the boiler. You must overload
 	// it if you would like to modify it's values.
@@ -185,6 +181,8 @@ struct boiler
 	{
 		width = 640;
 		height = 480;
+
+		title = "Boiler demonstration";
 
 		// Below are good parameters.
 
@@ -209,7 +207,7 @@ struct boiler
 			return 1;
 		}
 
-		if (Uint32 _Extra = BOIL_EX_INIT_AUDIO)
+		if (_Extra == BOIL_EX_INIT_AUDIO)
 		{
 			SDL_AudioSpec _Request;
 
@@ -239,7 +237,30 @@ struct boiler
 
 			_Request.callback = __BOIL_AUDIO_CALLBACK__;
 
-			//
+			// Assign the sound callback to the global sound callback variable. This callback is
+			// used by the __BOIL_AUDIO_CALLBACK__ function.
+
+			__BOIL_USER_CALLBACK__ = _Audio_Callback;
+
+			// Track the time in samples, so that time can be accurately calculated.
+
+			_Request.userdata = &__BOIL_AUDIO_SAMPLE__;
+
+			// Register the audio specification.
+
+			SDL_AudioSpec _Response;
+
+			if (SDL_OpenAudio(&_Request, &_Response) != 0)
+			{
+				return 6;
+			}
+
+			if (_Request.format != _Response.format)
+			{
+				return 7;
+			}
+
+			SDL_PauseAudio(0);
 		}
 
 		window = SDL_CreateWindow
