@@ -470,6 +470,8 @@ struct boiler
 	{
 		free((void*)pixels);
 
+		SDL_CloseAudio();
+
 		SDL_DestroyTexture(texture);
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window);
