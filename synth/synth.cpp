@@ -89,7 +89,7 @@ struct note
 		}
 		else
 		{
-			return fosc(_Time - n_Started, n_Frequency, 0.001, 5.0, osc_square) * (1.0 - (_Time - n_Started) / 1.0);
+			return fosc(_Time - n_Started, n_Frequency, 0.3, 5.0, osc_sine) * (1.0 - (_Time - n_Started) / 1.0);
 		}
 	}
 };
@@ -158,7 +158,7 @@ struct game: boiler
 
 				*/
 
-				_Notes.push_back(note((i + 1) * 100.0, 1.0, _Time));
+				_Notes.push_back(note((i + 1) * 1000.0, 1.0, _Time));
 
 				return;
 			}
