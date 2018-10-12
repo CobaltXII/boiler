@@ -1270,6 +1270,17 @@ struct boiler
 	
 	#ifdef __TERMINAL_EXTENSION_BOILER__
 
+	enum __font_align
+	{
+		align_top_left,
+		align_top_right,
+
+		align_bottom_left,
+		align_bottom_right,
+
+		align_center
+	};
+
 	#endif
 
 	#endif
