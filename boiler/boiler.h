@@ -1281,6 +1281,48 @@ struct boiler
 		align_center
 	};
 
+	// Draw a font to the screen. If the given background color is equal to the value returned by
+	// rgba(0, 0, 0, 255), then no background is rendered.
+
+	const int __fnb = rgba(0, 0, 0, 255);
+
+	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint32 fcol, Uint32 bcol, __font_align align)
+	{
+		bool nobg = (bcol == __fnb);
+
+		// Top left alignment only, for now.
+
+		for (int i = 0; i < str.size(); i++)
+		{
+			Uint8 _G = str[i];
+
+			unsigned int xf = (_G % (tfi_w / tf_w)) * tf_w;
+			unsigned int yf = (_G / (tfi_w / tf_w)) * tf_h;
+
+			for (int x = 0; x < tf_w; x++)
+			{
+				for (int y = 0; y < tf_h; y++)
+				{
+					if (__437__[(yf + y) * tfi_w + (xf _ x)] == 0)
+					{
+						// Background pixel.
+
+						if (!nobg)
+						{
+							pixels[(yn + y) * width + (xn + x)] = bcol;
+						}
+					}
+					else
+					{
+						// Foreground pixel.
+
+						pixels[(yn + y) * width + (xn + x)] = fcol;
+					}
+				}
+			}
+		}
+	}
+
 	#endif
 
 	#endif
