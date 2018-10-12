@@ -30,7 +30,7 @@ struct game: boiler
 
 		std::stringstream __437__o;
 
-		__437__o << "Uint8 __437__ =\n{\n";
+		__437__o << "unsigned char __437__ =\n{\n";
 
 		for (int y = 0; y < __437__h; y++)
 		{
