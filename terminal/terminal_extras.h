@@ -3,13 +3,13 @@
 
 // Image metrics.
 
-unsigned int tfi_w = 288;
-unsigned int tfi_h = 128;
+const unsigned int tfi_w = 288;
+const unsigned int tfi_h = 128;
 
 // Glyph metrics.
 
-unsigned int tf_w = 9;
-unsigned int tf_h = 16;
+const unsigned int tf_w = 9;
+const unsigned int tf_h = 16;
 
 unsigned char __vga__m[4] =
 {
