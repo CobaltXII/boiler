@@ -1,6 +1,11 @@
 #ifndef __TERMINAL_EXTENSION_BOILER__
 #define __TERMINAL_EXTENSION_BOILER__
 
+// Image metrics.
+
+unsigned int tfi_w = 288;
+unsigned int tfi_h = 128;
+
 // Glyph metrics.
 
 unsigned int tf_w = 9;
