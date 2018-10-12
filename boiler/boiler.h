@@ -1282,9 +1282,9 @@ struct boiler
 	};
 
 	// Draw a font to the screen. If the given background color is equal to the value returned by
-	// rgba(0, 0, 0, 255), then no background is rendered.
+	// argb(255, 0, 0, 0), then no background is rendered.
 
-	const int __fnb = rgba(0, 0, 0, 255);
+	const int __fnb = argb(255, 0, 0, 0);
 
 	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint32 fcol, Uint32 bcol, __font_align align)
 	{
@@ -1303,7 +1303,7 @@ struct boiler
 			{
 				for (int y = 0; y < tf_h; y++)
 				{
-					if (__437__[(yf + y) * tfi_w + (xf _ x)] == 0)
+					if (__437__[(yf + y) * tfi_w + (xf + x)] == 0)
 					{
 						// Background pixel.
 
