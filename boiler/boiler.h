@@ -1309,14 +1309,14 @@ struct boiler
 
 						if (!nobg)
 						{
-							pixels[(yn + y) * width + (xn + x)] = bcol;
+							pixels[(yn + y) * width + (xn + x) + (i * tf_w)] = bcol;
 						}
 					}
 					else
 					{
 						// Foreground pixel.
 
-						pixels[(yn + y) * width + (xn + x)] = fcol;
+						pixels[(yn + y) * width + (xn + x) + (i * tf_w)] = fcol;
 					}
 				}
 			}
