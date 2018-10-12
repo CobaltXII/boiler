@@ -1262,6 +1262,17 @@ struct boiler
 			memcpy(&(pixels[(y + dy) * width + dx]), &(img[(y + sy) * sw + sx]), sizeof(Uint32) * dw);
 		}
 	}
+
+	// The following functions are part of the terminal extension for Boiler. They make it simpler
+	// to render raster fonts to the screen. The font used is Code Page 437 (by IBM).
+
+	#ifdef __TERMINAL_CODEPAGE_BOILER__
+	
+	#ifdef __TERMINAL_EXTENSION_BOILER__
+
+	#endif
+
+	#endif
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
