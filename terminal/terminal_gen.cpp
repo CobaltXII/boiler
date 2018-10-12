@@ -30,6 +30,11 @@ struct game: boiler
 
 		std::stringstream __437__o;
 
+		__437__o << "#ifndef __TERMINAL_CODEPAGE_BOILER__\n";
+		__437__o << "#define __TERMINAL_CODEPAGE_BOILER__\n";
+
+		__437__o << "\n";
+
 		__437__o << "unsigned char __437__[" << __437__w * __437__h << "] =\n{\n";
 
 		for (int y = 0; y < __437__h; y++)
@@ -47,7 +52,7 @@ struct game: boiler
 					__437__o << "1, ";
 				}
 			}
-
+ 
 			if (__437__[(y * __437__w) + __437__w - 1] == rgb(0, 0, 0))
 			{
 				__437__o << "0,\n";
@@ -58,7 +63,9 @@ struct game: boiler
 			}
 		}
 
-		__437__o << "};\n";
+		__437__o << "};\n\n";
+
+		__437__o << "#endif";
 
 		// Save to a file.
 
