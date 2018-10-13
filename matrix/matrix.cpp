@@ -25,6 +25,10 @@ unsigned char pal_3[3] = {0xB, 0x3, 0x8};
 
 unsigned char pal_4[3] = {0xC, 0x4, 0x8};
 
+// Magenta palette.
+
+unsigned char pal_5[3] = {0xD, 0x5, 0x8};
+
 struct matrix_t
 {
 	// The position of the matrix entity.
@@ -46,7 +50,7 @@ struct game: boiler
 {	
 	std::vector<matrix_t> _Ents;
 
-	unsigned char* pal_x = pal_4;
+	unsigned char* pal_x = pal_5;
 
 	void steam() override
 	{
