@@ -60,9 +60,9 @@ inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
 
 // Macro derivatives.
 
-#define mrgb(r, g, b) ((r) << 16 | (g) << 8 | (b))
+#define mrgb(r, g, b) (Uint32)((r) << 16 | (g) << 8 | (b))
 
-#define margb(a, r, g, b) ((a) << 24 | (r) << 16 | (g) << 8 | (b))
+#define margb(a, r, g, b) (Uint32)((a) << 24 | (r) << 16 | (g) << 8 | (b))
 
 // Convert degrees to radians.
 
