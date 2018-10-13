@@ -1323,6 +1323,40 @@ struct boiler
 		}
 	}
 
+	// Draw a font to the screen (using the VGA color palette).
+
+	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint8 fcol, Uint8 bcol, __font_align align)
+	{
+		// Top left alignment only, for now.
+
+		for (int i = 0; i < str.size(); i++)
+		{
+			Uint8 _G = str[i];
+
+			unsigned int xf = (_G % (tfi_w / tf_w)) * tf_w;
+			unsigned int yf = (_G / (tfi_w / tf_w)) * tf_h;
+
+			for (int x = 0; x < tf_w; x++)
+			{
+				for (int y = 0; y < tf_h; y++)
+				{
+					if (__437__[(yf + y) * tfi_w + (xf + x)] == 0)
+					{
+						// Background pixel.
+
+						pixels[(yn + y) * width + (xn + x) + (i * tf_w)] = vga_rgb[bcol];
+					}
+					else
+					{
+						// Foreground pixel.
+
+						pixels[(yn + y) * width + (xn + x) + (i * tf_w)] = vga_rgb[fcol];
+					}
+				}
+			}
+		}
+	}
+
 	#endif
 
 	#endif
