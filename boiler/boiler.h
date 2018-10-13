@@ -513,6 +513,21 @@ struct boiler
 		SDL_Quit();
 	}
 
+	// These macros check whether any mouse button is held, was just released, or was just 
+	// pressed.
+
+	#define ml_held (mouse_ol && mouse_l)
+	#define mr_held (mouse_or && mouse_r)
+	#define mm_held (mouse_om && mouse_m)
+
+	#define ml_released (mouse_ol && !mouse_l)
+	#define mr_released (mouse_or && !mouse_r)
+	#define mm_released (mouse_om && !mouse_m)
+
+	#define ml_pressed (!mouse_ol && mouse_l)
+	#define mr_pressed (!mouse_or && mouse_r)
+	#define mm_pressed (!mouse_om && mouse_m)
+
 	// Draws a line. Does not blend, replaces colors directly. This function was taken from the 
 	// One Lone Coder (javidx9)'s olcConsoleGameEngine.h file. I cleaned it up a bit.
 
