@@ -108,6 +108,16 @@ inline Uint8 getb(Uint32 argb)
 	return argb;
 }
 
+// Macro derivatives.
+
+#define mgeta(argb) (Uint8)((argb) >> 24)
+
+#define mgetr(argb) (Uint8)((argb) >> 16)
+
+#define mgetg(argb) (Uint8)((argb) >> 8)
+
+#define mgetb(argb) (Uint8)((argb))
+
 // Don't overload! Used as a 'middleman' between _Audio_Callback and SDL.
 
 double(*__BOIL_USER_CALLBACK__)(double);
