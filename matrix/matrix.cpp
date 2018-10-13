@@ -37,6 +37,19 @@ unsigned char pal_6[3] = {0xE, 0x6, 0x8};
 
 unsigned char pal_7[3] = {0xF, 0x7, 0x8};
 
+// Palette palette.
+
+unsigned char* pal_p[7] = 
+{
+	pal_1,
+	pal_2,
+	pal_3,
+	pal_4,
+	pal_5,
+	pal_6,
+	pal_7
+};
+
 struct matrix_t
 {
 	// The position of the matrix entity.
@@ -58,7 +71,7 @@ struct game: boiler
 {	
 	std::vector<matrix_t> _Ents;
 
-	unsigned char* pal_x = pal_7;
+	int _idx = 0;
 
 	void steam() override
 	{
@@ -90,6 +103,14 @@ struct game: boiler
 		}
 	}
 
+	void keydown(SDL_Event e) override
+	{
+		if (e.key.keysym.sym == SDLK_SPACE)
+		{
+			_idx = (_idx + 1) % 7;
+		}
+	}
+
 	void draw() override
 	{
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
@@ -106,15 +127,15 @@ struct game: boiler
 			int rx = ((int)_ent.px % (width / tf_w)) * tf_w;
 			int ry = ((int)_ent.py % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[0], 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_p[_idx][0], 0x0, align_top_left);
 
 			ry = ((int)(_ent.py - 1) % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[1], 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_p[_idx][1], 0x0, align_top_left);
 
 			ry = ((int)(_ent.py - 2) % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[2], 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_p[_idx][2], 0x0, align_top_left);
 		}
 	}
 };
