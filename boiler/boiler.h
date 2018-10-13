@@ -68,7 +68,7 @@ inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
 
 inline double degrad(double x)
 {
-	return 2 * M_PI * (x / 360);
+	return 2.0 * M_PI * (x / 360.0);
 }
 
 // Clamp a value to the range 0 to 255.
