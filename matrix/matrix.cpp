@@ -9,6 +9,20 @@
 #include <utility>
 #include <iostream>
 
+// Green palette.
+
+unsigned char pal_1[3] =
+{
+	0xA, 0x2, 0x8
+};
+
+// Blue palette.
+
+unsigned char pal_2[3] =
+{
+	0x9, 0x1, 0x8
+};
+
 struct matrix_t
 {
 	// The position of the matrix entity.
@@ -29,6 +43,8 @@ struct matrix_t
 struct game: boiler
 {	
 	std::vector<matrix_t> _Ents;
+
+	unsigned char* pal_x = pal_2;
 
 	void steam() override
 	{
@@ -76,15 +92,15 @@ struct game: boiler
 			int rx = ((int)_ent.px % (width / tf_w)) * tf_w;
 			int ry = ((int)_ent.py % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, 0xA, 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[0], 0x0, align_top_left);
 
 			ry = ((int)(_ent.py - 1) % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, 0x2, 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[1], 0x0, align_top_left);
 
 			ry = ((int)(_ent.py - 2) % (height / tf_h)) * tf_h;
 
-			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, 0x8, 0x0, align_top_left);
+			fontvga(std::string(1, (unsigned char)_ent.ascii), rx, ry, pal_x[2], 0x0, align_top_left);
 		}
 	}
 };
