@@ -174,6 +174,10 @@ struct boiler
 
 	SDL_bool running = SDL_FALSE;
 
+	SDL_bool mouse_ol = SDL_FALSE;
+	SDL_bool mouse_or = SDL_FALSE;
+	SDL_bool mouse_om = SDL_FALSE;
+
 	SDL_bool mouse_l = SDL_FALSE;
 	SDL_bool mouse_r = SDL_FALSE;
 	SDL_bool mouse_m = SDL_FALSE;
@@ -384,6 +388,12 @@ struct boiler
 
 	virtual void engine()
 	{
+		// The previous frame's mouse state has now past.
+
+		mouse_ol = mouse_l;
+		mouse_or = mouse_r;
+		mouse_om = mouse_m;
+
 		while (running == SDL_TRUE)
 		{
 			// Process any pending events. If this is not done, the program will hang and 
