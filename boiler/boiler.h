@@ -1325,7 +1325,7 @@ struct boiler
 
 	// Draw a font to the screen (using the VGA color palette).
 
-	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint8 fcol, Uint8 bcol, __font_align align)
+	void fontvga(std::string str, unsigned int xn, unsigned int yn, Uint8 fcol, Uint8 bcol, __font_align align)
 	{
 		// Top left alignment only, for now.
 
