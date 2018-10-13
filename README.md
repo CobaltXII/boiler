@@ -108,6 +108,10 @@ Dither is a tiny dithering library. It supports black and white thresholding, ra
 
 Neural is a tiny neural network library. It supports creating neural networks with any amount of input, hidden and output nodes. It supports forward propagation using Sigmoid activation, and back propagation using gradient descent. The library also implements it's own matrix library, which has many common functions and is useable for other applications as well. Currently, a 1-dimensional XOR solver and a 3-dimensional RGB solver have been created with this library.
 
+### Terminal
+
+Terminal is an extension to the Boiler framework. It allows you to draw text to the screen easily and quickly. It uses the original Code Page 437 font, developed by IBM for the IBM PC. It does not use any external files at runtime, as the entire font is encoded in a header. It also supports the VGA color palette, and makes it easy to align text. The Terminal extension is very useful for any visual debugging and logging purposes. 
+
 ## Dependencies
 
 The Boiler framework by default does not have any dependancies. However, to unlock certain features such as the `loadimg` function, you must define `BOIL_USE_STB_IMAGE`, which includes the `stb_image` header file. Thanks to Sean T. Barrett and contributors for creating that wonderful API.
