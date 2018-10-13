@@ -388,14 +388,14 @@ struct boiler
 
 	virtual void engine()
 	{
-		// The previous frame's mouse state has now past.
-
-		mouse_ol = mouse_l;
-		mouse_or = mouse_r;
-		mouse_om = mouse_m;
-
 		while (running == SDL_TRUE)
 		{
+			// The previous frame's mouse state has now past.
+
+			mouse_ol = mouse_l;
+			mouse_or = mouse_r;
+			mouse_om = mouse_m;
+
 			// Process any pending events. If this is not done, the program will hang and 
 			// eventually become unresponsive.
 
