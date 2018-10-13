@@ -71,12 +71,20 @@ inline double degrad(double x)
 	return 2.0 * M_PI * (x / 360.0);
 }
 
+// Macro derivative.
+
+#define mdegrad(x) (2 * M_PI * ((x) / 360.0))
+
 // Clamp a value to the range 0 to 255.
 
 inline double clamprgb(double x)
 {
 	return std::max(0.0, std::min(255.0, x));
 }
+
+// Macro derivative.
+
+#define mclamprgb(x) (std::max(0.0, std::min(255.0, (x))))
 
 // Get the A, R, G and B components of a Uint32.
 
