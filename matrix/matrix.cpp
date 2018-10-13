@@ -11,31 +11,19 @@
 
 // Green palette.
 
-unsigned char pal_1[3] =
-{
-	0xA, 0x2, 0x8
-};
+unsigned char pal_1[3] = {0xA, 0x2, 0x8};
 
 // Blue palette.
 
-unsigned char pal_2[3] =
-{
-	0x9, 0x1, 0x8
-};
+unsigned char pal_2[3] = {0x9, 0x1, 0x8};
 
 // Cyan palette.
 
-unsigned char pal_3[3] =
-{
-	0xB, 0x3, 0x8
-};
+unsigned char pal_3[3] = {0xB, 0x3, 0x8};
 
 // Red palette.
 
-unsigned char pal_4[3] =
-{
-	0xC, 0x4, 0x8
-};
+unsigned char pal_4[3] = {0xC, 0x4, 0x8};
 
 struct matrix_t
 {
