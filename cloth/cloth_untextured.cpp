@@ -206,7 +206,6 @@ struct constraint
 
 struct game: boiler
 {	
-
 	// The points in the simulation.
 
 	std::vector<point*> points;
@@ -224,6 +223,10 @@ struct game: boiler
 
 	double clw = 60;
 	double clh = 30;
+
+	// Draw nodes?
+
+	bool draw_nodes = false;
 
 	// Add fabric.
 
@@ -277,6 +280,10 @@ struct game: boiler
 			{
 				*sl = !(*sl);
 			}
+		}
+		else if (e.key.keysym.sym == SDLK_k)
+		{
+			draw_nodes = !draw_nodes;
 		}
 	}
 
@@ -419,19 +426,22 @@ struct game: boiler
 
 		// Render all points.
 
-		for (int i = 0; i < points.size(); i++)
+		if (draw_nodes)
 		{
-			point* p = points[i];
+			for (int i = 0; i < points.size(); i++)
+			{
+				point* p = points[i];
 
-			circlergb
-			(
-				p->px,
-				p->py,
+				circlergb
+				(
+					p->px,
+					p->py,
 
-				2.0,
+					2.0,
 
-				rgb(255, 255, 255)
-			);
+					rgb(255, 255, 255)
+				);
+			}
 		}
 
 		// Render all constraints.
