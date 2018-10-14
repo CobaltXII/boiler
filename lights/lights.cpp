@@ -934,7 +934,14 @@ struct game: boiler
 			int cxi = mouse_x / cw;
 			int cyi = mouse_y / cw;
 
-			_World[cyi * width_C + cxi]._Cell_exist = !_World[cyi * width_C + cxi]._Cell_exist;
+			if 
+			(
+				cyi > 1 && cyi < height_C - 2 &&
+				cxi > 1 && cxi < width_C - 2
+			)
+			{
+				_World[cyi * width_C + cxi]._Cell_exist = !_World[cyi * width_C + cxi]._Cell_exist;
+			}
 		}
 
 		// Generate edge map.
