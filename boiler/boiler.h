@@ -84,7 +84,7 @@ inline double clamprgb(double x)
 
 // Macro derivative.
 
-#define mclamprgb(x) (double)(std::max(0.0, std::min(255.0, (x))))
+#define mclamprgb(x) (double)(std::max(0.0, std::min(255.0, (double)(x))))
 
 // Get the A, R, G and B components of a Uint32.
 
