@@ -1,4 +1,15 @@
-// Dynamic lighting? Awesome.
+/*
+
+Dynamic lighting.
+
+I used the techniques for edge joining and raycasting demonstrated and implemented in the
+following video.
+
+https://www.youtube.com/watch?v=fc3nnG2CG8U
+
+The rest of the work (alpha blending, multiple lights, intensity cutoff) was done by me.
+
+*/
 
 #include "../boiler/boiler.h"
 
