@@ -941,19 +941,6 @@ struct game: boiler
 
 		make_edge_map(0, 0, width_C, height_C);
 
-		// Draw tile map.
-
-		for (int x = 0; x < width / cw; x++)
-		{
-			for (int y = 0; y < height / cw; y++)
-			{
-				if (_World[y * width_C + x]._Cell_exist == true)
-				{
-					frectrgb(x * cw, y * cw, cw, cw, rgb(0, 0, 0));
-				}
-			}
-		}
-
 		// Spin lights.
 
 		_Lights[0].ox = sin(iteration / 100.0) * 200.0 + h_width;
@@ -1051,6 +1038,19 @@ struct game: boiler
 						mclamprgb(ig),
 						mclamprgb(ib)
 					);
+				}
+			}
+		}
+
+		// Draw tile map.
+
+		for (int x = 0; x < width / cw; x++)
+		{
+			for (int y = 0; y < height / cw; y++)
+			{
+				if (_World[y * width_C + x]._Cell_exist == true)
+				{
+					frectrgb(x * cw, y * cw, cw, cw, rgb(0, 0, 0));
 				}
 			}
 		}
