@@ -60,9 +60,9 @@ inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
 
 // Macro derivatives.
 
-#define mrgb(r, g, b) (Uint32)((r) << 16 | (g) << 8 | (b))
+#define mrgb(r, g, b) (Uint32)((Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
 
-#define margb(a, r, g, b) (Uint32)((a) << 24 | (r) << 16 | (g) << 8 | (b))
+#define margb(a, r, g, b) (Uint32)((Uint8)(a) << 24 | (Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
 
 // Convert degrees to radians.
 
@@ -73,7 +73,7 @@ inline double degrad(double x)
 
 // Macro derivative.
 
-#define mdegrad(x) (double)(2 * M_PI * ((x) / 360.0))
+#define mdegrad(x) (double)(2 * M_PI * ((double)(x) / 360.0))
 
 // Clamp a value to the range 0 to 255.
 
@@ -110,13 +110,13 @@ inline Uint8 getb(Uint32 argb)
 
 // Macro derivatives.
 
-#define mgeta(argb) (Uint8)((argb) >> 24)
+#define mgeta(argb) (Uint8)((Uint32)(argb) >> 24)
 
-#define mgetr(argb) (Uint8)((argb) >> 16)
+#define mgetr(argb) (Uint8)((Uint32)(argb) >> 16)
 
-#define mgetg(argb) (Uint8)((argb) >> 8)
+#define mgetg(argb) (Uint8)((Uint32)(argb) >> 8)
 
-#define mgetb(argb) (Uint8)((argb))
+#define mgetb(argb) (Uint8)((Uint32)(argb))
 
 // Don't overload! Used as a 'middleman' between _Audio_Callback and SDL.
 
