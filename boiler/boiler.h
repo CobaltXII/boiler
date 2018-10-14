@@ -383,6 +383,29 @@ struct boiler
 		return;
 	}
 
+	// These functions are called whenever the mouse wheel is triggered. The entire event is given
+	// to you, so you can dissect it as you wish.
+
+	virtual void wheelup(SDL_Event e)
+	{
+		return;
+	}
+
+	virtual void wheeldown(SDL_Event e)
+	{
+		return;
+	}
+
+	virtual void wheelleft(SDL_Event e)
+	{
+		return;
+	}
+
+	virtual void wheelright(SDL_Event e)
+	{
+		return;
+	}
+
 	// This function will enter the main loop. This function will not return until the program
 	// exits in one way or another.
 
@@ -449,6 +472,26 @@ struct boiler
 				{
 					mouse_x = e.motion.x;
 					mouse_y = e.motion.y;
+				}
+				else if (e.type == SDL_MOUSEWHEEL)
+				{
+					if (e.wheel.y > 0)
+					{
+						wheelup(e);
+					}
+					else if (e.wheel.y < 0)
+					{
+						wheeldown(e);
+					}
+
+					if (e.wheel.x > 0)
+					{
+						wheelright(e);
+					}
+					else if (e.wheel.x < 0)
+					{
+						wheelleft(e);
+					}
 				}
 			}
 
