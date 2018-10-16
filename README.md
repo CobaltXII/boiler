@@ -112,7 +112,11 @@ Neural is a tiny neural network library. It supports creating neural networks wi
 
 ### Terminal
 
-Terminal is an extension to the Boiler framework. It allows you to draw text to the screen easily and quickly. It uses the original Code Page 437 font, developed by IBM for the IBM PC. It does not use any external files at runtime, as the entire font is encoded in a header. It also supports the VGA color palette, and makes it easy to align text. The Terminal extension is very useful for any visual debugging and logging purposes. 
+Terminal is an extension to the Boiler framework. It allows you to draw text to the screen easily and quickly. It uses the original Code Page 437 font, developed by IBM for the IBM PC. It does not use any external files at runtime, as the entire font is encoded in a header. It also supports the VGA color palette, and makes it easy to align text. The Terminal extension is very useful for any visual debugging and logging purposes.
+
+### Lights
+
+Lights is a dynamic lighting engine. It uses an algorithm to construct an array of edges from a boolean tile map, and then uses line-line intersection mathematics to cast rays from each light to each edge. The lights in the scene can be modified in real time, and the same goes with the tile map. However, the algorithm executes entirely on the CPU, and therefore is much too slow to be used in practical applications. However, the results are still pretty fun to watch.
 
 ## Dependencies
 
