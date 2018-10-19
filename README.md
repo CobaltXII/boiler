@@ -4,7 +4,7 @@ Boiler is a graphics and rasterization framework built on top of SDL2.
 
 ## Summary
 
-Boiler is a small, header-only graphics and rasterization library for creating cross-platform applications based on SDL2. Boiler was created to provide a simple, fast and extensible interface to the SDL2 library.
+Boiler is a small, header-only graphics, audio and rasterization library for creating cross-platform applications based on SDL2. Boiler was created to provide a simple, fast and extensible interface to the SDL2 library.
 
 Boiler is oriented around per-pixel rasterization. It does not use any SDL2 graphics routines, such as `SDL_RenderDrawLine` or `SDL_RenderCopy`. Instead, it implements rasterization functions itself, to provide an extensible and flexible graphics interface.
 
