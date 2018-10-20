@@ -123,6 +123,41 @@ struct game: boiler
 
 		double s_x = (c_re - min_re) / factor_re;
 		double s_y = (c_im - min_im) / factor_im;
+
+		// Zoom rectangle.
+
+		if (ml_pressed)
+		{
+			zoom_tl_re = c_re;
+			zoom_tl_im = c_im;
+		}
+		else if (ml_held)
+		{
+			zoom_br_re = c_re;
+			zoom_br_im = c_im;
+		}
+		else if (ml_released)
+		{
+			zoom_tl_re = 0.0;
+			zoom_tl_im = 0.0;
+
+			zoom_br_re = 0.0;
+			zoom_br_im = 0.0;
+		}
+
+		if (false)
+		{
+			rectrgb
+			(
+				(zoom_tl_re - min_re) / factor_re,
+				(zoom_tl_im - min_im) / factor_im,
+
+				((zoom_br_re - min_re) / factor_re) - ((zoom_tl_re - min_re) / factor_re),
+				((zoom_br_im - min_im) / factor_im) - ((zoom_tl_im - min_im) / factor_im),
+
+				rgb(255, 255, 255)
+			);
+		}
 	}
 };
 
