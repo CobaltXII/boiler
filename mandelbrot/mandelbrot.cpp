@@ -197,7 +197,7 @@ struct game: boiler
 
 	void keydown(SDL_Event e) override
 	{
-		if (e.key.keysym.sym == SDLK_SPACE && !mouse_l)
+		if (e.key.keysym.sym == SDLK_z && !mouse_l)
 		{
 			// Back to normal.
 
