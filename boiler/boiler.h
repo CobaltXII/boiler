@@ -1349,7 +1349,7 @@ struct boiler
 			dh -= (dy + dh) - (int)height;
 		}
 
-		dx++;
+		dw++;
 
 		for (int y = 0; y < dh + 1; y++)
 		{
