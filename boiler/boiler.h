@@ -1378,7 +1378,7 @@ struct boiler
 
 	const int __fnb = argb(255, 0, 0, 0);
 
-	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint32 fcol, Uint32 bcol, __font_align align)
+	void fontrgb(std::string str, unsigned int xn, unsigned int yn, Uint32 fcol, Uint32 bcol, __font_align align = align_top_left)
 	{
 		bool nobg = (bcol == __fnb);
 
