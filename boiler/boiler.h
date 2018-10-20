@@ -1349,6 +1349,8 @@ struct boiler
 			dh -= (dy + dh) - (int)height;
 		}
 
+		dx++;
+
 		for (int y = 0; y < dh + 1; y++)
 		{
 			memcpy(&(pixels[(y + dy) * width + dx]), &(img[(y + sy) * sw + sx]), sizeof(Uint32) * dw);
