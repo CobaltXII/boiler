@@ -16,13 +16,20 @@ enum palette_t
 {
 	pal_red,
 	pal_green,
-	pal_blue
+	pal_blue,
+
+	pal_grayscale,
+	pal_polynomial
 };
 
-palette_t palette = pal_green;
+palette_t palette = pal_polynomial;
 
 struct game: boiler
 {	
+	// Maximum iterations.
+
+	double max_iter = 2048.0;
+
 	// Complex plane constants.
 
 	double min_re;
@@ -92,7 +99,7 @@ struct game: boiler
 
 				int n;
 
-				for (n = 0; n < 1024; n++)
+				for (n = 0; n < max_iter; n++)
 				{
 					double z_re2 = z_re * z_re;
 					double z_im2 = z_im * z_im;
@@ -113,15 +120,15 @@ struct game: boiler
 
 				if (!z_in)
 				{
-					n = pow(n / 1024.0, 0.6) * 1024;
+					n = pow(n / max_iter, 0.7) * max_iter;
 
 					if (palette == pal_red)
 					{
-						if (n < 1024 / 2 - 1)
+						if (n < max_iter / 2 - 1)
 						{
 							mandelbrot_buf[y * width + x] = rgb
 							(
-								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0),
+								clamprgb(n / (max_iter / 2.0 - 1.0) * 255.0),
 
 								0.0,
 								0.0
@@ -133,20 +140,20 @@ struct game: boiler
 							(
 								255.0,
 
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0)
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0)
 							);
 						}
 					}
 					else if (palette == pal_green)
 					{
-						if (n < 1024 / 2 - 1)
+						if (n < max_iter / 2 - 1)
 						{
 							mandelbrot_buf[y * width + x] = rgb
 							(
 								0.0,
 
-								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0),
+								clamprgb(n / (max_iter / 2.0 - 1.0) * 255.0),
 
 								0.0
 							);
@@ -155,32 +162,32 @@ struct game: boiler
 						{
 							mandelbrot_buf[y * width + x] = rgb
 							(
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
 
 								255.0,
 
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0)
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0)
 							);
 						}
 					}
 					else if (palette == pal_blue)
 					{
-						if (n < 1024 / 2 - 1)
+						if (n < max_iter / 2 - 1)
 						{
 							mandelbrot_buf[y * width + x] = rgb
 							(
 								0.0,
 								0.0,
 
-								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0)
+								clamprgb(n / (max_iter / 2.0 - 1.0) * 255.0)
 							);
 						}
 						else
 						{
 							mandelbrot_buf[y * width + x] = rgb
 							(
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
-								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
+								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
 
 								255.0
 							);
