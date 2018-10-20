@@ -161,13 +161,23 @@ struct game: boiler
 			max_re = zoom_br_re;
 
 			min_im = zoom_tl_im;
-			max_im = zoom_br_im;
+
+			max_im = min_im + (max_re - min_re) * height / width;
+
+			factor_re = (max_re - min_re) / (width - 1);
+			factor_im = (max_im - min_im) / (height - 1);
+
+			// Nullify the rectangle bounds.
 
 			zoom_tl_re = 0.0;
 			zoom_tl_im = 0.0;
 
 			zoom_br_re = 0.0;
 			zoom_br_im = 0.0;
+
+			// Render the Mandelbrot using the new coordinates.
+
+			mandelbrot();
 		}
 
 		if (ml_held)
