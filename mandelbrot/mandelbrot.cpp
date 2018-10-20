@@ -19,7 +19,7 @@ enum palette_t
 	pal_blue
 };
 
-palette_t palette = pal_blue;
+palette_t palette = pal_green;
 
 struct game: boiler
 {	
@@ -97,7 +97,7 @@ struct game: boiler
 					double z_re2 = z_re * z_re;
 					double z_im2 = z_im * z_im;
 
-					if (z_re2 + z_im2 > 4)
+					if (z_re2 + z_im2 > 4.0)
 					{
 						z_in = false;
 
@@ -106,13 +106,15 @@ struct game: boiler
 
 					double z_ims = z_im * z_im;
 
-					z_im = 2 * z_re * z_im + c_im;
+					z_im = 2.0 * z_re * z_im + c_im;
 
 					z_re = z_re2 - z_im2 + c_re;
 				}
 
 				if (!z_in)
 				{
+					n = pow(n / 1024.0, 0.6) * 1024;
+
 					if (palette == pal_red)
 					{
 						if (n < 1024 / 2 - 1)
@@ -190,6 +192,26 @@ struct game: boiler
 					mandelbrot_buf[y * width + x] = rgb(0, 0, 0);
 				}
 			}
+		}
+	}
+
+	void keydown(SDL_Event e)
+	{
+		if (e.key.keysym.sym == SDLK_SPACE && !mouse_l)
+		{
+			// Back to normal.
+
+			min_re = 0.0 - 2.0;
+			max_re = 0.0 + 1.0;
+
+			min_im = 0.0 - 1.2;
+
+			max_im = min_im + (max_re - min_re) * height / width;
+
+			factor_re = (max_re - min_re) / (width - 1);
+			factor_im = (max_im - min_im) / (height - 1);
+
+			mandelbrot();
 		}
 	}
 
