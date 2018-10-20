@@ -10,6 +10,17 @@
 #include <iostream>
 #include <sstream>
 
+// Palette kinds.
+
+enum palette_t
+{
+	pal_red,
+	pal_green,
+	pal_blue
+};
+
+palette_t palette = pal_blue;
+
 struct game: boiler
 {	
 	// Complex plane constants.
@@ -53,9 +64,6 @@ struct game: boiler
 
 		factor_re = (max_re - min_re) / (width - 1);
 		factor_im = (max_im - min_im) / (height - 1);
-
-		// std::cout << factor_re << std::endl;
-		// std::cout << factor_im << std::endl;
 
 		// Allocate a buffer for the Mandelbrot.
 
@@ -105,15 +113,77 @@ struct game: boiler
 
 				if (!z_in)
 				{
-					double g = ((double)n / 50.0);
+					if (palette == pal_red)
+					{
+						if (n < 1024 / 2 - 1)
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0),
 
-					mandelbrot_buf[y * width + x] = rgb
-					(
-						clamprgb(g * 0.0),
-						clamprgb(g * 0.0),
+								0.0,
+								0.0
+							);
+						}
+						else
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								255.0,
 
-						clamprgb(g * 255.0)
-					);
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0)
+							);
+						}
+					}
+					else if (palette == pal_green)
+					{
+						if (n < 1024 / 2 - 1)
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								0.0,
+
+								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0),
+
+								0.0
+							);
+						}
+						else
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+
+								255.0,
+
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0)
+							);
+						}
+					}
+					else if (palette == pal_blue)
+					{
+						if (n < 1024 / 2 - 1)
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								0.0,
+								0.0,
+
+								clamprgb(n / (1024.0 / 2.0 - 1.0) * 255.0)
+							);
+						}
+						else
+						{
+							mandelbrot_buf[y * width + x] = rgb
+							(
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+								clamprgb((n / 1024.0 - 0.5) * 2.0 * 255.0),
+
+								255.0
+							);
+						}
+					}
 				}
 				else
 				{
