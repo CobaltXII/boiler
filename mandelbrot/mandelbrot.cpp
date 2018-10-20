@@ -79,7 +79,7 @@ struct game: boiler
 
 	// Render the Mandelbrot to a seperate buffer.
 
-	void mandelbrot()
+	void mandelbrot(bool smooth = false)
 	{
 		for (int y = 0; y < height; y++)
 		{
@@ -97,9 +97,9 @@ struct game: boiler
 
 				bool z_in = true;
 
-				int n;
+				double n;
 
-				for (n = 0; n < max_iter; n++)
+				for (n = 0.0; n < max_iter; n++)
 				{
 					double z_re2 = z_re * z_re;
 					double z_im2 = z_im * z_im;
@@ -120,6 +120,41 @@ struct game: boiler
 
 				if (!z_in)
 				{
+					if (smooth)
+					{
+						// Iterate two more times.
+
+						{
+							double z_re2 = z_re * z_re;
+							double z_im2 = z_im * z_im;
+
+							double z_ims = z_im * z_im;
+
+							z_im = 2.0 * z_re * z_im + c_im;
+
+							z_re = z_re2 - z_im2 + c_re;
+
+							n++;
+						}
+
+						{
+							double z_re2 = z_re * z_re;
+							double z_im2 = z_im * z_im;
+
+							double z_ims = z_im * z_im;
+
+							z_im = 2.0 * z_re * z_im + c_im;
+
+							z_re = z_re2 - z_im2 + c_re;
+
+							n++;
+						}
+
+						double modulus = sqrt(z_re * z_re + z_im * z_im);
+
+						n = n - (log(log(modulus))) / log(2.0);
+					}
+
 					n = pow(n / max_iter, 0.7) * max_iter;
 
 					if (palette == pal_red)
