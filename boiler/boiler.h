@@ -1548,6 +1548,17 @@ Uint32* loadbmp(std::string path, int &w, int &h)
 	return m_bmp;
 }
 
+// Save an image to a bitmap (.bmp) file. Explodes if you give it garbage.
+
+void savebmp(std::string file, Uint32* pixels, int w, int h)
+{
+	SDL_Surface* _surf = SDL_CreateRGBSurfaceFrom(pixels, w, h, 8 * 4, w * 4, 0, 0, 0, 0);
+
+	SDL_SaveBMP(_surf, file.c_str());
+
+	SDL_FreeSurface(_surf);
+} 
+
 #ifdef BOIL_USE_STB_IMAGE
 
 // A much better image loading function. This may be redundant in a few ways, such as converting 
