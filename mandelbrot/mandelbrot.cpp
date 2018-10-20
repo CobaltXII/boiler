@@ -31,6 +31,10 @@ struct game: boiler
 	double zoom_br_re = 0.0;
 	double zoom_br_im = 0.0;
 
+	// Buffer for the Mandelbrot.
+
+	Uint32* mandelbrot_buf;
+
 	void steam() override
 	{
 		width = 800;
@@ -48,71 +52,84 @@ struct game: boiler
 
 		factor_re = (max_re - min_re) / (width - 1);
 		factor_im = (max_im - min_im) / (height - 1);
+
+		// Allocate a buffer for the Mandelbrot.
+
+		mandelbrot_buf = (Uint32*)malloc(width * height * sizeof(Uint32));
+	}
+
+	// Render the Mandelbrot to a seperate buffer.
+
+	void mandelbrot()
+	{
+		for (int y = 0; y < height; y++)
+		{
+			double c_im = min_im + y * factor_im;
+
+			for (int x = 0; x < width; x++)
+			{
+				double c_re = min_re + x * factor_re;
+
+				// Calculate whether the complex number defined by c_re and c_im belonds to 
+				// the Mandelbrot set.
+
+				double z_re = c_re;
+				double z_im = c_im;
+
+				bool z_in = true;
+
+				int n;
+
+				for (n = 0; n < 100; n++)
+				{
+					double z_re2 = z_re * z_re;
+					double z_im2 = z_im * z_im;
+
+					if (z_re2 + z_im2 > 4)
+					{
+						z_in = false;
+
+						break;
+					}
+
+					double z_ims = z_im * z_im;
+
+					z_im = 2 * z_re * z_im + c_im;
+
+					z_re = z_re2 - z_im2 + c_re;
+				}
+
+				if (!z_in)
+				{
+					double g = ((double)n / 50.0);
+
+					mandelbrot_buf[y * width + x] = rgb
+					(
+						clamprgb(g * 255.0),
+						clamprgb(g * 255.0),
+						clamprgb(g * 255.0)
+					);
+				}
+				else
+				{
+					mandelbrot_buf[y * width + x] = rgb(0, 0, 0);
+				}
+			}
+		}
 	}
 
 	void draw() override
 	{
 		if (iteration == 0)
 		{
-			// Render the Mandelbrot.
+			// Generate the Mandelbrot.
 
-			clear(rgb(255, 255, 255));	
-
-			for (int y = 0; y < height; y++)
-			{
-				double c_im = min_im + y * factor_im;
-
-				for (int x = 0; x < width; x++)
-				{
-					double c_re = min_re + x * factor_re;
-
-					// Calculate whether the complex number defined by c_re and c_im belonds to 
-					// the Mandelbrot set.
-
-					double z_re = c_re;
-					double z_im = c_im;
-
-					bool z_in = true;
-
-					int n;
-
-					for (n = 0; n < 100; n++)
-					{
-						double z_re2 = z_re * z_re;
-						double z_im2 = z_im * z_im;
-
-						if (z_re2 + z_im2 > 4)
-						{
-							z_in = false;
-
-							break;
-						}
-
-						double z_ims = z_im * z_im;
-
-						z_im = 2 * z_re * z_im + c_im;
-
-						z_re = z_re2 - z_im2 + c_re;
-					}
-
-					if (!z_in)
-					{
-						double g = ((double)n / 50.0);
-
-						pixels[y * width + x] = rgb
-						(
-							clamprgb(g * 255.0),
-							clamprgb(g * 255.0),
-							clamprgb(g * 255.0)
-						);
-					}
-					else
-					{
-						pixels[y * width + x] = rgb(0, 0, 0);
-					}
-				}
-			}
+			mandelbrot();
 		}
+
+		// Copy the Mandelbrot.
+
+		blitrgb(mandelbrot_buf, 0, 0, width, height, 0, 0, width, height);
 
 		// Fetch complex number corresponding with mouse pointer.
 
@@ -138,6 +155,14 @@ struct game: boiler
 		}
 		else if (ml_released)
 		{
+			// Apply the rectangle bounds to the screen.
+
+			min_re = zoom_tl_re;
+			max_re = zoom_br_re;
+
+			min_im = zoom_tl_im;
+			max_im = zoom_br_im;
+
 			zoom_tl_re = 0.0;
 			zoom_tl_im = 0.0;
 
@@ -145,7 +170,7 @@ struct game: boiler
 			zoom_br_im = 0.0;
 		}
 
-		if (false)
+		if (ml_held)
 		{
 			rectrgb
 			(
