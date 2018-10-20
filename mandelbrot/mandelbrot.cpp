@@ -48,10 +48,14 @@ struct game: boiler
 		max_re = 0.0 + 1.0;
 
 		min_im = 0.0 - 1.2;
-		max_im = 0.0 + 1.2;
+
+		max_im = min_im + (max_re - min_re) * height / width;
 
 		factor_re = (max_re - min_re) / (width - 1);
 		factor_im = (max_im - min_im) / (height - 1);
+
+		// std::cout << factor_re << std::endl;
+		// std::cout << factor_im << std::endl;
 
 		// Allocate a buffer for the Mandelbrot.
 
