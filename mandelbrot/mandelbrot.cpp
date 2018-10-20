@@ -193,6 +193,17 @@ struct game: boiler
 							);
 						}
 					}
+					else if (palette == pal_grayscale)
+					{
+						double t = n / max_iter;
+
+						mandelbrot_buf[y * width + x] = rgb
+						(
+							clamprgb(t * 255.0),
+							clamprgb(t * 255.0),
+							clamprgb(t * 255.0)
+						);
+					}
 				}
 				else
 				{
