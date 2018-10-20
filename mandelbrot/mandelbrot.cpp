@@ -302,7 +302,7 @@ struct game: boiler
 			factor_re = (max_re - min_re) / (width - 1);
 			factor_im = (max_im - min_im) / (height - 1);
 
-			mandelbrot();
+			mandelbrot(true);
 		}
 		else if (e.key.keysym.sym == SDLK_x)
 		{
@@ -316,7 +316,7 @@ struct game: boiler
 		{
 			// Generate the Mandelbrot.
 
-			mandelbrot();
+			mandelbrot(true);
 		}
 
 		// Copy the Mandelbrot.
@@ -369,7 +369,7 @@ struct game: boiler
 
 			// Render the Mandelbrot using the new coordinates.
 
-			mandelbrot();
+			mandelbrot(true);
 		}
 
 		if (ml_held)
