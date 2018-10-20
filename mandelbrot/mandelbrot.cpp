@@ -12,6 +12,8 @@
 
 struct game: boiler
 {	
+	// Complex plane constants.
+
 	double min_re;
 	double max_re;
 
@@ -20,6 +22,14 @@ struct game: boiler
 
 	double factor_re;
 	double factor_im;
+
+	// Zooming rectangle.
+
+	double zoom_tl_re = 0.0;
+	double zoom_tl_im = 0.0;
+
+	double zoom_br_re = 0.0;
+	double zoom_br_im = 0.0;
 
 	void steam() override
 	{
@@ -50,7 +60,7 @@ struct game: boiler
 
 			for (int y = 0; y < height; y++)
 			{
-				double c_im = max_im - y * factor_im;
+				double c_im = min_im + y * factor_im;
 
 				for (int x = 0; x < width; x++)
 				{
@@ -66,7 +76,7 @@ struct game: boiler
 
 					int n;
 
-					for (n = 0; n < 50; n++)
+					for (n = 0; n < 100; n++)
 					{
 						double z_re2 = z_re * z_re;
 						double z_im2 = z_im * z_im;
@@ -104,14 +114,15 @@ struct game: boiler
 			}
 		}
 
-		std::stringstream str;
+		// Fetch complex number corresponding with mouse pointer.
 
 		double c_re = min_re + mouse_x * factor_re;
-		double c_im = max_im - mouse_y * factor_im;
+		double c_im = min_im + mouse_y * factor_im;
 
-		str << "Real: " << c_re << ", imaginary: " << c_im;
+		// Recalculate mouse pointer position from complex number.
 
-		fontvga(str.str(), 0, 0, 0x7, 0x0);
+		double s_x = (c_re - min_re) / factor_re;
+		double s_y = (c_im - min_im) / factor_im;
 	}
 };
 
