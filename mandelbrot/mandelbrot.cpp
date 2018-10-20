@@ -80,7 +80,7 @@ struct game: boiler
 
 				int n;
 
-				for (n = 0; n < 100; n++)
+				for (n = 0; n < 1024; n++)
 				{
 					double z_re2 = z_re * z_re;
 					double z_im2 = z_im * z_im;
@@ -105,8 +105,9 @@ struct game: boiler
 
 					mandelbrot_buf[y * width + x] = rgb
 					(
-						clamprgb(g * 255.0),
-						clamprgb(g * 255.0),
+						clamprgb(g * 0.0),
+						clamprgb(g * 0.0),
+
 						clamprgb(g * 255.0)
 					);
 				}
