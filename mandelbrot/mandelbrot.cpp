@@ -204,6 +204,19 @@ struct game: boiler
 							clamprgb(t * 255.0)
 						);
 					}
+					else if (palette == pal_polynomial)
+					{
+						double t = n / max_iter;
+
+						mandelbrot_buf[y * width + x] = rgb
+						(
+							clamprgb(9.0 * (1.0 - t) * t * t * t * 255.0),
+
+							clamprgb(15.0 * (1.0 - t) * (1.0 - t) * t * t * 255.0),
+							
+							clamprgb(8.5 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t * 255.0)
+						);
+					}
 				}
 				else
 				{
