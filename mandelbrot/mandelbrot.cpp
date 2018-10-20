@@ -1,7 +1,32 @@
-// The Mandelbrot fractal? Awesome.
+/*
 
-#include "../terminal/terminal_codepage.h"
-#include "../terminal/terminal_extras.h"
+The Mandelbrot fractal? Awesome.
+
+Honestly, I had such a great time making this. I encourage everybody who stumbles across this
+source code to have a go at making their own; you won't regret it.
+
+I'd like to thank a few people/sources for their help.
+
+	Dirichlet#5635, helped me figure out why my scaling and screen-space to complex-plane-space
+	was completely wrong.
+
+	http://warp.povusers.org/Mandelbrot/
+
+		This site helped me a lot with converting the equation of the Mandelbrot set into code.
+		It is a very good starting point for creating a Mandelbrot renderer.
+
+	https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
+
+		This site showed me a few ways to calculate color based on slightly modified Bernstein
+		polynomials. This helped the renderer look much nicer.
+
+	http://linas.org/art-gallery/escape/escape.html
+
+		This site is pure gold. I love how they don't give formulas and cryptic equations, and
+		instead shower you with pseudocode that can be adapted in 5 minutes of work. Without this
+		amazing site, my renderer would still be banded by colors.
+
+*/
 
 #include "../boiler/boiler.h"
 
