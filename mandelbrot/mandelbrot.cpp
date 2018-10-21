@@ -74,6 +74,10 @@ struct game: boiler
 	double zoom_br_re = 0.0;
 	double zoom_br_im = 0.0;
 
+	// Smoothing reduces banding.
+
+	bool smoothing = true;
+
 	// Buffer for the Mandelbrot.
 
 	Uint32* mandelbrot_buf;
@@ -302,7 +306,7 @@ struct game: boiler
 			factor_re = (max_re - min_re) / (width - 1);
 			factor_im = (max_im - min_im) / (height - 1);
 
-			mandelbrot(true);
+			mandelbrot(smoothing);
 		}
 		else if (e.key.keysym.sym == SDLK_x)
 		{
@@ -316,7 +320,7 @@ struct game: boiler
 		{
 			// Generate the Mandelbrot.
 
-			mandelbrot(true);
+			mandelbrot(smoothing);
 		}
 
 		// Copy the Mandelbrot.
