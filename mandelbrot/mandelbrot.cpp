@@ -312,6 +312,12 @@ struct game: boiler
 		{
 			savebmp("mandelbrot.bmp", pixels, width, height);
 		}
+		else if (e.key.keysym.sym == SDLK_c)
+		{
+			// Render again.
+
+			mandelbrot(smoothing);
+		}
 	}
 
 	void draw() override
