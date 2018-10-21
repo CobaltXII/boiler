@@ -318,6 +318,12 @@ struct game: boiler
 
 			mandelbrot(smoothing);
 		}
+		else if (e.key.keysym.sym == SDLK_v)
+		{
+			// Toggle smoothing.
+
+			smoothing = !smoothing;
+		}
 	}
 
 	void draw() override
