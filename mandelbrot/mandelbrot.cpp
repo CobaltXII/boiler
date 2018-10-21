@@ -184,7 +184,7 @@ struct game: boiler
 						n = n - (log(log(modulus))) / log(2.0);
 					}
 
-					n = pow(n / max_iter, 0.7) * max_iter;
+					n = pow(n / max_iter, 0.5) * max_iter;
 
 					if (palette == pal_red)
 					{
