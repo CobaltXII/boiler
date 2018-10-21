@@ -1289,8 +1289,8 @@ struct boiler
 
 	// Macro derivatives.
 
-	#define mrandx() (rand() % width);
-	#define mrandy() (rand() % height);
+	#define mrandx (rand() % width)
+	#define mrandy (rand() % height)
 
 	// Draws an image to the screen. Clips the image beforehand. Source and destination 
 	// coordinates accepted. Does not honour transparency, but is extremely fast.
