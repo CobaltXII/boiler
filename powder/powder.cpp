@@ -1095,6 +1095,66 @@ struct game: boiler
 
 					break;
 				}
+
+				// Liquids.
+
+				case el_watr:
+				{
+					if (p->t == el_watr)
+					{
+						if (iny > 0)
+						{
+							p_t* tmn = lmap[(iny - 1) * width + inx];
+
+							if (tmn != NULL && tmn->t == el_sand)
+							{
+								// Sand sinks, so we swap the positions of water and sand if a 
+								// sand particle is above a water particle.
+								
+								tmn->t = el_watr;
+
+								p->t = el_sand;
+							}
+						}
+					}
+
+					// Move either right or left depending on obstructions; if no obstructions
+					// move randomly.
+
+					if (iny < hmo - 1 && lmap[(iny + 1) * width + inx] != NULL)
+					{
+						bool mln = lmap[iny * width + (inx - 1)] == NULL;
+						bool mrn = lmap[iny * width + (inx + 1)] == NULL;
+
+						if (mln && !mrn)
+						{
+							p->x--;
+						}
+						else if (!mln && mrn)
+						{
+							p->x++;
+						}
+						else if (mln && mrn)
+						{
+							if (rand() % 2 == 0)
+							{
+								p->x--;
+							}
+							else
+							{
+								p->x++;
+							}
+						}
+					}
+				}
+
+				// Something else?
+
+				default:
+				{
+					break;
+				}
+			}
 		// Render all particles in heap.
 
 		for (unsigned int i = 0; i < pc; i++)
