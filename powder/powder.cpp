@@ -138,6 +138,21 @@ struct game: boiler
 			}
 		}
 	}
+
+	// Mousewheel handler.
+
+	void wheelup(SDL_Event e) override
+	{
+		if (c_size)
+		{
+			c_size--;
+		}
+	}
+
+	void wheeldown(SDL_Event e) override
+	{
+		c_size++;
+	}
 	// Frame renderer.
 
 	void draw() override
