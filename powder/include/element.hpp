@@ -15,3 +15,17 @@ enum el_t: unsigned short
 
 	el_last
 };
+
+// Element names.
+
+std::string enmap[el_last] =
+{
+	"NULL",
+
+	"WICE",
+	"WATR",
+	"WVPR",
+
+	"STON",
+	"SAND"
+};
