@@ -43,3 +43,17 @@ std::string edmap[el_last] =
 	"Stone, a hard solid",
 	"Sand, a powdery substance"
 };
+
+// Color map.
+
+unsigned int cmap[el_last] =
+{
+	0x00000000,
+
+	0x00A0C0FF,
+	0x002030D0,
+	0x00A0A0FF,
+
+	0x00A0A0A0,
+	0x00FFD090
+};
