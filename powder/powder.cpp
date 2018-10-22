@@ -811,9 +811,28 @@ struct game: boiler
 
 			float ox = p->x;
 			float oy = p->y;
+
+			switch (p->t)
+			{
+				case el_wvpr:
+				{
+					p->vx += ((rand() % 2) * 2.0 - 1.0) * 0.1;
+					p->vy += ((rand() % 2) * 2.0 - 1.0) * 0.1;
+				}
+
+				default:
+				{
+					break;
+				}
+			}
+
+			if (p->t != el_wvpr)
+			{
 				// Apply gravity.
 
 				p->vy += 0.3;
+			}
+
 			// Apply drag.
 
 			p->vx *= 0.995;
