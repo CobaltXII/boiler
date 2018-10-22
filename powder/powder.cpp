@@ -1037,6 +1037,64 @@ struct game: boiler
 				p->vx *= rfs * 0.5;
 				p->vy *= rfs * 0.5;
 			}
+
+			// Affect this particle (and maybe it's neighbors) based on it's material.
+
+			int inx = (int)(p->x);
+			int iny = (int)(p->y);
+
+			switch (p->t)
+			{
+				// Solids.
+
+				case el_wice:
+				case el_ston:
+				{
+					// Don't move.
+
+					break;
+				}
+
+				// Powders.
+
+				case el_sand:
+				{
+					// If both the bottom-left and bottom-right neighbors exist, stay where you 
+					// are. If only the bottom-left neighbor exists, move to the bottom-right
+					// neighbor's position. Vice-versa.
+
+					if (iny < hmo - 1 && (lmap[(iny + 1) * width + inx] != NULL))
+					{
+						bool bln = lmap[(iny + 1) * width + (inx - 1)] == NULL;
+						bool brn = lmap[(iny + 1) * width + (inx + 1)] == NULL;
+
+						if (bln && !brn)
+						{
+							p->y++;
+							p->x--;
+						}
+						else if (!bln && brn)
+						{
+							p->y++;
+							p->x++;
+						}
+						else if (bln && brn)
+						{
+							if (rand() % 2 == 0)
+							{
+								p->y++;
+								p->x--;
+							}
+							else
+							{
+								p->y++;
+								p->x++;
+							}
+						}
+					}
+
+					break;
+				}
 		// Render all particles in heap.
 
 		for (unsigned int i = 0; i < pc; i++)
