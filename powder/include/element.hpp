@@ -29,3 +29,17 @@ std::string enmap[el_last] =
 	"STON",
 	"SAND"
 };
+
+// Element descriptions.
+
+std::string edmap[el_last] =
+{
+	"An absence of matter",
+
+	"Ice, derived from water",
+	"Water, a pure liquid",
+	"Water vapour, derived from water",
+
+	"Stone, a hard solid",
+	"Sand, a powdery substance"
+};
