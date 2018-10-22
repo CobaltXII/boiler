@@ -9,6 +9,9 @@
 #include <utility>
 #include <iostream>
 
+// Random scalar.
+
+#define rfs (rand() / (double)RAND_MAX)
 
 struct game: boiler
 {	
