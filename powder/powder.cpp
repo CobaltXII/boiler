@@ -1174,6 +1174,97 @@ struct game: boiler
 					break;
 				}
 			}
+
+			// Constrain particles to boundaries using the rules defined by the current edge_mode.
+
+			if (edge_mode == em_void)
+			{
+				if (p->x < 0 || p->x > wmo || p->y < 0 || p->y > hmo)
+				{
+					unsigned int _idx = lmap[(int)(oy) * width + (int)(ox)]->idx;
+
+					lmap[(int)(oy) * width + (int)(ox)] = NULL;
+
+					pmap[_idx] = pmap[pc - 1];
+
+					pmap[_idx]->idx = _idx;
+
+					pc--;
+
+					// Always continue after removal.
+
+					continue;
+				}
+			}
+			else if (edge_mode == em_loop)
+			{
+				// This is a bit broken.
+
+				if (p->x < 0)
+				{
+					p->x = wmo;
+				}
+				else if (p->x > wmo)
+				{
+					p->x = 0;
+				}
+
+				if (p->y < 0)
+				{
+					p->y = hmo;
+				}
+				else if (p->y > hmo)
+				{
+					p->y = 0;
+				}
+			}
+			else
+			{
+				// This is a bit broken.
+
+				if (p->x < 0)
+				{
+					p->x = 0;
+
+					p->vx = -(p->vx) * rfs * 0.5;
+				}
+				else if (p->x > wmo)
+				{
+					p->x = wmo;
+
+					p->vx = -(p->vx) * rfs * 0.5;
+				}
+
+				if (p->y < 0)
+				{
+					p->y = 0;
+
+					p->vy = -(p->vy) * rfs * 0.5;
+				}
+				else if (p->y > hmo)
+				{
+					p->y = hmo;
+
+					p->vy = -(p->vy) * rfs * 0.5;
+				}
+			}
+
+			// Set the old position in the lookup map to NULL, and the new position in the lookup
+			// map to the pointer to this particle.
+
+			// We could optimize by not doing anything if the particle remains stationary, but we
+			// won't do that just yet.
+
+			lmap[(int)oy * width + (int)ox] = NULL;
+
+			lmap[(int)(p->y) * width + (int)(p->x)] = p;
+		}
+
+		if (iteration_n < 2)
+		{
+			goto iterate;
+		}
+
 		// Render all particles in heap.
 
 		for (unsigned int i = 0; i < pc; i++)
