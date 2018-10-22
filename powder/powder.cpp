@@ -21,6 +21,11 @@
 
 #define rvx ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
 #define rvy ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
+
+#include "include/element.hpp"
+#include "include/particle.hpp"
+#include "include/simulation.hpp"
+
 struct game: boiler
 {	
 	// Lookup array.
@@ -119,6 +124,20 @@ struct game: boiler
 		}
 	}
 
+	// Keydown handler.
+
+	void keydown(SDL_Event e) override
+	{
+		if (e.key.keysym.sym == SDLK_SPACE)
+		{
+			c_element = (el_t)((c_element + 1) % el_last);
+
+			if (c_element == el_null)
+			{
+				c_element = (el_t)((int)c_element + 1);
+			}
+		}
+	}
 	// Frame renderer.
 
 	void draw() override
