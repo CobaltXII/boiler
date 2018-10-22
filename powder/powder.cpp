@@ -13,6 +13,9 @@
 
 #define rfs (rand() / (double)RAND_MAX)
 
+// Random unit scalar.
+
+#define rus (rand() / (double)RAND_MAX * 2.0 - 1.0)
 struct game: boiler
 {	
 	// Lookup array.
