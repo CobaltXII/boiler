@@ -185,6 +185,9 @@ struct boiler
 	Uint32 mouse_x = 0;
 	Uint32 mouse_y = 0;
 
+	Uint32 mouse_ox = 0;
+	Uint32 mouse_oy = 0;
+
 	Uint32 iteration;
 
 	// Audio.
@@ -418,6 +421,9 @@ struct boiler
 			mouse_ol = mouse_l;
 			mouse_or = mouse_r;
 			mouse_om = mouse_m;
+
+			mouse_ox = mouse_x;
+			mouse_oy = mouse_y;
 
 			// Process any pending events. If this is not done, the program will hang and 
 			// eventually become unresponsive.
