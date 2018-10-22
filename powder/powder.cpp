@@ -16,6 +16,11 @@
 // Random unit scalar.
 
 #define rus (rand() / (double)RAND_MAX * 2.0 - 1.0)
+
+// Random velocity.
+
+#define rvx ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
+#define rvy ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
 struct game: boiler
 {	
 	// Lookup array.
