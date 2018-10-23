@@ -22,12 +22,18 @@
 #define rvx ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
 #define rvy ((rand() / (double)RAND_MAX * 2.0 - 1.0) * 5.0)
 
+#include "assets/font.hpp"
+
 #include "include/element.hpp"
 #include "include/particle.hpp"
 #include "include/simulation.hpp"
 
 struct game: boiler
 {	
+	// Font utility drawfont(x, y, text, color).
+
+	#include "helper/font.hpp"
+
 	// Lookup array.
 
 	p_t** lmap;
