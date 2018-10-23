@@ -50,7 +50,7 @@ struct game: boiler
 
 	// Cursor size.
 
-	unsigned int c_size = 16;
+	unsigned int c_size = 8;
 
 	// Selected element.
 
@@ -65,8 +65,8 @@ struct game: boiler
 
 		srand((unsigned int)time(NULL));
 
-		width = 800;
-		height = 600;
+		width = 640;
+		height = 480;
 
 		// Initialize mutated dimensions.
 
@@ -102,26 +102,6 @@ struct game: boiler
 
 		memset(lmap, 0, width * height * sizeof(p_t*));
 		memset(pmap, 0, width * height * sizeof(p_t*));
-
-		for (int i = 0; i < 0; i++)
-		{
-			// If you follow this code, this is the standard particle addition template. First, it
-			// sets the last element of the particle heap to a new particle. Second, it sets the
-			// lookup table entry at the coordinates of the new particle to the address of the new
-			// particle. Finally, it increments the particle counter.
-
-			int nx = mrandx;
-			int ny = mrandy;
-
-			if (lmap[ny * width + nx] == NULL)
-			{
-				pmap[pc] = new p_t(el_watr, nx, ny, rvx, rvy, pc);
-
-				lmap[(int)(pmap[pc]->y) * width + (int)(pmap[pc]->x)] = pmap[pc];
-
-				pc++;
-			}
-		}
 	}
 
 	// Keydown handler.
@@ -154,50 +134,7 @@ struct game: boiler
 		c_size++;
 	}
 
-	// Fill a scanline with particles. Does not place particle if a particle already exists at the
-	// position.
-
-	void pscanline(int x1, int x2, int y1, el_t c)
-	{
-		for (int i = x1; i <= x2; i++)
-		{
-			if (i >= 0 && i < width && y1 >= 0 && y1 < height)
-			{
-				if (lmap[y1 * width + i] == NULL)
-				{
-					pmap[pc] = new p_t(c, i, y1, 0.0, 0.0, pc);
-
-					lmap[(int)(pmap[pc]->y) * width + (int)(pmap[pc]->x)] = pmap[pc];
-
-					pc++;
-				}
-			}		
-		}
-	}
-
-	// Remove all particles in the scanline.
-
-	void prscanline(int x1, int x2, int y1)
-	{
-		for (int i = x1; i <= x2; i++)
-		{
-			if (i >= 0 && i < width && y1 >= 0 && y1 < height)
-			{
-				if (lmap[y1 * width + i] != NULL)
-				{
-					unsigned int _idx = lmap[y1 * width + i]->idx;
-
-					lmap[y1 * width + i] = NULL;
-
-					pmap[_idx] = pmap[pc - 1];
-
-					pmap[_idx]->idx = _idx;
-
-					pc--;
-				}
-			}		
-		}
-	}
+	#include "helper/raster.hpp"
 
 	// Frame renderer.
 
@@ -205,597 +142,7 @@ struct game: boiler
 	{
 		memset((void*)pixels, 0, width * height * sizeof(Uint32));
 
-		// Handle mouse presses.
-
-		if (ml_pressed)
-		{
-			// Fill cursor with selected material.
-
-			int xc = mouse_x;
-			int yc = mouse_y;
-
-			int r = c_size;
-
-			int x = 0;
-			int y = 0;
-
-			int p = 3 - (2 * r);
-
-			if (r)
-			{
-				y = r;
-
-				while (y >= x)
-				{
-					pscanline(xc - x, xc + x, yc - y, c_element);
-					pscanline(xc - y, xc + y, yc - x, c_element);
-					pscanline(xc - x, xc + x, yc + y, c_element);
-					pscanline(xc - y, xc + y, yc + x, c_element);
-
-					if (p < 0)
-					{
-						p += 4 * x++ + 6;
-					}
-					else
-					{
-						p += 4 * (x++ - y--) + 10;
-					}
-				}
-			}
-		}
-		else if (ml_held)
-		{
-			#define x1 mouse_ox
-			#define y1 mouse_oy
-
-			#define x2 mouse_x
-			#define y2 mouse_y
-
-			int x;
-			int y;
-
-			int dx = x2 - x1;
-			int dy = y2 - y1;
-
-			int dx1 = std::abs(dx);
-			int dy1 = std::abs(dy);
-
-			int px = 2 * dy1 - dx1;
-			int py = 2 * dx1 - dy1;
-
-			int xe;
-			int ye;
-
-			if (dy1 <= dx1)
-			{
-				if (dx >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					xe = x2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					xe = x1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					{
-						int xc = x;
-						int yc = y;
-
-						int r = c_size;
-
-						int x = 0;
-						int y = 0;
-
-						int p = 3 - (2 * r);
-
-						if (r)
-						{
-							y = r;
-
-							while (y >= x)
-							{
-								pscanline(xc - x, xc + x, yc - y, c_element);
-								pscanline(xc - y, xc + y, yc - x, c_element);
-								pscanline(xc - x, xc + x, yc + y, c_element);
-								pscanline(xc - y, xc + y, yc + x, c_element);
-
-								if (p < 0)
-								{
-									p += 4 * x++ + 6;
-								}
-								else
-								{
-									p += 4 * (x++ - y--) + 10;
-								}
-							}
-						}
-					}
-				}
-
-				for (int i = 0; x < xe; i++)
-				{
-					x = x + 1;
-
-					if (px < 0)
-					{
-						px = px + 2 * dy1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							y = y + 1;
-						}
-						else
-						{
-							y = y - 1;
-						}
-
-						px = px + 2 * (dy1 - dx1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						{
-							int xc = x;
-							int yc = y;
-
-							int r = c_size;
-
-							int x = 0;
-							int y = 0;
-
-							int p = 3 - (2 * r);
-
-							if (r)
-							{
-								y = r;
-
-								while (y >= x)
-								{
-									pscanline(xc - x, xc + x, yc - y, c_element);
-									pscanline(xc - y, xc + y, yc - x, c_element);
-									pscanline(xc - x, xc + x, yc + y, c_element);
-									pscanline(xc - y, xc + y, yc + x, c_element);
-
-									if (p < 0)
-									{
-										p += 4 * x++ + 6;
-									}
-									else
-									{
-										p += 4 * (x++ - y--) + 10;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				if (dy >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					ye = y2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					ye = y1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					{
-						int xc = x;
-						int yc = y;
-
-						int r = c_size;
-
-						int x = 0;
-						int y = 0;
-
-						int p = 3 - (2 * r);
-
-						if (r)
-						{
-							y = r;
-
-							while (y >= x)
-							{
-								pscanline(xc - x, xc + x, yc - y, c_element);
-								pscanline(xc - y, xc + y, yc - x, c_element);
-								pscanline(xc - x, xc + x, yc + y, c_element);
-								pscanline(xc - y, xc + y, yc + x, c_element);
-
-								if (p < 0)
-								{
-									p += 4 * x++ + 6;
-								}
-								else
-								{
-									p += 4 * (x++ - y--) + 10;
-								}
-							}
-						}
-					}
-				}
-
-				for (int i = 0; y < ye; i++)
-				{
-					y = y + 1;
-
-					if (py <= 0)
-					{
-						py = py + 2 * dx1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							x = x + 1;
-						}
-						else
-						{
-							x = x - 1;
-						}
-
-						py = py + 2 * (dx1 - dy1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						{
-							int xc = x;
-							int yc = y;
-
-							int r = c_size;
-
-							int x = 0;
-							int y = 0;
-
-							int p = 3 - (2 * r);
-
-							if (r)
-							{
-								y = r;
-
-								while (y >= x)
-								{
-									pscanline(xc - x, xc + x, yc - y, c_element);
-									pscanline(xc - y, xc + y, yc - x, c_element);
-									pscanline(xc - x, xc + x, yc + y, c_element);
-									pscanline(xc - y, xc + y, yc + x, c_element);
-
-									if (p < 0)
-									{
-										p += 4 * x++ + 6;
-									}
-									else
-									{
-										p += 4 * (x++ - y--) + 10;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			#undef x1
-			#undef y1
-
-			#undef x2
-			#undef y2
-		}
-
-		if (mr_pressed)
-		{
-			// Remove all particles within cursor.
-
-			int xc = mouse_x;
-			int yc = mouse_y;
-
-			int r = c_size;
-
-			int x = 0;
-			int y = 0;
-
-			int p = 3 - (2 * r);
-
-			if (r)
-			{
-				y = r;
-
-				while (y >= x)
-				{
-					prscanline(xc - x, xc + x, yc - y);
-					prscanline(xc - y, xc + y, yc - x);
-					prscanline(xc - x, xc + x, yc + y);
-					prscanline(xc - y, xc + y, yc + x);
-
-					if (p < 0)
-					{
-						p += 4 * x++ + 6;
-					}
-					else
-					{
-						p += 4 * (x++ - y--) + 10;
-					}
-				}
-			}
-		}
-		else if (mr_held)
-		{
-			#define x1 mouse_ox
-			#define y1 mouse_oy
-
-			#define x2 mouse_x
-			#define y2 mouse_y
-
-			int x;
-			int y;
-
-			int dx = x2 - x1;
-			int dy = y2 - y1;
-
-			int dx1 = std::abs(dx);
-			int dy1 = std::abs(dy);
-
-			int px = 2 * dy1 - dx1;
-			int py = 2 * dx1 - dy1;
-
-			int xe;
-			int ye;
-
-			if (dy1 <= dx1)
-			{
-				if (dx >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					xe = x2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					xe = x1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					{
-						int xc = x;
-						int yc = y;
-
-						int r = c_size;
-
-						int x = 0;
-						int y = 0;
-
-						int p = 3 - (2 * r);
-
-						if (r)
-						{
-							y = r;
-
-							while (y >= x)
-							{
-								prscanline(xc - x, xc + x, yc - y);
-								prscanline(xc - y, xc + y, yc - x);
-								prscanline(xc - x, xc + x, yc + y);
-								prscanline(xc - y, xc + y, yc + x);
-
-								if (p < 0)
-								{
-									p += 4 * x++ + 6;
-								}
-								else
-								{
-									p += 4 * (x++ - y--) + 10;
-								}
-							}
-						}
-					}
-				}
-
-				for (int i = 0; x < xe; i++)
-				{
-					x = x + 1;
-
-					if (px < 0)
-					{
-						px = px + 2 * dy1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							y = y + 1;
-						}
-						else
-						{
-							y = y - 1;
-						}
-
-						px = px + 2 * (dy1 - dx1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						{
-							int xc = x;
-							int yc = y;
-
-							int r = c_size;
-
-							int x = 0;
-							int y = 0;
-
-							int p = 3 - (2 * r);
-
-							if (r)
-							{
-								y = r;
-
-								while (y >= x)
-								{
-									prscanline(xc - x, xc + x, yc - y);
-									prscanline(xc - y, xc + y, yc - x);
-									prscanline(xc - x, xc + x, yc + y);
-									prscanline(xc - y, xc + y, yc + x);
-
-									if (p < 0)
-									{
-										p += 4 * x++ + 6;
-									}
-									else
-									{
-										p += 4 * (x++ - y--) + 10;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				if (dy >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					ye = y2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					ye = y1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					{
-						int xc = x;
-						int yc = y;
-
-						int r = c_size;
-
-						int x = 0;
-						int y = 0;
-
-						int p = 3 - (2 * r);
-
-						if (r)
-						{
-							y = r;
-
-							while (y >= x)
-							{
-								prscanline(xc - x, xc + x, yc - y);
-								prscanline(xc - y, xc + y, yc - x);
-								prscanline(xc - x, xc + x, yc + y);
-								prscanline(xc - y, xc + y, yc + x);
-
-								if (p < 0)
-								{
-									p += 4 * x++ + 6;
-								}
-								else
-								{
-									p += 4 * (x++ - y--) + 10;
-								}
-							}
-						}
-					}
-				}
-
-				for (int i = 0; y < ye; i++)
-				{
-					y = y + 1;
-
-					if (py <= 0)
-					{
-						py = py + 2 * dx1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							x = x + 1;
-						}
-						else
-						{
-							x = x - 1;
-						}
-
-						py = py + 2 * (dx1 - dy1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						{
-							int xc = x;
-							int yc = y;
-
-							int r = c_size;
-
-							int x = 0;
-							int y = 0;
-
-							int p = 3 - (2 * r);
-
-							if (r)
-							{
-								y = r;
-
-								while (y >= x)
-								{
-									prscanline(xc - x, xc + x, yc - y);
-									prscanline(xc - y, xc + y, yc - x);
-									prscanline(xc - x, xc + x, yc + y);
-									prscanline(xc - y, xc + y, yc + x);
-
-									if (p < 0)
-									{
-										p += 4 * x++ + 6;
-									}
-									else
-									{
-										p += 4 * (x++ - y--) + 10;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			#undef x1
-			#undef y1
-
-			#undef x2
-			#undef y2
-		}
+		#include "helper/mouse.hpp"
 
 		// Update all particles in heap.
 
@@ -816,24 +163,43 @@ struct game: boiler
 			{
 				case el_wvpr:
 				{
-					p->vx += ((rand() % 2) * 2.0 - 1.0) * 0.1;
-					p->vy += ((rand() % 2) * 2.0 - 1.0) * 0.1;
+					p->vx = rus * 5.0;
+					p->vy = rus * 5.0;
+
+					break;
 				}
 
 				default:
 				{
+					// Apply gravity.
+
+					p->vy += 0.1;
+
 					break;
 				}
 			}
 
-			if (p->t != el_wvpr)
-			{
-				// Apply gravity.
+			// Apply drag.
 
-				p->vy += 0.3;
+			if (p->vx > 24.0)
+			{
+				p->vx = 24.0;
 			}
 
-			// Apply drag.
+			if (p->vx < -24.0)
+			{
+				p->vx = -24.0;
+			}
+
+			if (p->vy > 24.0)
+			{
+				p->vy = 24.0;
+			}
+
+			if (p->vy < -24.0)
+			{
+				p->vy = -24.0;
+			}
 
 			p->vx *= 0.995;
 			p->vy *= 0.995;
@@ -841,208 +207,7 @@ struct game: boiler
 			// Move particle using modified version of Bresenham's line drawing algorithm. This is
 			// pretty intuitive, and it works super well.
 
-			int vx = p->vx;
-			int vy = p->vy;
-
-			int c = rgb(50, 50, 50);
-
-			float x1 = ox;
-			float y1 = oy;
-
-			float x2 = ox + vx;
-			float y2 = oy + vy;
-
-			float x;
-			float y;
-
-			float dx = x2 - x1;
-			float dy = y2 - y1;
-
-			float dx1 = std::abs(dx);
-			float dy1 = std::abs(dy);
-
-			float px = 2.0 * dy1 - dx1;
-			float py = 2.0 * dx1 - dy1;
-
-			float xe;
-			float ye;
-
-			float lx = x1;
-			float ly = y1;
-
-			bool collision = false;
-
-			switch (p->t)
-			{
-				case el_wice:
-				case el_ston:
-				{
-					x = x1;
-					y = y1;
-
-					goto done_collisions;
-				}
-
-				default:
-				{
-					break;
-				}
-			}
-
-			if (dy1 <= dx1)
-			{
-				if (dx >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					xe = x2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					xe = x1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					p_t* a_ptr = lmap[(int)y * width + (int)x];
-
-					if (a_ptr != NULL && a_ptr != p)
-					{
-						// It's okay, in this scenario. 'goto' isn't always evil, guys.
-
-						x = lx;
-						y = ly;
-
-						collision = true;
-
-						goto done_collisions;
-					}
-
-					lx = x;
-					ly = y;
-				}
-
-				for (int i = 0; x < xe; i++)
-				{
-					x = x + 1;
-
-					if (px < 0)
-					{
-						px = px + 2 * dy1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							y = y + 1;
-						}
-						else
-						{
-							y = y - 1;
-						}
-
-						px = px + 2 * (dy1 - dx1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						p_t* a_ptr = lmap[(int)y * width + (int)x];
-
-						if (a_ptr != NULL && a_ptr != p)
-						{	
-							x = lx;
-							y = ly;
-
-							collision = true;
-
-							goto done_collisions;
-						}
-
-						lx = x;
-						ly = y;
-					}
-				}
-			}
-			else
-			{
-				if (dy >= 0)
-				{
-					x = x1;
-					y = y1;
-
-					ye = y2;
-				}
-				else
-				{
-					x = x2;
-					y = y2;
-
-					ye = y1;
-				}
-
-				if (x >= 0 && x < width && y >= 0 && y < height)
-				{
-					p_t* a_ptr = lmap[(int)y * width + (int)x];
-
-					if (a_ptr != NULL && a_ptr != p)
-					{	
-						x = lx;
-						y = ly;
-
-						collision = true;
-
-						goto done_collisions;
-					}
-
-					lx = x;
-					ly = y;
-				}
-
-				for (int i = 0; y < ye; i++)
-				{
-					y = y + 1;
-
-					if (py <= 0)
-					{
-						py = py + 2 * dx1;
-					}
-					else
-					{
-						if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-						{
-							x = x + 1;
-						}
-						else
-						{
-							x = x - 1;
-						}
-
-						py = py + 2 * (dx1 - dy1);
-					}
-
-					if (x >= 0 && x < width && y >= 0 && y < height)
-					{
-						p_t* a_ptr = lmap[(int)y * width + (int)x];
-
-						if (a_ptr != NULL && a_ptr != p)
-						{	
-							x = lx;
-							y = ly;
-
-							collision = true;
-
-							goto done_collisions;
-						}
-
-						lx = x;
-						ly = y;
-					}
-				}
-			}
+			#include "helper/collision.hpp"
 
 			done_collisions:
 
@@ -1057,7 +222,17 @@ struct game: boiler
 				p->vy *= rfs * 0.5;
 			}
 
-			// Affect this particle (and maybe it's neighbors) based on it's material.
+			/*
+
+			Affect this particle (and maybe it's neighbors) based on it's material.
+
+			To developer(s), this switch statement is the part of the code that makes the powder
+			behave properly; in other words, it is the soul of the engine.
+
+			I'm going to write 'bagels' here, so whenever I want to find this code, I just search
+			for 'bagels' using CTRL+F.
+
+			*/
 
 			int inx = (int)(p->x);
 			int iny = (int)(p->y);
@@ -1082,7 +257,7 @@ struct game: boiler
 					// are. If only the bottom-left neighbor exists, move to the bottom-right
 					// neighbor's position. Vice-versa.
 
-					if (iny < hmo - 1 && (lmap[(iny + 1) * width + inx] != NULL))
+					if (iny < hmo - 1 && lmap[(iny + 1) * width + inx] != NULL)
 					{
 						bool bln = lmap[(iny + 1) * width + (inx - 1)] == NULL;
 						bool brn = lmap[(iny + 1) * width + (inx + 1)] == NULL;
@@ -1111,6 +286,10 @@ struct game: boiler
 							}
 						}
 					}
+					else if (iny < hmo - 1 && lmap[(iny + 1) * width + inx] == NULL)
+					{
+						p->y++;
+					}
 
 					break;
 				}
@@ -1121,20 +300,27 @@ struct game: boiler
 				{
 					if (p->t == el_watr)
 					{
+						/*
+
 						if (iny > 0)
 						{
 							p_t* tmn = lmap[(iny - 1) * width + inx];
 
-							if (tmn != NULL && tmn->t == el_sand)
+							if (tmn != NULL)
 							{
-								// Sand sinks, so we swap the positions of water and sand if a 
-								// sand particle is above a water particle.
-								
-								tmn->t = el_watr;
+								if (tmn->t == el_sand)
+								{
+									// Sand sinks, so we swap the positions of water and sand if a 
+									// sand particle is above a water particle.
+									
+									tmn->t = el_watr;
 
-								p->t = el_sand;
+									p->t = el_sand;
+								}
 							}
 						}
+
+						*/
 					}
 
 					// Move either right or left depending on obstructions; if no obstructions
@@ -1165,6 +351,10 @@ struct game: boiler
 							}
 						}
 					}
+					else if (iny < hmo - 1 && lmap[(iny + 1) * width + inx] == NULL)
+					{
+						p->y++;
+					}
 				}
 
 				// Something else?
@@ -1177,77 +367,7 @@ struct game: boiler
 
 			// Constrain particles to boundaries using the rules defined by the current edge_mode.
 
-			if (edge_mode == em_void)
-			{
-				if (p->x < 0 || p->x > wmo || p->y < 0 || p->y > hmo)
-				{
-					unsigned int _idx = lmap[(int)(oy) * width + (int)(ox)]->idx;
-
-					lmap[(int)(oy) * width + (int)(ox)] = NULL;
-
-					pmap[_idx] = pmap[pc - 1];
-
-					pmap[_idx]->idx = _idx;
-
-					pc--;
-
-					// Always continue after removal.
-
-					continue;
-				}
-			}
-			else if (edge_mode == em_loop)
-			{
-				// This is a bit broken.
-
-				if (p->x < 0)
-				{
-					p->x = wmo;
-				}
-				else if (p->x > wmo)
-				{
-					p->x = 0;
-				}
-
-				if (p->y < 0)
-				{
-					p->y = hmo;
-				}
-				else if (p->y > hmo)
-				{
-					p->y = 0;
-				}
-			}
-			else
-			{
-				// This is a bit broken.
-
-				if (p->x < 0)
-				{
-					p->x = 0;
-
-					p->vx = -(p->vx) * rfs * 0.5;
-				}
-				else if (p->x > wmo)
-				{
-					p->x = wmo;
-
-					p->vx = -(p->vx) * rfs * 0.5;
-				}
-
-				if (p->y < 0)
-				{
-					p->y = 0;
-
-					p->vy = -(p->vy) * rfs * 0.5;
-				}
-				else if (p->y > hmo)
-				{
-					p->y = hmo;
-
-					p->vy = -(p->vy) * rfs * 0.5;
-				}
-			}
+			#include "helper/constrain.hpp"
 
 			// Set the old position in the lookup map to NULL, and the new position in the lookup
 			// map to the pointer to this particle.
