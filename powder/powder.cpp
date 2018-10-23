@@ -300,8 +300,6 @@ struct game: boiler
 				{
 					if (p->t == el_watr)
 					{
-						/*
-
 						if (iny > 0)
 						{
 							p_t* tmn = lmap[(iny - 1) * width + inx];
@@ -319,8 +317,6 @@ struct game: boiler
 								}
 							}
 						}
-
-						*/
 					}
 
 					// Move either right or left depending on obstructions; if no obstructions
