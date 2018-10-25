@@ -12,7 +12,7 @@
 
 // Excerpt from The Lord of the Rings.
 
-const char paragraph[] = "Bilbo was very rich and very peculiar, and had been the wonder of the Shire for sixty years, ever since his remarkable disappearance and unexpected return. The riches he had brought back from his travels had now become a local legend, and it was popularly believed, whatever the old folk might say, that the Hill at Bag End was full of tunnels stuffed with treasure. And if that was not enough for fame, there was also his prolonged vigour to marvel at. Time wore on, but it seemed to have little effect on Mr. Baggins. At ninety he was much the same as at fifty. At ninety-nine they began to call him well-preserved; but unchanged would have been nearer the mark. There were some that shook their heads and thought this was too much of a good thing; it seemed unfair that anyone should possess (apparently) perpetual youth as well as (reputedly) inexhaustible wealth.";
+const char paragraph[] = "Bilbo was very rich and very peculiar, and had been the wonder of the Shire for sixty years, ever since his remarkable dis- appearance and unexpected return. The riches he had brought back from his travels had now become a local legend, and it was popularly believed, whatever the old folk might say, that the Hill at Bag End was full of tunnels stuffed with treasure. And if that was not enough for fame, there was also his prolonged vigour to marvel at. Time wore on, but it seemed to have little effect on Mr. Baggins. At ninety he was much the same as at fifty. At ninety-nine they began to call him well-preserved; but unchanged would have been nearer the mark. There were some that shook their heads and thought this was too much of a good thing; it seemed unfair that anyone should possess (apparently) perpetual youth as well as (reputedly) inexhaustible wealth. 'It will have to be paid for,' they said. 'It isn't natural, and trouble will come of it!' But so far trouble had not come; and as Mr. Baggins was generous with his money, most people were willing to forgive him his oddities and his good fortune. He remained on visiting terms with his relatives (except, of course, the Sackville-Bagginses), and he had many devoted admirers among the hobbits of poor and unimportant families. But he had no close friends, until some of his younger cousins began to grow up. The eldest of these, and Bilbo's favourite, was young Frodo Baggins. When Bilbo was ninety-nine he adopted Frodo as his heir, and brought him to live at Bag End; and the hopes of the Sackville-Bagginses were finally dashed. Bilbo and Frodo happened to have the same birthday, September 22nd. 'You had better come and live here, Frodo my lad,' said Bilbo one day; 'and then we can celebrate our birthday-parties comfortably together.' At that time Frodo was still in his tweens, as the hobbits called the irresponsible twenties between childhood and coming of age at thirty-three. Twelve more years passed. Each year the Bagginses had given very lively combined birthday-parties at Bag End; but now it was understood that something quite exceptional was being planned for that autumn. Bilbo was going to be eleventy-one, 111, a rather curious number, and a very respectable age for a hobbit (the Old Took himself had only reached 130); and Frodo was going to be thirty-three, 33, an important number: the date of his 'coming of age'.";
 
 struct game: boiler
 {	
@@ -27,7 +27,7 @@ struct game: boiler
 	int font_ascent;
 	int font_descent;
 
-	const int font_size_px = 12;
+	const int font_size_px = 20;
 
 	void steam() override
 	{
@@ -40,7 +40,7 @@ struct game: boiler
 
 		// This opens the font.
 
-		FILE* font_f = fopen("minecraftia.ttf", "rb");
+		FILE* font_f = fopen("Times New Roman.ttf", "rb");
 
 		if (font_f == NULL)
 		{
@@ -115,11 +115,12 @@ struct game: boiler
    				{
    					unsigned char px = font_bitmap[j * f_w + i];
 
-   					// No antialiasing!
+   					// This has fake antialiasing and only works on white. The color passed to 
+   					// this function is redundant and does nothing.
 
    					if (px)
    					{
-   						pixels[(y + f_y0) * width + (x + f_x0)] = c;
+   						pixels[(y + f_y0) * width + (x + f_x0)] = rgb(px, px, px);
    					}
 
    					x++;
@@ -149,7 +150,7 @@ struct game: boiler
 
 		for (int i = 0; i < sizeof(paragraph); i++)
 		{
-			if (i % 100 != 99)
+			if (i % 110 != 109)
 			{
 				string += paragraph[i];
 			}
@@ -167,8 +168,7 @@ struct game: boiler
 
 		for (int i = 0; i < lines.size(); i++)
 		{
-			drawfont(25, 25 + (i * 14), lines[i].c_str(), rgb(0x66, 0x66, 0x66));
-			drawfont(24, 24 + (i * 14), lines[i].c_str(), rgb(0xFF, 0xFF, 0xFF));
+			drawfont(24, 24 + (i * (font_size_px + 2)), lines[i].c_str(), rgb(0xFF, 0xFF, 0xFF));
 		}
 	}
 };
