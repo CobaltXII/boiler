@@ -318,7 +318,7 @@ struct game: boiler
 		}
 		else if (e.key.keysym.sym == SDLK_x)
 		{
-			savebmp("ship.bmp", pixels, width, height);
+			savebmp("burning.bmp", pixels, width, height);
 		}
 		else if (e.key.keysym.sym == SDLK_c)
 		{
