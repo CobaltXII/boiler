@@ -78,16 +78,16 @@ struct game: boiler
 
 	bool smoothing = true;
 
-	// Buffer for the Mandelbrot.
+	// Buffer for the Burning Ship.
 
-	Uint32* mandelbrot_buf;
+	Uint32* ship_buf;
 
 	void steam() override
 	{
 		width = 800;
 		height = 600;
 
-		title = "The Mandelbrot fractal (using Boiler)";
+		title = "The Burning Ship fractal (using Boiler)";
 
 		// Calculate complex plane constants.
 
@@ -107,14 +107,14 @@ struct game: boiler
 		factor_re = (max_re - min_re) / (width - 1);
 		factor_im = (max_im - min_im) / (height - 1);
 
-		// Allocate a buffer for the Mandelbrot.
+		// Allocate a buffer for the Burning Ship.
 
-		mandelbrot_buf = (Uint32*)malloc(width * height * sizeof(Uint32));
+		ship_buf = (Uint32*)malloc(width * height * sizeof(Uint32));
 	}
 
-	// Render the Mandelbrot to a seperate buffer.
+	// Render the Burning Ship to a seperate buffer.
 
-	void mandelbrot(bool smooth = false)
+	void ship(bool smooth = false)
 	{
 		for (int y = 0; y < height; y++)
 		{
@@ -125,7 +125,7 @@ struct game: boiler
 				double c_re = min_re + x * factor_re;
 
 				// Calculate whether the complex number defined by c_re and c_im belonds to 
-				// the Mandelbrot set.
+				// the Burning Ship set.
 
 				double z_re = c_re;
 				double z_im = c_im;
@@ -146,11 +146,9 @@ struct game: boiler
 						break;
 					}
 
-					double z_ims = z_im * z_im;
+					z_im = abs(2.0 * z_re * z_im) + c_im;
 
-					z_im = 2.0 * z_re * z_im + c_im;
-
-					z_re = z_re2 - z_im2 + c_re;
+					z_re = abs(z_re2 - z_im2 + c_re);
 				}
 
 				if (!z_in)
@@ -163,11 +161,9 @@ struct game: boiler
 							double z_re2 = z_re * z_re;
 							double z_im2 = z_im * z_im;
 
-							double z_ims = z_im * z_im;
+							z_im = abs(2.0 * z_re * z_im) + c_im;
 
-							z_im = 2.0 * z_re * z_im + c_im;
-
-							z_re = z_re2 - z_im2 + c_re;
+							z_re = abs(z_re2 - z_im2 + c_re);
 
 							n++;
 						}
@@ -178,9 +174,9 @@ struct game: boiler
 
 							double z_ims = z_im * z_im;
 
-							z_im = 2.0 * z_re * z_im + c_im;
+							z_im = abs(2.0 * z_re * z_im) + c_im;
 
-							z_re = z_re2 - z_im2 + c_re;
+							z_re = abs(z_re2 - z_im2 + c_re);
 
 							n++;
 						}
@@ -196,7 +192,7 @@ struct game: boiler
 					{
 						if (n < max_iter / 2 - 1)
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								clamprgb(n / (max_iter / 2.0 - 1.0) * 255.0),
 
@@ -206,7 +202,7 @@ struct game: boiler
 						}
 						else
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								255.0,
 
@@ -219,7 +215,7 @@ struct game: boiler
 					{
 						if (n < max_iter / 2 - 1)
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								0.0,
 
@@ -230,7 +226,7 @@ struct game: boiler
 						}
 						else
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
 
@@ -244,7 +240,7 @@ struct game: boiler
 					{
 						if (n < max_iter / 2 - 1)
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								0.0,
 								0.0,
@@ -254,7 +250,7 @@ struct game: boiler
 						}
 						else
 						{
-							mandelbrot_buf[y * width + x] = rgb
+							ship_buf[y * width + x] = rgb
 							(
 								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
 								clamprgb((n / max_iter - 0.5) * 2.0 * 255.0),
@@ -267,7 +263,7 @@ struct game: boiler
 					{
 						double t = n / max_iter;
 
-						mandelbrot_buf[y * width + x] = rgb
+						ship_buf[y * width + x] = rgb
 						(
 							clamprgb(t * 255.0),
 							clamprgb(t * 255.0),
@@ -278,19 +274,19 @@ struct game: boiler
 					{
 						double t = n / max_iter;
 
-						mandelbrot_buf[y * width + x] = rgb
+						ship_buf[y * width + x] = rgb
 						(
-							clamprgb(9.0 * (1.0 - t) * t * t * t * 255.0),
-
+							clamprgb(8.5 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t * 255.0),
+							
 							clamprgb(15.0 * (1.0 - t) * (1.0 - t) * t * t * 255.0),
 							
-							clamprgb(8.5 * (1.0 - t) * (1.0 - t) * (1.0 - t) * t * 255.0)
+							clamprgb(9.0 * (1.0 - t) * t * t * t * 255.0)
 						);
 					}
 				}
 				else
 				{
-					mandelbrot_buf[y * width + x] = rgb(0, 0, 0);
+					ship_buf[y * width + x] = rgb(0, 0, 0);
 				}
 			}
 		}
@@ -309,20 +305,26 @@ struct game: boiler
 
 			max_im = min_im + (max_re - min_re) * height / width;
 
+			double min_im_ = 0.0 - (max_im - min_im) / 2.0;
+			double max_im_ = 0.0 + (max_im - min_im) / 2.0;
+
+			min_im = min_im_;
+			max_im = max_im_;
+
 			factor_re = (max_re - min_re) / (width - 1);
 			factor_im = (max_im - min_im) / (height - 1);
 
-			mandelbrot(smoothing);
+			ship(smoothing);
 		}
 		else if (e.key.keysym.sym == SDLK_x)
 		{
-			savebmp("mandelbrot.bmp", pixels, width, height);
+			savebmp("ship.bmp", pixels, width, height);
 		}
 		else if (e.key.keysym.sym == SDLK_c)
 		{
 			// Render again.
 
-			mandelbrot(smoothing);
+			ship(smoothing);
 		}
 		else if (e.key.keysym.sym == SDLK_v)
 		{
@@ -336,14 +338,14 @@ struct game: boiler
 	{
 		if (iteration == 0)
 		{
-			// Generate the Mandelbrot.
+			// Generate the Burning Ship.
 
-			mandelbrot(smoothing);
+			ship(smoothing);
 		}
 
-		// Copy the Mandelbrot.
+		// Copy the Burning Ship.
 
-		blitrgb(mandelbrot_buf, 0, 0, width, height, 0, 0, width, height);
+		blitrgb(ship_buf, 0, 0, width, height, 0, 0, width, height);
 
 		// Fetch complex number corresponding with mouse pointer.
 
@@ -389,9 +391,9 @@ struct game: boiler
 			zoom_br_re = 0.0;
 			zoom_br_im = 0.0;
 
-			// Render the Mandelbrot using the new coordinates.
+			// Render the Burning Ship using the new coordinates.
 
-			mandelbrot(true);
+			ship(true);
 		}
 
 		if (ml_held)
