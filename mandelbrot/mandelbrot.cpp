@@ -303,6 +303,12 @@ struct game: boiler
 
 			max_im = min_im + (max_re - min_re) * height / width;
 
+			double min_im_ = 0.0 - (max_im - min_im) / 2.0;
+			double max_im_ = 0.0 + (max_im - min_im) / 2.0;
+
+			min_im = min_im_;
+			max_im = max_im_;
+
 			factor_re = (max_re - min_re) / (width - 1);
 			factor_im = (max_im - min_im) / (height - 1);
 
