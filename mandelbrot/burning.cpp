@@ -1,14 +1,14 @@
 /*
 
-The Mandelbrot fractal? Awesome.
-
-Honestly, I had such a great time making this. I encourage everybody who stumbles across this
-source code to have a go at making their own; you won't regret it.
+The Burning Ship fractal? Awesome.
 
 I'd like to thank a few people/sources for their help.
 
 	Dirichlet#5635, helped me figure out why my scaling and screen-space to complex-plane-space
 	was completely wrong.
+
+	Appa#0740, gave me a starting point for the Burning Ship modification to the Mandelbrot 
+	fractal.
 
 	http://warp.povusers.org/Mandelbrot/
 
@@ -146,6 +146,8 @@ struct game: boiler
 						break;
 					}
 
+					double z_ims = z_im * z_im;
+
 					z_im = 2.0 * z_re * z_im + c_im;
 
 					z_re = z_re2 - z_im2 + c_re;
@@ -161,6 +163,8 @@ struct game: boiler
 							double z_re2 = z_re * z_re;
 							double z_im2 = z_im * z_im;
 
+							double z_ims = z_im * z_im;
+
 							z_im = 2.0 * z_re * z_im + c_im;
 
 							z_re = z_re2 - z_im2 + c_re;
@@ -171,6 +175,8 @@ struct game: boiler
 						{
 							double z_re2 = z_re * z_re;
 							double z_im2 = z_im * z_im;
+
+							double z_ims = z_im * z_im;
 
 							z_im = 2.0 * z_re * z_im + c_im;
 
