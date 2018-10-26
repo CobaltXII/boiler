@@ -46,7 +46,7 @@ Temporary Items
 
 # Developer utilities
 
-dev/empty.cpp
+empty.cpp
 
 # Ignore neural network snapshots.
 
