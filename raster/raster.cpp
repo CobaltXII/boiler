@@ -127,7 +127,7 @@ struct game: boiler
 				(
 					clamprgb(255.0 - (v_normal.x + 1) / 2 * 255.0 * f_illum), 
 					clamprgb(255.0 - (v_normal.y + 1) / 2 * 255.0 * f_illum), 
-					clamprgb(255.0 -(v_normal.z + 1) / 2 * 255.0 * f_illum)
+					clamprgb(255.0 - (v_normal.z + 1) / 2 * 255.0 * f_illum)
 				);
 
 				// Add the projected triangle to the rasterizing array.
