@@ -116,6 +116,10 @@ Terminal is an extension to the Boiler framework. It allows you to draw text to 
 
 Lights is a dynamic lighting engine. It uses an algorithm to construct an array of edges from a boolean tile map, and then uses line-line intersection mathematics to cast rays from each light to each edge. The lights in the scene can be modified in real time, and the same goes with the tile map. However, the algorithm executes entirely on the CPU, and therefore is much too slow to be used in practical applications. However, the results are still pretty fun to watch.
 
+### Matrix
+
+Matrix is a small demoscene that simulates falling text (as in the Matrix). It uses a grid of ASCII characters rendered using the Terminal extension to Boiler. The font used is Code Page 437. Currently, Matrix has green, blue, cyan, red, magenta, gold and white color modes, all operating on a black background. The original VGA color palette is used to color every pixel.
+
 ## Dependencies
 
 The Boiler framework depends on SDL2. It includes the header files `stb_image.hpp` and `stb_truetype.hpp`. These do not need to be included in any distribution or usage of Boiler in order for Boiler to function. They are just included for convenience.
