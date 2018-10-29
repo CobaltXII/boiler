@@ -118,7 +118,7 @@ Lights is a dynamic lighting engine. It uses an algorithm to construct an array 
 
 ## Dependencies
 
-The Boiler framework by default does not have any dependancies. However, to unlock certain features such as the `loadimg` function, you must define `BOIL_USE_STB_IMAGE`, which includes the `stb_image` header file. Thanks to Sean T. Barrett and contributors for creating that wonderful API.
+The Boiler framework depends on SDL2. It includes the header files `stb_image.hpp` and `stb_truetype.hpp`. These do not need to be included in any distribution or usage of Boiler in order for Boiler to function. They are just included for convenience.
 
 ## License
 
