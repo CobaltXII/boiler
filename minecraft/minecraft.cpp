@@ -43,6 +43,23 @@ int t_map[16 * 16 * 16 * 3];
 int v_map[64 * 64 * 64];
 
 // Generate textures, this is basically black magic.
+//
+//  0: Air
+//  1: Grass
+//  2: Dirt
+//  3: Dirt
+//  4: Stone
+//  5: Brick
+//  6: Dirt
+//  7: Wood
+//  8: Leaf
+//  9: Dirt
+// 10: Dirt
+// 11: Dirt
+// 12: Dirt
+// 13: Dirt
+// 14: Dirt
+// 15: Dirt
 
 void make_textures()
 {
