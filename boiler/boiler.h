@@ -1483,10 +1483,10 @@ void nuke(std::string death_note)
 	exit(1);
 }
 
-// Load image function. Supports Windows BMP Image (.bmp) image files. This function will return
-// a pointer to an array of pixel data, which consists of w * h elements. The integers w and h
-// will contain the dimensions of the image (or zero) when the function returns. This function
-// supports 24- and 32- bit bitmaps. Returns NULL on error.
+// Load image function. Supports Windows Bitmap Image (.bmp) image files. This function will 
+// return a pointer to an array of pixel data, which consists of w * h elements. The integers 
+// w and h will contain the dimensions of the image (or zero) when the function returns. This
+// function supports 24- and 32- bit bitmaps. Returns NULL on error.
 
 Uint32* loadbmp(std::string path, int &w, int &h)
 {
