@@ -122,7 +122,11 @@ Matrix is a small demoscene that simulates falling text (as in the Matrix). It u
 
 ### Mandelbrot
 
-Mandelbrot is a set of different two-dimensional fractal renderers. Originally it was just going to render the Mandelbrot set, but it has been expanded to render the Mandelbrot set along with the Julia set and the Burning Ship fractal. Plans for adding the Newton fractal also exist. Currently, each of the renderers support normalized iteration count algorithms (smooth coloring), and coloring using Bernstein polynomials. 
+Mandelbrot is a set of different two-dimensional fractal renderers. Originally it was just going to render the Mandelbrot set, but it has been expanded to render the Mandelbrot set along with the Julia set and the Burning Ship fractal. Plans for adding the Newton fractal also exist. Currently, each of the renderers support normalized iteration count algorithms (smooth coloring), and coloring using Bernstein polynomials.
+
+### Minecraft
+
+Minecraft is a remake of Notch (Markus Persson)'s `minecraft4k` demoscene that he made a very long time ago. I ported it to use the Boiler framework, and that's about all the work I did. Notch created the demoscene to run in Java, but then ported it to Javascript. The amazing thing is that he fit it all in 4 kilobytes. Currently, the Minecraft demo listed here takes up around 6-7 kilobytes (but that is with formatting).
 
 ## Dependencies
 
