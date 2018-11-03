@@ -197,7 +197,7 @@ void make_voxels()
 
 				v_map[i] = random(16);
 
-				if (0.5 > sqrtf(sqrtf(yd * yd + zd * zd)) - 0.8)
+				if (0.5 + ((random(256) / 256.0) * 2.0 - 1.0) * 0.1 > sqrtf(sqrtf(yd * yd + zd * zd)) - 0.8)
 				{
 					v_map[i] = 0;
 				}
