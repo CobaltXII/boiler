@@ -1,4 +1,14 @@
-// Emptyness? Awesome.
+/*
+
+Minecraft flyby (ported to Boiler)
+
+Original was written by Markus Persson.
+
+This page was really helpful
+
+	https://the8bitpimp.wordpress.com/2014/07/30/minecraft-4k-c-port/
+
+*/
 
 #include "../boiler/boiler.h"
 
