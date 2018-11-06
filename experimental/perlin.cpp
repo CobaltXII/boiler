@@ -27,7 +27,7 @@ struct game: boiler
 
 	void draw() override
 	{
-		if(iteration == 0)
+		if (iteration == 0)
 		{
 			double frequency = 8.0;
 
