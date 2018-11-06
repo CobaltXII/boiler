@@ -26,21 +26,21 @@ struct perlin
 
 	// Ease curve or fade function.
 
-	static double fade(double t)
+	static inline double fade(double t)
 	{
 		return t * t * t * (t * (t * 6 - 15) + 10);
 	}
 
 	// Interpolate.
 
-	static double lerp(double t, double a, double b)
+	static inline double lerp(double t, double a, double b)
 	{
 		return a + t * (b - a);
 	}
 
 	// gradient function.
 
-	static double grad(int hash, double x, double y, double z)
+	static inline double grad(int hash, double x, double y, double z)
 	{
 		int h = hash & 15;
 
@@ -127,14 +127,14 @@ struct perlin
 
 	// Two-dimensional noise.
 
-	double noise(double x, double y)
+	inline double noise(double x, double y)
 	{
 		return noise(x, y, 0.0);
 	}
 
 	// One-dimensional noise.
 
-	double noise(double x)
+	inline double noise(double x)
 	{
 		return noise(x, 0.0, 0.0);
 	}
@@ -204,42 +204,42 @@ struct perlin
 
 	// Scaled one-dimensional noise.
 
-	double noise_0_1(double x)
+	inline double noise_0_1(double x)
 	{
 		return noise(x) * 0.5 + 0.5;
 	}
 
 	// Scaled two-dimensional noise.
 
-	double noise_0_1(double x, double y)
+	inline double noise_0_1(double x, double y)
 	{
 		return noise(x, y) * 0.5 + 0.5;
 	}
 
 	// Scaled three-dimensional noise.
 
-	double noise_0_1(double x, double y, double z)
+	inline double noise_0_1(double x, double y, double z)
 	{
 		return noise(x, y, z) * 0.5 + 0.5;
 	}
 
 	// Scaled one-dimensional octave noise.
 
-	double octave_noise_0_1(double x, int octaves)
+	inline double octave_noise_0_1(double x, int octaves)
 	{
 		return octave_noise(x, octaves) * 0.5 + 0.5;
 	}
 
 	// Scaled two-dimensional octave noise.
 
-	double octave_noise_0_1(double x, double y, int octaves)
+	inline double octave_noise_0_1(double x, double y, int octaves)
 	{
 		return octave_noise(x, y, octaves) * 0.5 + 0.5;
 	}
 
 	// Scaled three-dimensional octave noise.
 
-	double octave_noise_0_1(double x, double y, double z, int octaves)
+	inline double octave_noise_0_1(double x, double y, double z, int octaves)
 	{
 		return octave_noise(x, y, z, octaves) * 0.5 + 0.5;
 	}
