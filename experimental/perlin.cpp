@@ -31,12 +31,12 @@ struct game: boiler
 		{
 			double frequency = 8.0;
 
-			int octaves = 1;
+			int octaves = 16;
 
 			perlin noise = perlin(time(NULL));
 
-			double fx = hlod / frequency;
-			double fy = hlod / frequency;
+			double fx = height / frequency;
+			double fy = height / frequency;
 
 			for (int y = 0; y < height; y++)
 			{
