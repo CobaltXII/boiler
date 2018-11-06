@@ -11,7 +11,7 @@ struct game: boiler
 	unsigned int land_col(double n)
 	{
 		unsigned char x = n * 255;
-		
+
 		return rgb(x, x, x);
 	}
 
@@ -19,6 +19,8 @@ struct game: boiler
 	{
 		width = 800;
 		height = 600;
+
+		f_No_Debug = SDL_TRUE;
 
 		title = "Perlin noise (using Boiler)";
 	}
