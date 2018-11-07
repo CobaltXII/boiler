@@ -12,47 +12,6 @@ const int ch = 4;
 const int w = 800 / cw;
 const int h = 600 / ch;
 
-
-unsigned int hsltorgb(int h, double s, double l)
-{
-	unsigned char r = 0;
-	unsigned char g = 0;
-	unsigned char b = 0;
-
-	if (s == 0)
-	{
-		r = (unsigned char)(l * 255);
-		g = (unsigned char)(l * 255);
-		b = (unsigned char)(l * 255);
-	}
-	else
-	{
-		double v1;
-		double v2;
-
-		double hue = h / 360.0;
-
-		if (l < 0.5)
-		{
-			v2 = l * (1.0 + s);
-		}
-		else
-		{
-			v2 = (l + s) - (l * s);
-		}
-
-		v1 = 2.0 * l - v2;
-
-		r = (unsigned char)(255 * huetorgb(v1, v2, hue + (1.0 / 3.0)));
-
-		g = (unsigned char)(255 * huetorgb(v1, v2, hue));
-
-		b = (unsigned char)(255 * huetorgb(v1, v2, hue - (1.0 / 3.0)));
-	}
-
-	return rgb(r, g, b);
-}
-
 struct game: boiler
 {	
 	Uint32 fire[h][w];
