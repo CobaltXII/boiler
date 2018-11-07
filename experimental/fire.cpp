@@ -115,6 +115,18 @@ struct game: boiler
 
 	void draw() override
 	{
+		// Set to true for rainbow palette!
+
+		if (false)
+		{
+			// Generate palette.
+
+			for (int i = 0; i < 256; i++)
+			{
+				palette[i] = hsltorgb(i / 3 + iteration, 1.0, std::min(255, i * 2) / 255.0);
+			}
+		}
+
 		// Randomize bottom.
 
 		for (int x = 0; x < w; x++)
