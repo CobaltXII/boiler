@@ -165,6 +165,24 @@ struct game: boiler
 				);
 			}
 		}
+
+		// Mouse drawing.
+
+		if (mouse_l)
+		{
+			int brush = 16;
+
+			for (int x = 0; x < brush; x++)
+			{
+				for (int y = 0; y < brush; y++)
+				{
+					int xpos = ((mouse_x / cw) + w - (brush / 2) + x) % w;
+					int ypos = ((mouse_y / ch) + h - (brush / 2) + y) % h;
+
+					fire[ypos][xpos] = rand() % 256;
+				}
+			}
+		}
 	}
 };
 
