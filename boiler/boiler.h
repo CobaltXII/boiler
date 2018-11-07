@@ -45,6 +45,25 @@ Uint32 BOIL_EX_INIT_AUDIO = 2;
 
 Uint32 expected = 1000.0 / 60.0;
 
+// This helper function will generate a Uint32 value which represents the value of the provided
+// color. The format of the Uint32 is SDL_PIXELFORMAT_ARGB8888.
+
+inline Uint32 rgb(Uint8 r, Uint32 g, Uint32 b)
+{
+	return r << 16 | g << 8 | b;
+}
+
+inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
+{
+	return a << 24 | r << 16 | g << 8 | b;
+}
+
+// Macro derivatives.
+
+#define mrgb(r, g, b) (Uint32)((Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
+
+#define margb(a, r, g, b) (Uint32)((Uint8)(a) << 24 | (Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
+
 // This function is internally used for converting for converting HSL to RGB.
 
 inline double hue_to_rgb(double v1, double v2, double vh)
@@ -118,25 +137,6 @@ inline unsigned int hsl_to_rgb(int h, double s, double l)
 
 	return rgb(r, g, b);
 }
-
-// This helper function will generate a Uint32 value which represents the value of the provided
-// color. The format of the Uint32 is SDL_PIXELFORMAT_ARGB8888.
-
-inline Uint32 rgb(Uint8 r, Uint32 g, Uint32 b)
-{
-	return r << 16 | g << 8 | b;
-}
-
-inline Uint32 argb(Uint8 a, Uint8 r, Uint32 g, Uint32 b)
-{
-	return a << 24 | r << 16 | g << 8 | b;
-}
-
-// Macro derivatives.
-
-#define mrgb(r, g, b) (Uint32)((Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
-
-#define margb(a, r, g, b) (Uint32)((Uint8)(a) << 24 | (Uint8)(r) << 16 | (Uint8)(g) << 8 | (Uint8)(b))
 
 // Convert degrees to radians.
 
