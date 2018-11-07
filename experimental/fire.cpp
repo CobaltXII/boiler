@@ -99,9 +99,7 @@ struct game: boiler
 
 		for (int i = 0; i < 256; i++)
 		{
-			// Remove the + 256 for normally colored fire.
-			
-			palette[i] = hsltorgb(i / 3 + 256, 1.0, std::min(255, i * 2) / 255.0);
+			palette[i] = hsltorgb(i / 3, 1.0, std::min(255, i * 2) / 255.0);
 		}
 
 		// Nullify fire buffer.
