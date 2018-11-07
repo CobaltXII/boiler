@@ -45,6 +45,37 @@ Uint32 BOIL_EX_INIT_AUDIO = 2;
 
 Uint32 expected = 1000.0 / 60.0;
 
+// This function is internally used for converting for converting HSL to RGB.
+
+inline double hue_to_rgb(double v1, double v2, double vh)
+{
+	if (vh < 0.0)
+	{
+		vh += 1.0;
+	}
+
+	if (vh > 1.0)
+	{
+		vh -= 1.0;
+	}
+
+	if ((6.0 * vh) < 1.0)
+	{
+		return (v1 + (v2 - v1) * 6.0 * vh);
+	}
+
+	if ((2.0 * vh) < 1.0)
+	{
+		return v2;
+	}
+
+	if ((3.0 * vh) < 2.0)
+	{
+		return (v1 + (v2 - v1) * ((2.0 / 3.0) - vh) * 6);
+	}
+
+	return v1;
+}
 // This helper function will generate a Uint32 value which represents the value of the provided
 // color. The format of the Uint32 is SDL_PIXELFORMAT_ARGB8888.
 
