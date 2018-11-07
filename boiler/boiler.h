@@ -109,11 +109,11 @@ inline unsigned int hsl_to_rgb(int h, double s, double l)
 
 		v1 = 2.0 * l - v2;
 
-		r = (unsigned char)(255 * huetorgb(v1, v2, hue + (1.0 / 3.0)));
+		r = (unsigned char)(255 * hue_to_rgb(v1, v2, hue + (1.0 / 3.0)));
 
-		g = (unsigned char)(255 * huetorgb(v1, v2, hue));
+		g = (unsigned char)(255 * hue_to_rgb(v1, v2, hue));
 
-		b = (unsigned char)(255 * huetorgb(v1, v2, hue - (1.0 / 3.0)));
+		b = (unsigned char)(255 * hue_to_rgb(v1, v2, hue - (1.0 / 3.0)));
 	}
 
 	return rgb(r, g, b);
