@@ -29,7 +29,7 @@ struct game: boiler
 
 		for (int i = 0; i < 256; i++)
 		{
-			palette[i] = hsltorgb(i / 3, 1.0, std::min(255, i * 2) / 255.0);
+			palette[i] = hsl_to_rgb(i / 3, 1.0, std::min(255, i * 2) / 255.0);
 		}
 
 		// Nullify fire buffer.
