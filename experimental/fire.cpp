@@ -12,35 +12,6 @@ const int ch = 4;
 const int w = 800 / cw;
 const int h = 600 / ch;
 
-double huetorgb(double v1, double v2, double vh)
-{
-	if (vh < 0.0)
-	{
-		vh += 1.0;
-	}
-
-	if (vh > 1.0)
-	{
-		vh -= 1.0;
-	}
-
-	if ((6.0 * vh) < 1.0)
-	{
-		return (v1 + (v2 - v1) * 6.0 * vh);
-	}
-
-	if ((2.0 * vh) < 1.0)
-	{
-		return v2;
-	}
-
-	if ((3.0 * vh) < 2.0)
-	{
-		return (v1 + (v2 - v1) * ((2.0 / 3.0) - vh) * 6);
-	}
-
-	return v1;
-}
 
 unsigned int hsltorgb(int h, double s, double l)
 {
