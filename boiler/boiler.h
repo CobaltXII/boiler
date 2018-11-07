@@ -76,6 +76,49 @@ inline double hue_to_rgb(double v1, double v2, double vh)
 
 	return v1;
 }
+
+// This function will convert HSL to a compiled RGB color.
+
+inline unsigned int hsl_to_rgb(int h, double s, double l)
+{
+	unsigned char r = 0;
+	unsigned char g = 0;
+	unsigned char b = 0;
+
+	if (s == 0)
+	{
+		r = (unsigned char)(l * 255);
+		g = (unsigned char)(l * 255);
+		b = (unsigned char)(l * 255);
+	}
+	else
+	{
+		double v1;
+		double v2;
+
+		double hue = h / 360.0;
+
+		if (l < 0.5)
+		{
+			v2 = l * (1.0 + s);
+		}
+		else
+		{
+			v2 = (l + s) - (l * s);
+		}
+
+		v1 = 2.0 * l - v2;
+
+		r = (unsigned char)(255 * huetorgb(v1, v2, hue + (1.0 / 3.0)));
+
+		g = (unsigned char)(255 * huetorgb(v1, v2, hue));
+
+		b = (unsigned char)(255 * huetorgb(v1, v2, hue - (1.0 / 3.0)));
+	}
+
+	return rgb(r, g, b);
+}
+
 // This helper function will generate a Uint32 value which represents the value of the provided
 // color. The format of the Uint32 is SDL_PIXELFORMAT_ARGB8888.
 
