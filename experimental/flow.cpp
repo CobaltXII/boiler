@@ -72,7 +72,7 @@ struct game: boiler
 
 	void draw() override
 	{
-		int fade = 255;
+		int fade = 10;
 
 		for (int i = 0; i < width * height; i++)
 		{
@@ -95,7 +95,7 @@ struct game: boiler
 			double pmax = 0.0;
 			double pmin = 1.0;
 
-			double frequency = 32.0;
+			double frequency = 4.0;
 
 			int octaves = 16;
 
