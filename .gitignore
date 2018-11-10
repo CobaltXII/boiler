@@ -54,3 +54,9 @@ empty.cpp
 # Ignore the MNIST dataset.
 
 digits/mnist_png/*
+
+# Ignore my sister's image for testing.
+
+experimental/sister.png
+
+img/s_polar_2_2.png
