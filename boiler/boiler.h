@@ -1539,6 +1539,16 @@ struct boiler
 	#endif
 
 	#endif
+
+	// Set the pixel at x, y to c if x, y is in bounds of the screen.
+
+	inline void plotp(int x, int y, unsigned int c)
+	{
+		if (x >= 0 && y >= 0 && x < width && y < height)
+		{
+			pixels[y * width + x] = c;
+		}
+	}
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
