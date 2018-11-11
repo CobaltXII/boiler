@@ -187,3 +187,42 @@ struct game: boiler
 			parent = quadtree(0, 0, qtw, qth);
 		}
 	}
+
+	void draw() override
+	{
+		segments = 0;
+
+		black();
+
+		draw_tree(&parent, offx, offy, rgb(255, 255, 255));
+
+		for (int i = 0; i < 100; i++)
+		{
+			parent.insert(new point(mouse_x - offx, mouse_y - offy));
+		}
+
+		if (iteration % 60 == 0)
+		{
+			std::cout << "Segments: " << segments << std::endl;
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
