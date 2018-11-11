@@ -208,3 +208,40 @@ struct game: boiler
 			}
 		}
 	}
+
+	// Find the quadtree with the highest error.
+
+	quadtree* h_err;
+
+	void highest_error(quadtree* root, int depth = 0)
+	{
+		if (depth == 0)
+		{
+			h_err = nullptr;
+		}
+
+		if (root->tl == nullptr)
+		{
+			if (h_err == nullptr)
+			{
+				h_err = root;
+			}
+			else
+			{
+				double err = (root->er + root->eg + root->eb) * pow(root->w * root->h, 0.25);
+
+				if ((h_err->er + h_err->eg + h_err->eb) * pow(h_err->w * h_err->h, 0.25) < err)
+				{
+					h_err = root;
+				}
+			}
+		}
+		else
+		{
+			highest_error(root->tl, depth + 1);
+			highest_error(root->tr, depth + 1);
+			highest_error(root->bl, depth + 1);
+			highest_error(root->br, depth + 1);
+		}
+	}
+
