@@ -122,3 +122,17 @@ struct quadtree
 			br = new quadtree(x + hw, y + hh, hw, hh);
 		}
 	}
+
+	// Deconstructor.
+
+	~quadtree()
+	{
+		if (tl != nullptr)
+		{
+			delete tl;
+			delete tr;
+			delete bl;
+			delete br;
+		}
+	}
+};
