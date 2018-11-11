@@ -125,3 +125,17 @@ struct quadtree
 			return;
 		}
 	}
+
+	// Deconstructor.
+
+	~quadtree()
+	{
+		if (tl != nullptr)
+		{
+			delete tl;
+			delete tr;
+			delete bl;
+			delete br;
+		}
+	}
+};
