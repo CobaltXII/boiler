@@ -92,3 +92,10 @@ struct quadtree
 					bl = new quadtree(x, y + hh, hw, hh);
 
 					br = new quadtree(x + hw, y + hh, hw, hh);
+
+					// Send our past child into one of the four corners of virtual space.
+
+					tl->insert(child);
+					tr->insert(child);
+					bl->insert(child);
+					br->insert(child);
