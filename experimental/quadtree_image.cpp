@@ -136,3 +136,45 @@ struct quadtree
 		}
 	}
 };
+
+struct game: boiler
+{	
+	int offx;
+	int offy;
+
+	int segments = 0;
+
+	quadtree* parent;
+
+	bool automatic = true;
+
+	bool outlines = false;
+
+	// Initialize Boiler.
+
+	void steam() override
+	{
+		image = loadimg(path_to_img, image_w, image_h);
+
+		if (image == NULL)
+		{
+			nuke("Could not load image.");
+		}
+
+		if (image_w != image_h)
+		{
+			std::cout << "You will see skewing; your image is not square." << std::endl;
+		}
+
+		width = 800;
+		height = 600;
+
+		f_No_Debug = SDL_TRUE;
+
+		title = "Quadtrees (using Boiler)";
+
+		offx = width / 2 - qtw / 2;
+		offy = height / 2 - qth / 2;
+
+		parent = new quadtree(0, 0, qtw, qth);
+	}
