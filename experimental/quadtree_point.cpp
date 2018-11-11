@@ -118,3 +118,10 @@ struct quadtree
 				br->insert(p);
 			}
 		}
+		else
+		{
+			// Out of bounds, do nothing.
+
+			return;
+		}
+	}
