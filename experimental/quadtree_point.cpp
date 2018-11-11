@@ -63,3 +63,9 @@ struct quadtree
 		{
 			return;
 		}
+
+		// Check if point is in bounds.
+
+		if (p->x > x && p->x < x + w && p->y > y && p->y < y + h)
+		{
+			// In bounds.
