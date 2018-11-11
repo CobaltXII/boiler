@@ -74,3 +74,18 @@ struct quadtree
 			}	
 		}
 
+		// Calculate error.
+
+		er = 0.0;
+		eg = 0.0;
+		eb = 0.0;
+
+		for (int __x = _x; __x < _x + _w; __x++)
+		{
+			for (int __y = _y; __y < _y + _h; __y++)
+			{
+				er += abs(double(getr(image[__y * image_w + __x])) - ar) / s;
+				eg += abs(double(getg(image[__y * image_w + __x])) - ag) / s;
+				eb += abs(double(getb(image[__y * image_w + __x])) - ab) / s;
+			}	
+		}
