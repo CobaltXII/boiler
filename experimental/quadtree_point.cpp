@@ -6,6 +6,8 @@
 #include <utility>
 #include <iostream>
 
+// It's a point!
+
 struct point
 {
 	double x;
@@ -18,7 +20,7 @@ struct point
 	}
 };
 
-// It's a dirty quadtree who does not clean up after himself.
+// It's a neat quadtree who cleans up after himself.
 
 struct quadtree
 {
