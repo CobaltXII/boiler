@@ -178,3 +178,33 @@ struct game: boiler
 
 		parent = new quadtree(0, 0, qtw, qth);
 	}
+
+	// Draw a quadtree.
+
+	void draw_tree(quadtree* qt, int x, int y)
+	{
+		segments++;
+
+		if (qt->tl != nullptr)
+		{
+			draw_tree(qt->tl, x, y);
+			draw_tree(qt->tr, x, y);
+			draw_tree(qt->bl, x, y);
+			draw_tree(qt->br, x, y);
+		}
+		else
+		{
+			double nx = double(qt->x) / double(qtw);
+			double ny = double(qt->y) / double(qth);
+
+			int ix = nx * image_w;
+			int iy = ny * image_h;
+
+			frectrgb(qt->x + x, qt->y + y, qt->w, qt->h, rgb(qt->ar, qt->ag, qt->ab));
+
+			if (outlines)
+			{
+				rectrgb(qt->x + x, qt->y + y, qt->w, qt->h, rgb(0, 0, 0));
+			}
+		}
+	}
