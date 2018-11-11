@@ -52,3 +52,8 @@ struct quadtree
 
 		child = nullptr;
 	}
+
+	// Insert a point.
+
+	void insert(point* p)
+	{
