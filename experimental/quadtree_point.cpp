@@ -57,3 +57,9 @@ struct quadtree
 
 	void insert(point* p)
 	{
+		// If the width or height is 1, then don't break up any further.
+
+		if (w == 1 || h == 1)
+		{
+			return;
+		}
