@@ -109,3 +109,12 @@ struct quadtree
 				}
 			}
 			else
+			{
+				// Has been subdivided, so propagate to children.
+
+				tl->insert(p);
+				tr->insert(p);
+				bl->insert(p);
+				br->insert(p);
+			}
+		}
