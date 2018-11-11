@@ -34,3 +34,21 @@ struct quadtree
 
 	double w;
 	double h;
+
+	// Create an empty quadtree.
+
+	quadtree(double _x, double _y, double _w, double _h)
+	{
+		x = _x;
+		y = _y;
+
+		w = _w;
+		h = _h;
+
+		tl = nullptr;
+		tr = nullptr;
+		bl = nullptr;
+		br = nullptr;
+
+		child = nullptr;
+	}
