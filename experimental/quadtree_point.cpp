@@ -99,3 +99,13 @@ struct quadtree
 					tr->insert(child);
 					bl->insert(child);
 					br->insert(child);
+
+					// Insert the new point to become a child of someone else.
+
+					tl->insert(p);
+					tr->insert(p);
+					bl->insert(p);
+					br->insert(p);
+				}
+			}
+			else
