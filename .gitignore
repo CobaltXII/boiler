@@ -57,6 +57,6 @@ digits/mnist_png/*
 
 # Ignore my sister's image for testing.
 
-experimental/sister.png
+experimental/test/sister.png
 
 img/s_polar_2_2.png
