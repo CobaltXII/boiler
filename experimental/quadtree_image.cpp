@@ -245,3 +245,70 @@ struct game: boiler
 		}
 	}
 
+	// Render a frame.
+
+	void draw() override
+	{
+		segments = 0;
+
+		black();
+
+		draw_tree(parent, offx, offy);
+
+		if (automatic)
+		{
+			for (int i = 0; i < 1; i++)
+			{
+				highest_error(parent);
+
+				if (h_err != nullptr)
+				{
+					frectrgb(h_err->x + offx, h_err->y + offy, h_err->w, h_err->h, rgb(255, 255, 255));
+
+					h_err->subdivide();
+				}
+			}	
+		}
+
+		if (iteration % 1 == 0)
+		{
+			std::cout << "Segments: " << segments << '\r' << std::flush;
+		}
+	}
+
+	// Handle keypresses.
+
+	void keydown(SDL_Event e) override
+	{
+		if (e.key.keysym.sym == SDLK_c)
+		{
+			// Clear.
+
+			parent = new quadtree(0, 0, qtw, qth);
+		}
+		else if (e.key.keysym.sym == SDLK_t)
+		{
+			// Toggle automatic mode.
+
+			automatic = !automatic;
+		}
+		else if (e.key.keysym.sym == SDLK_s)
+		{
+			// Step.
+
+			highest_error(parent);
+
+			if (h_err != nullptr)
+			{
+				h_err->subdivide();
+			}
+		}
+		else if (e.key.keysym.sym == SDLK_r)
+		{
+			// Toggle outlines.
+
+			outlines = !outlines;
+		}
+	}
+};
+
