@@ -179,3 +179,11 @@ struct game: boiler
 		offx = width / 2 - qtw / 2;
 		offy = height / 2 - qth / 2;
 	}
+
+	void keydown(SDL_Event e) override
+	{
+		if (e.key.keysym.sym == SDLK_SPACE)
+		{
+			parent = quadtree(0, 0, qtw, qth);
+		}
+	}
