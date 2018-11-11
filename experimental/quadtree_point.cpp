@@ -78,3 +78,17 @@ struct quadtree
 
 					child = p;
 				}
+				else
+				{
+					// Has not been subdivided yet, so subdivide.
+
+					double hw = w / 2.0;
+					double hh = h / 2.0; 
+
+					tl = new quadtree(x, y, hw, hh);
+
+					tr = new quadtree(x + hw, y, hw, hh);
+
+					bl = new quadtree(x, y + hh, hw, hh);
+
+					br = new quadtree(x + hw, y + hh, hw, hh);
