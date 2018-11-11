@@ -89,3 +89,17 @@ struct quadtree
 				eb += abs(double(getb(image[__y * image_w + __x])) - ab) / s;
 			}	
 		}
+
+		#ifdef QTI_DEBUG
+
+		std::cout << "ar: " << ar << std::endl;
+		std::cout << "ag: " << ag << std::endl;
+		std::cout << "ab: " << ab << std::endl;
+
+
+		std::cout << "er: " << er << std::endl;
+		std::cout << "eg: " << eg << std::endl;
+		std::cout << "eb: " << eb << std::endl;
+
+		#endif
+	}
