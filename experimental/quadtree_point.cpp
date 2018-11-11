@@ -69,3 +69,12 @@ struct quadtree
 		if (p->x > x && p->x < x + w && p->y > y && p->y < y + h)
 		{
 			// In bounds.
+
+			if (tl == nullptr || tr == nullptr || bl == nullptr || br == nullptr)
+			{
+				if (child == nullptr)
+				{
+					// Just adopt this point and treat it as a child.
+
+					child = p;
+				}
