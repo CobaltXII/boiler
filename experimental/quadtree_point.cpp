@@ -166,3 +166,16 @@ struct game: boiler
 			draw_tree(qt->br, x, y, c);
 		}
 	}
+
+	void steam() override
+	{
+		width = 800;
+		height = 600;
+
+		f_No_Debug = SDL_TRUE;
+
+		title = "Quadtrees (using Boiler)";
+
+		offx = width / 2 - qtw / 2;
+		offy = height / 2 - qth / 2;
+	}
