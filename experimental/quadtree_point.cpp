@@ -139,3 +139,30 @@ struct quadtree
 		}
 	}
 };
+
+struct game: boiler
+{	
+	int qtw = 512;
+	int qth = 512;
+
+	int offx;
+	int offy;
+
+	int segments = 0;
+
+	quadtree parent = quadtree(0, 0, qtw, qth);
+
+	void draw_tree(quadtree* qt, int x, int y, unsigned int c)
+	{
+		segments++;
+
+		rectrgb(qt->x + x, qt->y + y, qt->w, qt->h, c);
+
+		if (qt->tl != nullptr)
+		{
+			draw_tree(qt->tl, x, y, c);
+			draw_tree(qt->tr, x, y, c);
+			draw_tree(qt->bl, x, y, c);
+			draw_tree(qt->br, x, y, c);
+		}
+	}
