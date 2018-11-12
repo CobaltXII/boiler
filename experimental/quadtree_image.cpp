@@ -183,8 +183,6 @@ struct game: boiler
 
 	void draw_tree(quadtree* qt, int x, int y)
 	{
-		segments++;
-
 		if (qt->tl != nullptr)
 		{
 			draw_tree(qt->tl, x, y);
@@ -206,6 +204,8 @@ struct game: boiler
 			{
 				rectrgb(qt->x + x, qt->y + y, qt->w, qt->h, rgb(0, 0, 0));
 			}
+
+			segments++;
 		}
 	}
 
@@ -308,6 +308,10 @@ struct game: boiler
 			// Toggle outlines.
 
 			outlines = !outlines;
+		}
+		else if (e.key.keysym.sym == SDLK_e)
+		{
+			// Export current image.
 		}
 	}
 };
