@@ -164,6 +164,13 @@ struct game: boiler
 		title = "Xiaolin Wu's algorithms (using Boiler)";
 	}
 
+	void keydown(SDL_Event e) override
+	{
+		// Bad practice!
+
+		iteration = 1;
+	}
+
 	void draw() override
 	{
 		if (iteration % 60 == 0)
