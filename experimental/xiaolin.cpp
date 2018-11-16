@@ -173,12 +173,37 @@ struct game: boiler
 
 	void draw() override
 	{
-		if (iteration % 60 == 0)
-		{
-			black();
-		}
+		clear(rgb(255, 255, 255));
 
-		xiaolin_line(mrandx, mrandy, mrandx, mrandy, rgb(255, 255, 255));
+		for (int z = 0; z < 10; z++)
+		{
+			// Regular polygon.
+
+			int N = iteration / 90 + 3;
+
+			float r = 100.0f + sin(iteration / 30.0f) * 30.0f + z * 10.0f;
+
+			float theta = iteration / 100.0f;
+
+			float x_center = h_width;
+			float y_center = h_height;
+
+			float nx[N];
+			float ny[N];
+
+			for (int n = 0; n < N; n++)
+			{
+				nx[n] = r * cos(2 * M_PI * n / N + theta) + x_center;
+				ny[n] = r * sin(2 * M_PI * n / N + theta) + y_center;
+			}
+
+			// Draw regular polygon.
+
+			for (int i = 0; i < N; i++)
+			{
+				xiaolin_thick_line(nx[i], ny[i], nx[(i + 1) % N], ny[(i + 1) % N], 2.0f, hsl_to_rgb(iteration % 360, 0.8, 0.5));
+			}
+		}
 	}
 };
 
