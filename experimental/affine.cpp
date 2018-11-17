@@ -95,3 +95,23 @@ mat3 mat_scalar(double sx, double sy)
 
 	return m;
 }
+
+mat3 mat_multiply(mat3 a, mat3 b)
+{
+	mat3 out;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			out.m[i][j] = 
+			(
+				a.m[0][j] * b.m[i][0] + 
+				a.m[1][j] * b.m[i][1] + 
+				a.m[2][j] * b.m[i][2]
+			);
+		}
+	}
+
+	return out;
+}
