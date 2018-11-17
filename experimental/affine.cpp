@@ -245,3 +245,27 @@ struct game: boiler
 		ex = std::max(ex, px);
 		ey = std::max(ey, py);
 
+		// Apply the inverse affine transformation and rasterize the image.
+
+		for (int x = sx; x < ex; x++)
+		{
+			for (int y = sy; y < ey; y++)
+			{
+				double nx;
+				double ny;
+
+				pt_forward(inverse, x, y, nx, ny);
+
+				nx += 0.5;
+				ny += 0.5;
+
+				if (nx >= 0 && nx < img_w && ny >= 0 && ny < img_h)
+				{	
+					unsigned int p = img[int(ny) * img_w + int(nx)];
+
+					plotp(x, y, p);
+				}
+			}
+		}
+	}
+};
