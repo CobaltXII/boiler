@@ -174,3 +174,9 @@ struct game: boiler
 		// the negative quadrant. This is done so that the origin is in the center of the image. 
 
 		mat3 ma = mat_translate(-img_w / 2, -img_h / 2);
+
+		// Rotate the image based on the time elapsed by the application. Slow this down by a
+		// factor, because the function takes radians.
+
+		mat3 mb = mat_rotate(iteration / f);
+
