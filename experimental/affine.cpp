@@ -31,3 +31,25 @@ mat3 mat_identity()
 
 	return m;
 }
+
+mat3 mat_translate(double tx, double ty)
+{
+	mat3 m;
+
+	for (int x = 0; x < 3; x++)
+	{
+		for (int y = 0; y < 3; y++)
+		{
+			m.m[x][y] = 0.0;
+		}
+	}
+
+	m.m[0][0] = 1.0;
+	m.m[1][1] = 1.0;
+	m.m[2][2] = 1.0;
+
+	m.m[2][0] = tx;
+	m.m[2][1] = ty;
+
+	return m;
+}
