@@ -180,3 +180,11 @@ struct game: boiler
 
 		mat3 mb = mat_rotate(iteration / f);
 
+		// Scale the image so that it appears to be pulsing along with the rotation. This adds to
+		// the effect.
+
+		mat3 mc = mat_scalar
+		(
+			1.0 + sin(iteration / f) * 0.5, 
+			1.0 + sin(iteration / f) * 0.5
+		);
