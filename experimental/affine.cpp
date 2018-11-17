@@ -96,6 +96,28 @@ mat3 mat_scalar(double sx, double sy)
 	return m;
 }
 
+mat3 mat_shear(double sx, double sy)
+{
+	mat3 m;
+
+	for (int x = 0; x < 3; x++)
+	{
+		for (int y = 0; y < 3; y++)
+		{
+			m.m[x][y] = 0.0;
+		}
+	}
+
+	m.m[1][0] = sx;
+	m.m[0][1] = sy;
+
+	m.m[0][0] = 1.0;
+	m.m[1][1] = 1.0;
+	m.m[2][2] = 1.0;
+
+	return m;
+}
+
 mat3 mat_multiply(mat3 a, mat3 b)
 {
 	mat3 out;
