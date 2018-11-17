@@ -148,3 +148,18 @@ void pt_forward(mat3& mat, double ix, double iy, double& ox, double& oy)
 	ox = ix * mat.m[0][0] + iy * mat.m[1][0] + mat.m[2][0];
 	oy = ix * mat.m[0][1] + iy * mat.m[1][1] + mat.m[2][1];
 }
+
+struct game: boiler
+{	
+	int img_w;
+	int img_h;
+
+	Uint32* img = loadimg("test/macaw.png", img_w, img_h);
+
+	void steam() override
+	{
+		width = 800;
+		height = 600;
+
+		title = "Affine transformations (using Boiler)";
+	}
