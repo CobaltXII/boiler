@@ -202,3 +202,46 @@ struct game: boiler
 
 		mat3 inverse = mat_inverse(transform);
 
+		// Calculate the corner locations and bounding box.
+
+		double ex;
+		double ey;
+
+		double sx;
+		double sy;
+
+		double px;
+		double py;
+
+		pt_forward(transform, 0.0, 0.0, px, py);
+
+		sx = px;
+		sy = py;
+
+		ex = px;
+		ey = py;
+
+		pt_forward(transform, img_w, img_h, px, py);
+
+		sx = std::min(sx, px);
+		sy = std::min(sy, py);
+
+		ex = std::max(ex, px);
+		ey = std::max(ey, py);
+
+		pt_forward(transform, 0.0, img_h, px, py);
+
+		sx = std::min(sx, px);
+		sy = std::min(sy, py);
+
+		ex = std::max(ex, px);
+		ey = std::max(ey, py);
+
+		pt_forward(transform, img_w, 0.0, px, py);
+
+		sx = std::min(sx, px);
+		sy = std::min(sy, py);
+
+		ex = std::max(ex, px);
+		ey = std::max(ey, py);
+
