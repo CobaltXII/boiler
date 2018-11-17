@@ -188,3 +188,9 @@ struct game: boiler
 			1.0 + sin(iteration / f) * 0.5, 
 			1.0 + sin(iteration / f) * 0.5
 		);
+
+		// Translate to the center of the screen, so that all the effects and transformations can
+		// be easily seen.
+
+		mat3 md = mat_translate(h_width, h_height);
+
