@@ -163,3 +163,14 @@ struct game: boiler
 
 		title = "Affine transformations (using Boiler)";
 	}
+
+	void draw() override
+	{
+		black();
+
+		double f = 256.0;
+
+		// Translate the image a distance equivalent to half of the image's dimensions towards
+		// the negative quadrant. This is done so that the origin is in the center of the image. 
+
+		mat3 ma = mat_translate(-img_w / 2, -img_h / 2);
