@@ -141,3 +141,10 @@ mat3 mat_inverse(mat3 m)
 
 	return out;
 }
+
+
+void pt_forward(mat3& mat, double ix, double iy, double& ox, double& oy)
+{
+	ox = ix * mat.m[0][0] + iy * mat.m[1][0] + mat.m[2][0];
+	oy = ix * mat.m[0][1] + iy * mat.m[1][1] + mat.m[2][1];
+}
