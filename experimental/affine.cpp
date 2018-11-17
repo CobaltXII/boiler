@@ -53,3 +53,25 @@ mat3 mat_translate(double tx, double ty)
 
 	return m;
 }
+
+mat3 mat_rotate(double theta)
+{
+	mat3 m;
+
+	for (int x = 0; x < 3; x++)
+	{
+		for (int y = 0; y < 3; y++)
+		{
+			m.m[x][y] = 0.0;
+		}
+	}
+
+	m.m[0][0] = 0.0 + cos(theta);
+	m.m[0][1] = 0.0 - sin(theta);
+	m.m[1][0] = 0.0 + sin(theta);
+	m.m[1][1] = 0.0 + cos(theta);
+
+	m.m[2][2] = 1.0;
+
+	return m;
+}
