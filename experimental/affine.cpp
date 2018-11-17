@@ -194,3 +194,11 @@ struct game: boiler
 
 		mat3 md = mat_translate(h_width, h_height);
 
+		// Combine all of the transformations to create a final transformation matrix.
+
+		mat3 transform = mat_multiply(md, mat_multiply(mb, mat_multiply(mc, ma)));
+
+		// Invert the final transformation matrix.
+
+		mat3 inverse = mat_inverse(transform);
+
