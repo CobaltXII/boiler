@@ -18,12 +18,16 @@ And also to everyone listed in
 
 */
 
+#define BOIL_USE_STB_IMAGE
+
 #include "../boiler/boiler.h"
 
 #include <random>
 #include <vector>
 #include <utility>
 #include <iostream>
+
+std::string path_to_img;
 
 // Initialize a good random number generator.
 
@@ -369,29 +373,13 @@ image_rgb gamma_rgb(image_rgb img, int w, int h, double gamma)
 int lena_w;
 int lena_h;
 
-image_rgb lena_rgb = loadbmp
-(
-	"lena_color.bmp", 
+image_rgb lena_rgb = NULL;
 
-	lena_w, 
-	lena_h
-);
+// Total annihilation!
 
-image_rgb lena_gs_rgb = loadbmp
-(
-	"lena_grayscale.bmp", 
+image_rgb lena_gs_rgb = NULL;
 
-	lena_w, 
-	lena_h
-);
-
-image_gs lena_gs = to_grayscale
-(
-	lena_gs_rgb,
-
-	lena_w,
-	lena_h
-);
+image_gs lena_gs = NULL;
 
 // The Boiler structure used to render Lena.
 
@@ -404,6 +392,19 @@ struct game: boiler
 
 	void steam() override
 	{
+		lena_rgb = loadimg
+		(
+			path_to_img,
+
+			lena_w, 
+			lena_h
+		);
+
+		if (!lena_rgb)
+		{
+			nuke("Could not load image.");
+		}
+
 		width = 800;
 		height = 600;
 
@@ -453,6 +454,20 @@ struct game: boiler
 
 int main(int argc, char** argv)
 {
+	if (argc != 1 && argc != 2)
+	{
+		nuke("Usage: ./dither [path-to-img]");
+	}
+
+	if (argc == 2)
+	{
+		path_to_img = std::string(argv[1]);
+	}
+	else
+	{
+		path_to_img = "lena_color.bmp";
+	}
+
 	game demo;
 
 	if (demo.make() != 0)
