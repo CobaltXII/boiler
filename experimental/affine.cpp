@@ -8,6 +8,8 @@
 #include <utility>
 #include <iostream>
 
+std::string path_to_img;
+
 struct mat3
 {
 	double m[3][3];
@@ -175,7 +177,7 @@ struct game: boiler
 	int img_w;
 	int img_h;
 
-	Uint32* img = loadimg("test/macaw.png", img_w, img_h);
+	Uint32* img = loadimg(path_to_img, img_w, img_h);
 
 	void steam() override
 	{
@@ -183,6 +185,11 @@ struct game: boiler
 		height = 600;
 
 		title = "Affine transformations (using Boiler)";
+
+		if (img == NULL)
+		{
+			nuke("Could not load image.");
+		}
 	}
 
 	void draw() override
@@ -295,6 +302,13 @@ struct game: boiler
 
 int main(int argc, char** argv)
 {
+	if (argc != 2)
+	{
+		nuke("Usage: ./affine <path-to-img>");
+	}
+
+	path_to_img = std::string(argv[1]);
+
 	game demo;
 
 	if (demo.make() != 0)
