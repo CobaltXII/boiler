@@ -49,9 +49,9 @@ struct game: boiler
 
 		// Add balls.
 
-		for (int i = 0; i < 48 * 4; i++)
+		for (int i = 0; i < 32; i++)
 		{
-			balls.push_back(ball(mrandx, mrandy, mrandv * 2.0, mrandv * 2.0, rand() % 16 + 16, palette[rand() % 7]));
+			balls.push_back(ball(mrandx, mrandy, mrandv * 2.0, mrandv * 2.0, rand() % 32 + 32, palette[rand() % 7]));
 		}
 	}
 
@@ -125,7 +125,7 @@ struct game: boiler
 
 					double d = dx * dx + dy * dy;
 
-					double iw = 1.0 / (d + 500.0);
+					double iw = 1.0 / (d + 1000.0);
 
 					cr += double(mgetr(b.c)) * iw;
 					cg += double(mgetg(b.c)) * iw;
