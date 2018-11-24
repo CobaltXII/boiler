@@ -236,3 +236,87 @@ vec3 surface_normal(triangle t)
 
 	return normal;
 }
+
+// Clip triangle against plane.
+
+int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triangle& out_tri2)
+{
+	plane_n = normalize(plane_n);
+
+	vec3* i_points[3];
+	vec3* o_points[3];
+
+	int ip_count = 0;
+	int op_count = 0;
+
+	double d0 = clip_dist(in_tri.p[0], plane_p, plane_n);
+	double d1 = clip_dist(in_tri.p[1], plane_p, plane_n);
+	double d2 = clip_dist(in_tri.p[2], plane_p, plane_n);
+
+	if (d0 >= 0)
+	{
+		i_points[ip_count++] = &in_tri.p[0];
+	}
+	else
+	{
+		o_points[op_count++] = &in_tri.p[0];
+	}
+
+	if (d1 >= 0)
+	{
+		i_points[ip_count++] = &in_tri.p[1];
+	}
+	else
+	{
+		o_points[op_count++] = &in_tri.p[1];
+	}
+
+	if (d2 >= 0)
+	{
+		i_points[ip_count++] = &in_tri.p[2];
+	}
+	else
+	{
+		o_points[op_count++] = &in_tri.p[2];
+	}
+
+	if (ip_count == 0)
+	{
+		return 0;
+	}
+	else if (ip_count == 3)
+	{
+		out_tri1 = in_tri;
+
+		return 1;
+	}
+	else if (ip_count == 1 && op_count == 2)
+	{
+		out_tri1.color = in_tri.color;
+
+		out_tri1.p[0] = *i_points[0];
+
+		out_tri1.p[1] = intersect(plane_p, plane_n, *i_points[0], *o_points[0]);
+		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[1]);
+
+		return 1;
+	}
+	else
+	{
+		out_tri1.color = in_tri.color;
+		out_tri2.color = in_tri.color;
+
+		out_tri1.p[0] = *i_points[0];
+		out_tri1.p[1] = *i_points[1];
+
+		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[0]);
+
+		out_tri2.p[0] = *i_points[1];
+
+		out_tri2.p[1] = out_tri1.p[2];
+
+		out_tri2.p[2] = intersect(plane_p, plane_n, *i_points[1], *o_points[0]);
+
+		return 2;
+	}
+}
