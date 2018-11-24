@@ -26,3 +26,16 @@ struct vec3
 		w = _w;
 	}
 };
+
+// Add two vectors.
+
+vec3 vec_add(vec3 a, vec3 b)
+{
+	return vec3
+	(
+		a.x + b.x,
+		a.y + b.y, 
+		a.z + b.z
+	);
+}
+
