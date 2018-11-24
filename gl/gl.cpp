@@ -424,3 +424,20 @@ mat4 mat_projection(double near, double far, double fov, double aspect)
 
 	return out;
 }
+
+// Generate X rotation matrix.
+
+mat4 mat_rot_x(double theta)
+{
+	mat4 out;
+
+	out.m[0][0] = 1;
+	out.m[3][3] = 1;
+
+	out.m[1][1] = 0 + cos(theta);
+	out.m[1][2] = 0 + sin(theta);
+	out.m[2][1] = 0 - sin(theta);
+	out.m[2][2] = 0 + cos(theta);
+
+	return out;
+}
