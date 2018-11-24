@@ -51,3 +51,15 @@ vec3 vec_subtract(vec3 a, vec3 b)
 	);
 }
 
+// Multiply two vectors.
+
+vec3 vec_multiply(vec3 a, vec3 b)
+{
+	return vec3
+	(
+		a.x * b.x,
+		a.y * b.y, 
+		a.z * b.z
+	);
+}
+
