@@ -332,3 +332,56 @@ struct mesh
 		t = _t;
 	}
 };
+
+// Load mesh from file.
+
+mesh load_obj(std::string path)
+{
+	mesh output;
+
+	std::ifstream file = std::ifstream(path);
+
+	if (file.is_open() == false)
+	{
+		return mesh();
+	}
+
+	std::vector<vec3> vertices;
+
+	while (file.eof() == false)
+	{
+		std::string line;
+
+		std::getline(file, line);
+
+		std::stringstream string = std::stringstream(line);
+
+		if (line[0] == 'v')
+		{
+			string = std::stringstream(line.substr(1, line.size() - 1));
+
+			double x;
+			double y;
+			double z;
+
+			string >> x >> y >> z;
+
+			vertices.push_back(vec3(x, y, z));
+		}
+		else if (line[0] == 'f')
+		{
+			string = std::stringstream(line.substr(1, line.size() - 1));
+
+			int a;
+			int b;
+			int c;
+
+			string >> a >> b >> c;
+
+			output.t.push_back(triangle(vertices[a - 1], vertices[b - 1], vertices[c - 1]));
+		}
+	}
+
+	return output;
+}
+
