@@ -402,3 +402,25 @@ struct mat4
 		}
 	}
 };
+
+// Generate projection matrix.
+
+mat4 mat_projection(double near, double far, double fov, double aspect)
+{
+	mat4 out;
+
+	double fov_rad = 1.0 / tan(fov * 0.5 / 180.0 * M_PI);
+
+	out.m[0][0] = aspect * fov_rad;
+
+	out.m[1][1] = fov_rad;
+
+	out.m[2][2] = far / (far - near);
+
+	out.m[3][2] = (-far * near) / (far - near);
+
+	out.m[2][3] = 1.0;
+	out.m[3][3] = 0.0;
+
+	return out;
+}
