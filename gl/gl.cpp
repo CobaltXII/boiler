@@ -86,3 +86,15 @@ vec3 vec_multiply(vec3 a, double s)
 		a.z * s
 	);
 }
+
+// Divide a vector and a scalar.
+
+vec3 vec_divide(vec3 a, double s)
+{
+	return vec3
+	(
+		a.x / s,
+		a.y / s, 
+		a.z / s
+	);
+}
