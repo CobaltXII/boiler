@@ -98,3 +98,23 @@ vec3 vec_divide(vec3 a, double s)
 		a.z / s
 	);
 }
+
+// Normalize vector.
+
+vec3 normalize(vec3 i)
+{
+	vec3 o;
+
+	double l = sqrt
+	(
+		i.x * i.x +
+		i.y * i.y +
+		i.z * i.z
+	);
+
+	o.x = i.x / l;
+	o.y = i.y / l;
+	o.z = i.z / l;
+
+	return o;
+}
