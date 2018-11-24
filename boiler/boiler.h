@@ -256,8 +256,8 @@ struct boiler
 	SDL_bool mouse_r = SDL_FALSE;
 	SDL_bool mouse_m = SDL_FALSE;
 
-	Uint32 mouse_x = 0;
-	Uint32 mouse_y = 0;
+	Sint32 mouse_x = 0;
+	Sint32 mouse_y = 0;
 
 	Uint32 mouse_ox = 0;
 	Uint32 mouse_oy = 0;
