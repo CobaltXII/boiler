@@ -131,3 +131,15 @@ vec3 cross(vec3 v1, vec3 v2)
 
 	return v;
 }
+
+// Dot product.
+
+double dot(vec3 a, vec3 b)
+{
+	return
+	(
+		a.x * b.x +
+		a.y * b.y +
+		a.z * b.z
+	);
+}
