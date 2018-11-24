@@ -1,0 +1,28 @@
+// Software graphics library? Awesome.
+
+#include "../boiler/boiler.h"
+
+#include <list>
+#include <vector>
+#include <utility>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
+// Three-dimensional vector.
+
+struct vec3
+{
+	double x;
+	double y;
+	double z;
+	double w;
+
+	vec3(double _x = 0.0, double _y = 0.0, double _z = 0.0, double _w = 1.0)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+		w = _w;
+	}
+};
