@@ -320,3 +320,15 @@ int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triang
 		return 2;
 	}
 }
+
+// Mesh comprised of triangles.
+
+struct mesh
+{
+	std::vector<triangle> t;
+
+	mesh(std::vector<triangle> _t = std::vector<triangle>())
+	{
+		t = _t;
+	}
+};
