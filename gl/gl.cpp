@@ -385,3 +385,20 @@ mesh load_obj(std::string path)
 	return output;
 }
 
+// 4 by 4 matrix.
+
+struct mat4
+{
+	double m[4][4];
+
+	mat4()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				m[i][j] = 0.0;
+			}
+		}
+	}
+};
