@@ -163,3 +163,19 @@ vec3 intersect(vec3 plane_p, vec3 plane_n, vec3 line_a, vec3 line_b)
 
 	return vec_add(line_a, line_i);
 }
+
+// Get 'right' vector.
+
+vec3 vec_right(vec3 pos, vec3 target, vec3 up)
+{
+	vec3 new_forward = normalize(vec_subtract(target, pos));
+
+	vec3 a = vec_multiply(new_forward, dot(up, new_forward));
+
+	vec3 new_up = normalize(vec_subtract(up, a));
+
+	vec3 new_right = cross(new_up, new_forward);
+
+	return new_right;
+}
+
