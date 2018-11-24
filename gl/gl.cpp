@@ -179,3 +179,11 @@ vec3 vec_right(vec3 pos, vec3 target, vec3 up)
 	return new_right;
 }
 
+// Shortest distance from point to plane.
+
+double clip_dist(vec3 p, vec3 plane_p, vec3 plane_n)
+{
+	vec3 n = normalize(p);
+
+	return (plane_n.x * p.x + plane_n.y * p.y + plane_n.z * p.z - dot(plane_n, plane_p));
+}
