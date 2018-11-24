@@ -187,3 +187,26 @@ double clip_dist(vec3 p, vec3 plane_p, vec3 plane_n)
 
 	return (plane_n.x * p.x + plane_n.y * p.y + plane_n.z * p.z - dot(plane_n, plane_p));
 }
+
+// Triangle.
+
+struct triangle
+{
+	vec3 p[3];
+
+	unsigned int color;
+
+	triangle()
+	{
+		p[0] = vec3();
+		p[1] = vec3();
+		p[2] = vec3();
+	}
+
+	triangle(vec3 a, vec3 b, vec3 c)
+	{
+		p[0] = a;
+		p[1] = b;
+		p[2] = c;
+	}
+};
