@@ -210,3 +210,29 @@ struct triangle
 		p[2] = c;
 	}
 };
+
+// Get surface normal of triangle.
+
+vec3 surface_normal(triangle t)
+{
+	vec3 normal;
+
+	vec3 line1;
+	vec3 line2;
+
+	line1.x = t.p[1].x - t.p[0].x;
+	line1.y = t.p[1].y - t.p[0].y;
+	line1.z = t.p[1].z - t.p[0].z;
+
+	line2.x = t.p[2].x - t.p[0].x;
+	line2.y = t.p[2].y - t.p[0].y;
+	line2.z = t.p[2].z - t.p[0].z;
+
+	normal.x = line1.y * line2.z - line1.z * line2.y;
+	normal.y = line1.z * line2.x - line1.x * line2.z;
+	normal.z = line1.x * line2.y - line1.y * line2.x;
+
+	normal = normalize(normal);
+
+	return normal;
+}
