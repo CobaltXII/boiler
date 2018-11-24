@@ -47,13 +47,13 @@ struct game: boiler
 	{
 		// Set to true for rainbow palette!
 
-		if (false)
+		if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_SPACE])
 		{
 			// Generate palette.
 
 			for (int i = 0; i < 256; i++)
 			{
-				palette[i] = hsl_to_rgb(i / 3 + iteration, 1.0, std::min(255, i * 2) / 255.0);
+				palette[i] = hsl_to_rgb((i / 3 + iteration) % 360, 1.0, std::min(255, i * 2) / 255.0);
 			}
 		}
 
