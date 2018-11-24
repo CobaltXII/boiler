@@ -63,3 +63,14 @@ vec3 vec_multiply(vec3 a, vec3 b)
 	);
 }
 
+// Divide two vectors.
+
+vec3 vec_divide(vec3 a, vec3 b)
+{
+	return vec3
+	(
+		a.x / b.x,
+		a.y / b.y, 
+		a.z / b.z
+	);
+}
