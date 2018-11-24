@@ -50,7 +50,7 @@ struct game: boiler
 
 		for (int i = 0; i < 64; i++)
 		{
-			points.push_back(point(mrandx, mrandy, mrandv * 2.0, mrandv * 2.0, hsl_to_rgb(distribution(generator), 0.45, 0.5)));
+			points.push_back(point(mrandx, mrandy, mrandv * 2.0, mrandv * 2.0, hsl_to_rgb(distribution(generator), 0.55, 0.5)));
 		}
 	}
 
@@ -59,6 +59,11 @@ struct game: boiler
 		black();
 
 		// Move and collide points.
+
+		points[0].c = 0x00000000;
+
+		points[0].x = mouse_x;
+		points[0].y = mouse_y;
 
 		for (int i = 0; i < points.size(); i++)
 		{
