@@ -441,3 +441,20 @@ mat4 mat_rot_x(double theta)
 
 	return out;
 }
+
+// Generate Y rotation matrix.
+
+mat4 mat_rot_y(double theta)
+{
+	mat4 out;
+
+	out.m[1][1] = 1;
+	out.m[3][3] = 1;
+
+	out.m[0][0] = 0 + cos(theta);
+	out.m[2][0] = 0 + sin(theta);
+	out.m[0][2] = 0 - sin(theta);
+	out.m[2][2] = 0 + cos(theta);
+
+	return out;
+}
