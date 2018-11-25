@@ -458,3 +458,20 @@ mat4 mat_rot_y(double theta)
 
 	return out;
 }
+
+// Generate Z rotation matrix.
+
+mat4 mat_rot_z(double theta)
+{
+	mat4 out;
+
+	out.m[2][2] = 1;
+	out.m[3][3] = 1;
+
+	out.m[0][0] = 0 + cos(theta);
+	out.m[0][1] = 0 + sin(theta);
+	out.m[1][0] = 0 - sin(theta);
+	out.m[1][1] = 0 + cos(theta);
+
+	return out;
+}
