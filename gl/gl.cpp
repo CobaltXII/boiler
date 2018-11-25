@@ -835,3 +835,17 @@ struct game: boiler
 
 				float light_dot = dot(t_normal, light_direction);
 
+				// World space to view space.
+
+				t_original = multiply(t_original, mat_view);
+				
+				// Clip against near plane.
+
+				triangle t_clipped[2];
+
+				int num_clipped = clip(vec3(0.0, 0.0, 0.128), vec3(0.0, 0.0, 1.0), t_original, t_clipped[0], t_clipped[1]);
+
+				for (int j = 0; j < num_clipped; j++)
+				{
+					t_original = t_clipped[j];
+
