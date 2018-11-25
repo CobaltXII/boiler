@@ -819,3 +819,14 @@ struct game: boiler
 				t_original = multiply(t_original, mat_translate(vec3(0.0, 0.0, 10.0)));
 			}
 
+			// Get surface normal.
+
+			vec3 t_normal = surface_normal(t_original);
+
+			// Get ray from triangle to camera.
+
+			vec3 camera_ray = vec_subtract(t_original.p[0], camera_p);
+
+			if (backface_cull(t_normal, camera_ray))
+			{
+				// Illumination.
