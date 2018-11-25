@@ -898,3 +898,71 @@ struct game: boiler
 			}
 		}
 
+		std::sort(rasterize.begin(), rasterize.end(), painters_algorithm);
+
+		// Rasterize triangles.
+
+		for (int i = 0; i < rasterize.size(); i++)
+		{
+			triangle t = rasterize[i];
+
+			triangle t_clipped[2];
+
+			std::list<triangle> l_triangles;
+
+			l_triangles.push_back(t);
+
+			int num_triangles = 1;
+
+			for (int p = 0; p < 4; p++)
+			{
+				int num_add = 0;
+
+				while (num_triangles > 0)
+				{
+					triangle top = l_triangles.front();
+
+					l_triangles.pop_front();
+
+					num_triangles--;
+
+					switch (p)
+					{
+						case 0:
+						{
+							num_add = clip(vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), top, t_clipped[0], t_clipped[1]);
+
+							break;
+						}
+
+						case 1:
+						{
+							num_add = clip(vec3(0.0, height - 1, 0.0), vec3(0.0, -1.0, 0.0), top, t_clipped[0], t_clipped[1]);
+
+							break;
+						}
+
+						case 2:
+						{
+							num_add = clip(vec3(0.0, 0.0, 0.0), vec3(1.0, 0.0, 0.0), top, t_clipped[0], t_clipped[1]);
+
+							break;
+						}
+
+						case 3:
+						{
+							num_add = clip(vec3(width - 1, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), top, t_clipped[0], t_clipped[1]);
+
+							break;
+						}
+					}
+
+					for (int k = 0; k < num_add; k++)
+					{
+						l_triangles.push_back(t_clipped[k]);
+					}
+				}
+
+				num_triangles = l_triangles.size();
+			}
+
