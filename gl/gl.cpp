@@ -475,3 +475,21 @@ mat4 mat_rot_z(double theta)
 
 	return out;
 }
+
+// Generate translation matrix.
+
+mat4 mat_translate(vec3 t)
+{
+	mat4 out;
+
+	out.m[0][0] = 1;
+	out.m[1][1] = 1;
+	out.m[2][2] = 1;
+	out.m[3][3] = 1;
+
+	out.m[3][0] = t.x;
+	out.m[3][1] = t.y;
+	out.m[3][2] = t.z;
+
+	return out;
+}
