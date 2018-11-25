@@ -661,3 +661,38 @@ struct game: boiler
 
 	// Initializer.
 
+	void steam() override
+	{
+		width = 800;
+		height = 600;
+
+		title = "GL (using Boiler)";
+
+		cube = load_obj("dragon.obj");
+
+		if (false)
+		{
+			// Generate cube.
+
+			cube.t =
+			{
+				triangle(vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(1.0, 1.0, 0.0)),
+				triangle(vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0)),
+	                                      
+				triangle(vec3(1.0, 0.0, 0.0), vec3(1.0, 1.0, 0.0), vec3(1.0, 1.0, 1.0)),
+				triangle(vec3(1.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0), vec3(1.0, 0.0, 1.0)),
+	                                                  
+				triangle(vec3(1.0, 0.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0.0, 1.0, 1.0)),
+				triangle(vec3(1.0, 0.0, 1.0), vec3(0.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0)),
+	                                                     
+				triangle(vec3(0.0, 0.0, 1.0), vec3(0.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0)),
+				triangle(vec3(0.0, 0.0, 1.0), vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 0.0)),
+	                                                    
+				triangle(vec3(0.0, 1.0, 0.0), vec3(0.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0)),
+				triangle(vec3(0.0, 1.0, 0.0), vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.0)),
+	                                                
+				triangle(vec3(1.0, 0.0, 1.0), vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, 0.0)),
+				triangle(vec3(1.0, 0.0, 1.0), vec3(0.0, 0.0, 0.0), vec3(1.0, 0.0, 0.0))
+			};
+		}
+	}
