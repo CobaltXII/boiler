@@ -849,3 +849,7 @@ struct game: boiler
 				{
 					t_original = t_clipped[j];
 
+					// Project triangle.
+
+					triangle t_projected = multiply(t_original, projection);
+
