@@ -600,3 +600,17 @@ vec3 multiply(vec3 i, mat4 m)
 
 	return o;
 }
+
+// Multiply triangle by matrix.
+
+triangle multiply(triangle i, mat4 m)
+{
+	triangle o = triangle
+	(
+		multiply(i.p[0], m),
+		multiply(i.p[1], m),
+		multiply(i.p[2], m)
+	);
+
+	return o;
+}
