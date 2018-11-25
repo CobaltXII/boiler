@@ -733,3 +733,56 @@ struct game: boiler
 
 		mat4 mat_view = mat_inverse(mat_camera);
 
+		{
+			// Handle keypresses.
+
+			const Uint8* keys = SDL_GetKeyboardState(NULL);
+
+			double sf = 0.65;
+
+			// Movement.
+
+			if (keys[SDL_SCANCODE_S])
+			{
+				camera_p = vec_subtract(camera_p, vec_multiply(camera_d, sf));
+			}
+			else if (keys[SDL_SCANCODE_W])
+			{
+				camera_p = vec_add(camera_p, vec_multiply(camera_d, sf));
+			}
+
+			vec3 v_right = vec_right(camera_p, vec_target, vec_up);
+
+			if (keys[SDL_SCANCODE_D])
+			{
+				camera_p = vec_subtract(camera_p, vec_multiply(v_right, sf));
+			}
+			else if (keys[SDL_SCANCODE_A])
+			{
+				camera_p = vec_add(camera_p, vec_multiply(v_right, sf));
+			}
+
+			double xf = degrad(5.0);
+
+			// Rotation.
+
+			if (keys[SDL_SCANCODE_LEFT])
+			{
+				y_rot_ang += xf;
+			}
+			else if (keys[SDL_SCANCODE_RIGHT])
+			{
+				y_rot_ang -= xf;
+			}
+
+			if (keys[SDL_SCANCODE_UP])
+			{
+				x_rot_ang += xf;
+			}
+			else if (keys[SDL_SCANCODE_DOWN])
+			{
+				x_rot_ang -= xf;
+			}
+		}
+
+		// Preprocess triangles.
