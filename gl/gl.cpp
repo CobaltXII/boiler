@@ -638,3 +638,26 @@ bool painters_algorithm(triangle& t1, triangle& t2)
 
 	return z1 > z2;
 }
+
+// Boiler framework.
+
+struct game: boiler
+{	
+	// Mesh to render.
+
+	mesh cube;
+
+	// Projection matrix.
+
+	mat4 projection = mat_projection(0.128, 1024.0, 90.0, 1.0);
+
+	// Camera.
+
+	vec3 camera_p = vec3(0.0, 9.0, 0.0);
+	vec3 camera_d = vec3(0.0, 0.0, 1.0);
+
+	double x_rot_ang = 0.0;
+	double y_rot_ang = 0.0;
+
+	// Initializer.
+
