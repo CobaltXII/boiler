@@ -853,3 +853,25 @@ struct game: boiler
 
 					triangle t_projected = multiply(t_original, projection);
 
+					// Scale into view. Additional math to preserve 1:1 aspect ratio.
+
+					t_projected.p[0] = vec_divide(t_projected.p[0], t_projected.p[0].w);
+					t_projected.p[1] = vec_divide(t_projected.p[1], t_projected.p[1].w);
+					t_projected.p[2] = vec_divide(t_projected.p[2], t_projected.p[2].w);
+
+					t_projected.p[0].x *= -1.0;
+					t_projected.p[1].x *= -1.0;
+					t_projected.p[2].x *= -1.0;
+
+					t_projected.p[0].y *= -1.0;
+					t_projected.p[1].y *= -1.0;
+					t_projected.p[2].y *= -1.0;
+
+					t_projected.p[0].x = (t_projected.p[0].x + 1.0) * (0.5 * (double)height) + (double)(width - height) / 2;
+					t_projected.p[1].x = (t_projected.p[1].x + 1.0) * (0.5 * (double)height) + (double)(width - height) / 2;
+					t_projected.p[2].x = (t_projected.p[2].x + 1.0) * (0.5 * (double)height) + (double)(width - height) / 2;
+
+					t_projected.p[0].y = (t_projected.p[0].y + 1.0) * (0.5 * (double)height);
+					t_projected.p[1].y = (t_projected.p[1].y + 1.0) * (0.5 * (double)height);
+					t_projected.p[2].y = (t_projected.p[2].y + 1.0) * (0.5 * (double)height);
+
