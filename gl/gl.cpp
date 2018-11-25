@@ -508,3 +508,42 @@ mat4 mat_scalar(vec3 c)
 
 	return out;
 }
+
+// Generate 'point at' matrix.
+
+mat4 mat_point_at(vec3 pos, vec3 target, vec3 up)
+{
+	vec3 new_forward = normalize(vec_subtract(target, pos));
+
+	vec3 a = vec_multiply(new_forward, dot(up, new_forward));
+
+	vec3 new_up = normalize(vec_subtract(up, a));
+
+	vec3 new_right = cross(new_up, new_forward);
+
+	mat4 matrix;
+
+	matrix.m[0][0] = new_right.x;	
+	matrix.m[0][1] = new_right.y;	
+	matrix.m[0][2] = new_right.z;	
+
+	matrix.m[1][0] = new_up.x;		
+	matrix.m[1][1] = new_up.y;		
+	matrix.m[1][2] = new_up.z;		
+
+	matrix.m[2][0] = new_forward.x;	
+	matrix.m[2][1] = new_forward.y;	
+	matrix.m[2][2] = new_forward.z;	
+	
+	matrix.m[3][0] = pos.x;			
+	matrix.m[3][1] = pos.y;			
+	matrix.m[3][2] = pos.z;			
+
+	matrix.m[0][3] = 0.0;
+	matrix.m[1][3] = 0.0;
+	matrix.m[2][3] = 0.0;
+
+	matrix.m[3][3] = 1.0;
+
+	return matrix;
+}
