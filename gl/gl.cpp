@@ -628,3 +628,13 @@ bool backface_cull(vec3 n, vec3 r)
 		< 0.0
 	);
 }
+
+// Painter's algorithm.
+
+bool painters_algorithm(triangle& t1, triangle& t2)
+{
+	float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0;
+	float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0;
+
+	return z1 > z2;
+}
