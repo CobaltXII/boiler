@@ -493,3 +493,18 @@ mat4 mat_translate(vec3 t)
 
 	return out;
 }
+
+// Generate scalar matrix.
+
+mat4 mat_scalar(vec3 c)
+{
+	mat4 out;
+
+	out.m[0][0] = c.x;
+	out.m[1][1] = c.y;
+	out.m[2][2] = c.z;
+
+	out.m[3][3] = 1;
+
+	return out;
+}
