@@ -696,3 +696,40 @@ struct game: boiler
 			};
 		}
 	}
+
+	// Frame.
+
+	void draw() override
+	{
+		// SDL_SetRelativeMouseMode(SDL_TRUE);
+
+		black();
+
+		// Looking.
+
+		double x_fov = 90.0;
+		double y_fov = 45.0;
+
+		// double x_rot_ang = degrad(double((int)mouse_y - ((int)height / 2)) / double(height / 2) * y_fov);
+
+		// double y_rot_ang = -degrad(double((int)mouse_x - ((int)width / 2)) / double(width / 2) * x_fov);
+
+		std::cout << (int)mouse_x - ((int)width / 2) << '\r' << std::flush;
+
+		mat4 cam_rot_x = mat_rot_x(x_rot_ang);
+		mat4 cam_rot_y = mat_rot_y(y_rot_ang);
+
+		// World/view/camera.
+
+		vec3 vec_up = vec3(0.0, 1.0, 0.0);
+
+		vec3 vec_target = vec3(0.0, 0.0, 1.0);
+
+		camera_d = multiply(multiply(vec_target, cam_rot_x), cam_rot_y);
+
+		vec_target = vec_add(camera_p, camera_d);
+
+		mat4 mat_camera = mat_point_at(camera_p, vec_target, vec_up);
+
+		mat4 mat_view = mat_inverse(mat_camera);
+
