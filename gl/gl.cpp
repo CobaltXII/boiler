@@ -966,3 +966,17 @@ struct game: boiler
 				num_triangles = l_triangles.size();
 			}
 
+			for (auto& t: l_triangles)
+			{
+				ftrianglergb
+				(
+					t.p[0].x, t.p[0].y,
+					t.p[1].x, t.p[1].y,
+					t.p[2].x, t.p[2].y,
+
+					t.color
+				);
+			}
+		}
+	}
+};
