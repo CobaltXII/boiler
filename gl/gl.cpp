@@ -614,3 +614,17 @@ triangle multiply(triangle i, mat4 m)
 
 	return o;
 }
+
+// Backface culling.
+
+bool backface_cull(vec3 n, vec3 r)
+{
+	return 
+	(
+		n.x * r.x +
+		n.y * r.y +
+		n.z * r.z
+
+		< 0.0
+	);
+}
