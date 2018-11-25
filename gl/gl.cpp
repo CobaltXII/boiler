@@ -830,3 +830,8 @@ struct game: boiler
 			if (backface_cull(t_normal, camera_ray))
 			{
 				// Illumination.
+
+				vec3 light_direction = normalize(vec3(0.0, 1.0, 0.0));
+
+				float light_dot = dot(t_normal, light_direction);
+
