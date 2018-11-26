@@ -460,7 +460,7 @@ struct mesh
 
 // Load mesh from file.
 
-mesh load_obj(std::string path)
+mesh load_obj(std::string path, bool& textured)
 {
 	mesh output;
 
@@ -472,6 +472,9 @@ mesh load_obj(std::string path)
 	}
 
 	std::vector<vec3> vertices;
+	std::vector<vec2> textures;
+
+	textured = false;
 
 	while (file.eof() == false)
 	{
@@ -483,15 +486,31 @@ mesh load_obj(std::string path)
 
 		if (line[0] == 'v')
 		{
-			string = std::stringstream(line.substr(1, line.size() - 1));
+			if (line[1] == 't')
+			{
+				textured = true;
 
-			double x;
-			double y;
-			double z;
+				string = std::stringstream(line.substr(2, line.size() - 2));
 
-			string >> x >> y >> z;
+				double u;
+				double v;
 
-			vertices.push_back(vec3(x, y, z));
+				string >> u >> v;
+
+				textures.push_back(vec2(u, v));
+			}
+			else if (std::isspace(line[1]))
+			{
+				string = std::stringstream(line.substr(1, line.size() - 1));
+
+				double x;
+				double y;
+				double z;
+
+				string >> x >> y >> z;
+
+				vertices.push_back(vec3(x, y, z));
+			}
 		}
 		else if (line[0] == 'f')
 		{
