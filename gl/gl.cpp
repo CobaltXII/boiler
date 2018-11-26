@@ -321,8 +321,14 @@ int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triang
 	vec3* i_points[3];
 	vec3* o_points[3];
 
+	vec2* i_tex[3];
+	vec2* o_tex[3];
+
 	int ip_count = 0;
 	int op_count = 0;
+
+	int it_count = 0;
+	int ot_count = 0;
 
 	double d0 = clip_dist(in_tri.p[0], plane_p, plane_n);
 	double d1 = clip_dist(in_tri.p[1], plane_p, plane_n);
@@ -331,28 +337,40 @@ int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triang
 	if (d0 >= 0)
 	{
 		i_points[ip_count++] = &in_tri.p[0];
+
+		i_tex[it_count++] = &in_tri.t[0];
 	}
 	else
 	{
 		o_points[op_count++] = &in_tri.p[0];
+
+		o_tex[ot_count++] = &in_tri.t[0];
 	}
 
 	if (d1 >= 0)
 	{
 		i_points[ip_count++] = &in_tri.p[1];
+
+		i_tex[it_count++] = &in_tri.t[1];
 	}
 	else
 	{
 		o_points[op_count++] = &in_tri.p[1];
+
+		o_tex[ot_count++] = &in_tri.t[1];
 	}
 
 	if (d2 >= 0)
 	{
 		i_points[ip_count++] = &in_tri.p[2];
+
+		i_tex[it_count++] = &in_tri.t[2];
 	}
 	else
 	{
 		o_points[op_count++] = &in_tri.p[2];
+
+		o_tex[ot_count++] = &in_tri.t[2];
 	}
 
 	if (ip_count == 0)
@@ -371,8 +389,21 @@ int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triang
 
 		out_tri1.p[0] = *i_points[0];
 
-		out_tri1.p[1] = intersect(plane_p, plane_n, *i_points[0], *o_points[0]);
-		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[1]);
+		out_tri1.t[0] = *i_tex[0];
+
+		double t;
+
+		out_tri1.p[1] = intersect(plane_p, plane_n, *i_points[0], *o_points[0], t);
+
+		out_tri1.t[1].u = t * (o_tex[0]->u - i_tex[0]->u) + i_tex[0]->u;
+		out_tri1.t[1].v = t * (o_tex[0]->v - i_tex[0]->v) + i_tex[0]->v;
+		out_tri1.t[1].w = t * (o_tex[0]->w - i_tex[0]->w) + i_tex[0]->w;
+
+		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[1], t);
+
+		out_tri1.t[2].u = t * (o_tex[1]->u - i_tex[0]->u) + i_tex[0]->u;
+		out_tri1.t[2].v = t * (o_tex[1]->v - i_tex[0]->v) + i_tex[0]->v;
+		out_tri1.t[2].w = t * (o_tex[1]->w - i_tex[0]->w) + i_tex[0]->w;
 
 		return 1;
 	}
@@ -384,13 +415,30 @@ int clip(vec3 plane_p, vec3 plane_n, triangle in_tri, triangle& out_tri1, triang
 		out_tri1.p[0] = *i_points[0];
 		out_tri1.p[1] = *i_points[1];
 
-		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[0]);
+		out_tri1.t[0] = *i_tex[0];
+		out_tri1.t[1] = *i_tex[1];
+
+		double t;
+
+		out_tri1.p[2] = intersect(plane_p, plane_n, *i_points[0], *o_points[0], t);
+
+		out_tri1.t[2].u = t * (o_tex[0]->u - i_tex[0]->u) + i_tex[0]->u;
+		out_tri1.t[2].v = t * (o_tex[0]->v - i_tex[0]->v) + i_tex[0]->v;
+		out_tri1.t[2].w = t * (o_tex[0]->w - i_tex[0]->w) + i_tex[0]->w;
 
 		out_tri2.p[0] = *i_points[1];
 
+		out_tri2.t[0] = *i_tex[1];
+
 		out_tri2.p[1] = out_tri1.p[2];
 
-		out_tri2.p[2] = intersect(plane_p, plane_n, *i_points[1], *o_points[0]);
+		out_tri2.t[1] = out_tri1.t[2];
+
+		out_tri2.p[2] = intersect(plane_p, plane_n, *i_points[1], *o_points[0], t);
+
+		out_tri2.t[2].u = t * (o_tex[0]->u - i_tex[1]->u) + i_tex[1]->u;
+		out_tri2.t[2].v = t * (o_tex[0]->v - i_tex[1]->v) + i_tex[1]->v;
+		out_tri2.t[2].w = t * (o_tex[0]->w - i_tex[1]->w) + i_tex[1]->w;
 
 		return 2;
 	}
