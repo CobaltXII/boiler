@@ -450,6 +450,8 @@ struct mesh
 {
 	std::vector<triangle> t;
 
+	vec3 center;
+
 	mesh(std::vector<triangle> _t = std::vector<triangle>())
 	{
 		t = _t;
