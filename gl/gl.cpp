@@ -1133,11 +1133,10 @@ struct game: boiler
 
 	// Camera.
 
-	vec3 camera_p = vec3(0.0, 9.0, 0.0);
+	vec3 camera_p = vec3(0.0, 0.0, -15.0);
+
 	vec3 camera_d = vec3(0.0, 0.0, 1.0);
 
-	double x_rot_ang = 0.0;
-	double y_rot_ang = 0.0;
 
 	// Initializer.
 
@@ -1190,16 +1189,10 @@ struct game: boiler
 		double x_fov = 90.0;
 		double y_fov = 45.0;
 
-		// double x_rot_ang = degrad(double((int)mouse_y - ((int)height / 2)) / double(height / 2) * y_fov);
+		mat4 cam_rot_x = mat_rot_x(0.0);
+		mat4 cam_rot_y = mat_rot_y(0.0);
 
-		// double y_rot_ang = -degrad(double((int)mouse_x - ((int)width / 2)) / double(width / 2) * x_fov);
-
-		std::cout << (int)mouse_x - ((int)width / 2) << '\r' << std::flush;
-
-		mat4 cam_rot_x = mat_rot_x(x_rot_ang);
-		mat4 cam_rot_y = mat_rot_y(y_rot_ang);
-
-		// World/view/camera.
+		// Setup world/view/camera.
 
 		vec3 vec_up = vec3(0.0, 1.0, 0.0);
 
