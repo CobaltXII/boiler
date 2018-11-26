@@ -880,6 +880,22 @@ bool painters_algorithm(triangle& t1, triangle& t2)
 
 struct game: boiler
 {	
+	// Sample texture.
+
+	inline unsigned int sample(double u, double v, unsigned int* tex, int tex_w, int tex_h)
+	{
+		int x = u * tex_w;
+		int y = v * tex_h;
+
+		if (x >= tex_w || y >= tex_h || x < 0 || y < 0)
+		{
+			return 0x00000000;
+		}
+		else
+		{
+			return tex[y * tex_w + x];
+		}
+	}
 	// Mesh to render.
 
 	mesh cube;
