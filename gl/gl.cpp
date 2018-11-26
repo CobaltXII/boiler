@@ -514,15 +514,61 @@ mesh load_obj(std::string path, bool& textured)
 		}
 		else if (line[0] == 'f')
 		{
-			string = std::stringstream(line.substr(1, line.size() - 1));
+			// Supports n-gons!
 
-			int a;
-			int b;
-			int c;
+			std::string datum = line.substr(1, line.size() - 1);
 
-			string >> a >> b >> c;
+			std::size_t not_whitespace = datum.find_first_not_of(" \f\n\r\t\v");
 
-			output.t.push_back(triangle(vertices[a - 1], vertices[b - 1], vertices[c - 1]));
+			datum = datum.substr(not_whitespace, datum.size() - not_whitespace);
+
+			std::vector<std::string> all_indices = split(datum, " \f\n\r\t\v");
+
+			std::vector<int> p_indices;
+			std::vector<int> t_indices;
+
+			for (int i = 0; i < all_indices.size(); i++)
+			{
+				std::vector<std::string> info = split(all_indices[i], "/");
+
+				p_indices.push_back(std::stoi(info[0]));
+
+				if (textured)
+				{
+					t_indices.push_back(std::stoi(info[1]));
+				}
+			}
+
+			for (int i = 2; i < p_indices.size(); i++)
+			{
+				if (textured)
+				{
+					output.t.push_back(triangle
+					(
+						vertices[p_indices[0] - 1],
+
+						vertices[p_indices[i - 1] - 1],
+						vertices[p_indices[i - 0] - 1],
+
+						textures[t_indices[0] - 1],
+
+						textures[t_indices[i - 1] - 1],
+						textures[t_indices[i - 0] - 1]
+					));
+				}
+				else
+				{
+					output.t.push_back(triangle
+					(
+						vertices[p_indices[0] - 1],
+
+						vertices[p_indices[i - 1] - 1],
+						vertices[p_indices[i - 0] - 1]
+					));
+				}
+			}
+		}
+	}
 		}
 	}
 
