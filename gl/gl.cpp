@@ -1282,9 +1282,9 @@ struct game: boiler
 			{
 				// Illumination.
 
-				vec3 light_direction = normalize(vec3(0.0, 1.0, 0.0));
+				vec3 light_direction = normalize(vec3(0.0, 0.0, -1.0));
 
-				float light_dot = dot(t_normal, light_direction);
+				double light_dot = dot(t_normal, light_direction);
 
 				// World space to view space.
 
@@ -1326,20 +1326,20 @@ struct game: boiler
 					t_projected.p[1].y = (t_projected.p[1].y + 1.0) * (0.5 * (double)height);
 					t_projected.p[2].y = (t_projected.p[2].y + 1.0) * (0.5 * (double)height);
 
-					// light_dot = 1.0;
+					double ambient = 30.0;
 
 					t_projected.color = rgb
 					(
-						clamprgb((-t_normal.x + 1.0) / 2.0 * light_dot * 255.0), 
-						clamprgb((-t_normal.y + 1.0) / 2.0 * light_dot * 255.0), 
-						clamprgb((-t_normal.z + 1.0) / 2.0 * light_dot * 255.0)
+						clamprgb(std::max(0.0, (-t_normal.x + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
+						clamprgb(std::max(0.0, (-t_normal.y + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
+						clamprgb(std::max(0.0, (-t_normal.z + 1.0) / 2.0 * light_dot * 255.0) + ambient)
 					);
 
 					// t_projected.color = rgb
 					// (
-					// 	clamprgb(255.0 * light_dot_r), 
-					// 	clamprgb(255.0 * light_dot_g), 
-					// 	clamprgb(255.0 * light_dot_b)
+					// 	clamprgb(std::max(0.0, light_dot * 255.0) + ambient), 
+					// 	clamprgb(std::max(0.0, light_dot * 255.0) + ambient), 
+					// 	clamprgb(std::max(0.0, light_dot * 255.0) + ambient)
 					// );
 
 					// Push to rasterizer.
