@@ -1242,34 +1242,32 @@ struct game: boiler
 
 		std::vector<triangle> rasterize;
 
-		for (int i = 0; i < cube.t.size(); i++)
+		for (int i = 0; i < obj.t.size(); i++)
 		{
-			triangle t_original = cube.t[i];
+			triangle t_original = obj.t[i];
 
 			// Do transformations.
 
 			{
-				// Fix origin in center of cube.
+				// Fix origin in center of object.
 
-				t_original = multiply(t_original, mat_translate(vec3(0.0, -1.5, 0.0)));
+				t_original = multiply(t_original, mat_translate(obj.center));
 
-				// Rotate cube.
+				// Rotate object.
 
-				t_original = multiply(t_original, mat_rot_x(0.0));
+				double slow = 1.0 / 2.0;
 
-				t_original = multiply(t_original, mat_rot_y(iteration / 20.0));
+				t_original = multiply(t_original, mat_rot_x(iteration / 26.0 * slow));
 
-				t_original = multiply(t_original, mat_rot_z(0.0));
+				t_original = multiply(t_original, mat_rot_y(iteration / 22.0 * slow));
 
-				// Scale cube.
+				t_original = multiply(t_original, mat_rot_z(iteration / 38.0 * slow));
 
-				double s = 20.0;
+				// Scale object.
+
+				double s = 1.0;
 
 				t_original = multiply(t_original, mat_scalar(vec3(s, s, s)));
-
-				// Move cube away.
-
-				t_original = multiply(t_original, mat_translate(vec3(0.0, 0.0, 10.0)));
 			}
 
 			// Get surface normal.
