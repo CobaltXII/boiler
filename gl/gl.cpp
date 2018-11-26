@@ -1452,3 +1452,34 @@ struct game: boiler
 		}
 	}
 };
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	if (argc != 1)
+	{
+		if (argc == 2)
+		{
+			path_to_obj = std::string(argv[1]);
+		}
+		else
+		{
+			nuke("Usage: ./gl [path-to-.obj]");
+		}
+	}
+
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
