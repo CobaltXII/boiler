@@ -842,7 +842,11 @@ triangle multiply(triangle i, mat4 m)
 	(
 		multiply(i.p[0], m),
 		multiply(i.p[1], m),
-		multiply(i.p[2], m)
+		multiply(i.p[2], m),
+
+		i.t[0],
+		i.t[1],
+		i.t[2]
 	);
 
 	return o;
