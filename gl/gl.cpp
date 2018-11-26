@@ -569,6 +569,15 @@ mesh load_obj(std::string path, bool& textured)
 			}
 		}
 	}
+
+	// Calculating center of mass.
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		output.center.x -= vertices[i].x / double(vertices.size());
+		output.center.y -= vertices[i].y / double(vertices.size());
+		output.center.z -= vertices[i].z / double(vertices.size());
+	}
 		}
 	}
 
