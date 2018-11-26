@@ -578,8 +578,42 @@ mesh load_obj(std::string path, bool& textured)
 		output.center.y -= vertices[i].y / double(vertices.size());
 		output.center.z -= vertices[i].z / double(vertices.size());
 	}
+
+	// Find greatest length from origin.
+
+	double max_length = 0.0;
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		vec3 offset = vec_add(vertices[i], output.center);
+
+		double length = sqrt
+		(
+			offset.x * offset.x + 
+			offset.y * offset.y + 
+			offset.z * offset.z
+		);
+
+		if (length > max_length)
+		{
+			max_length = length;
 		}
 	}
+
+	// Scale so that maximum length is set.
+
+	double set_length = 10.0;
+
+	double set_factor = max_length / set_length;
+
+	for (int i = 0; i < output.t.size(); i++)
+	{
+		output.t[i].p[0] = vec_subtract(vec_divide(vec_add(output.t[i].p[0], output.center), set_factor), output.center);
+		output.t[i].p[1] = vec_subtract(vec_divide(vec_add(output.t[i].p[1], output.center), set_factor), output.center);
+		output.t[i].p[2] = vec_subtract(vec_divide(vec_add(output.t[i].p[2], output.center), set_factor), output.center);
+	}
+
+	std::cout << vertices.size() << " vertices, " << output.t.size() << " triangles." << std::endl;
 
 	return output;
 }
