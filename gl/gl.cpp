@@ -48,6 +48,22 @@ std::vector<std::string> split(std::string s, std::string delim)
     return elems;
 }
 
+// Two-dimensional vector for texture coordinates.
+
+struct vec2
+{
+	double u;
+	double v;
+	double w;
+
+	vec2(double _u = 0.0, double _v = 0.0, double _w = 1.0)
+	{
+		u = _u;
+		v = _v;
+		w = _w;
+	}
+};
+
 // Three-dimensional vector.
 
 struct vec3
