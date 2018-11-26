@@ -896,6 +896,231 @@ struct game: boiler
 			return tex[y * tex_w + x];
 		}
 	}
+
+	// Perspective-corrected textured triangle rasterizer.
+
+	void tex_triangle
+	(
+		int x1, int y1, double u1, double v1, double w1,
+		int x2, int y2, double u2, double v2, double w2,
+		int x3, int y3, double u3, double v3, double w3,
+
+		unsigned int* dtex,
+
+		int dtex_w,
+		int dtex_h,
+
+		double shading
+	)
+	{
+		if (y2 < y1)
+		{
+			std::swap(y1, y2);
+			std::swap(x1, x2);
+			std::swap(u1, u2);
+			std::swap(v1, v2);
+			std::swap(w1, w2);
+		}
+
+		if (y3 < y1)
+		{
+			std::swap(y1, y3);
+			std::swap(x1, x3);
+			std::swap(u1, u3);
+			std::swap(v1, v3);
+			std::swap(w1, w3);
+		}
+
+		if (y3 < y2)
+		{
+			std::swap(y2, y3);
+			std::swap(x2, x3);
+			std::swap(u2, u3);
+			std::swap(v2, v3);
+			std::swap(w2, w3);
+		}
+
+		int dy1 = y2 - y1;
+		int dx1 = x2 - x1;
+
+		double dv1 = v2 - v1;
+		double du1 = u2 - u1;
+		double dw1 = w2 - w1;
+
+		int dy2 = y3 - y1;
+		int dx2 = x3 - x1;
+
+		double dv2 = v3 - v1;
+		double du2 = u3 - u1;
+		double dw2 = w3 - w1;
+
+		double tex_u;
+		double tex_v;
+		double tex_w;
+
+		double dax_step = 0.0;
+		double dbx_step = 0.0;
+
+		double du1_step = 0.0;
+		double dv1_step = 0.0;
+		double du2_step = 0.0;
+		double dv2_step = 0.0;
+		double dw1_step = 0.0;
+		double dw2_step = 0.0;
+
+		if (dy1)
+		{
+			dax_step = dx1 / (double)abs(dy1);
+		}
+
+		if (dy2)
+		{
+			dbx_step = dx2 / (double)abs(dy2);
+		}
+
+		if (dy1)
+		{
+			du1_step = du1 / (double)abs(dy1);
+			dv1_step = dv1 / (double)abs(dy1);
+			dw1_step = dw1 / (double)abs(dy1);
+		}
+
+		if (dy2)
+		{
+			du2_step = du2 / (double)abs(dy2);
+			dv2_step = dv2 / (double)abs(dy2);
+			dw2_step = dw2 / (double)abs(dy2);
+		}
+
+		if (dy1)
+		{
+			for (int i = y1; i <= y2; i++)
+			{
+				int ax = x1 + (double)(i - y1) * dax_step;
+				int bx = x1 + (double)(i - y1) * dbx_step;
+
+				double tex_su = u1 + (double)(i - y1) * du1_step;
+				double tex_sv = v1 + (double)(i - y1) * dv1_step;
+				double tex_sw = w1 + (double)(i - y1) * dw1_step;
+
+				double tex_eu = u1 + (double)(i - y1) * du2_step;
+				double tex_ev = v1 + (double)(i - y1) * dv2_step;
+				double tex_ew = w1 + (double)(i - y1) * dw2_step;
+
+				if (ax > bx)
+				{
+					std::swap(ax, bx);
+
+					std::swap(tex_su, tex_eu);
+					std::swap(tex_sv, tex_ev);
+					std::swap(tex_sw, tex_ew);
+				}
+
+				tex_u = tex_su;
+				tex_v = tex_sv;
+				tex_w = tex_sw;
+
+				double tstep = 1.0 / ((double)(bx - ax));
+
+				double t = 0.0;
+
+				for (int j = ax; j < bx; j++)
+				{
+					tex_u = (1.0 - t) * tex_su + t * tex_eu;
+					tex_v = (1.0 - t) * tex_sv + t * tex_ev;
+					tex_w = (1.0 - t) * tex_sw + t * tex_ew;
+
+					unsigned int cs = sample(tex_u / tex_w, tex_v / tex_w, dtex, dtex_w, dtex_h);
+
+					double rs = double(mgetr(cs)) * shading;
+					double gs = double(mgetg(cs)) * shading;
+					double bs = double(mgetb(cs)) * shading;
+
+					plotp(j, i, mrgb(rs, gs, bs));
+
+					t += tstep;
+				}
+			}
+		}
+
+		dy1 = y3 - y2;
+		dx1 = x3 - x2;
+		dv1 = v3 - v2;
+		du1 = u3 - u2;
+		dw1 = w3 - w2;
+
+		if (dy1)
+		{
+			dax_step = dx1 / (double)abs(dy1);
+		}
+
+		if (dy2) 
+		{
+			dbx_step = dx2 / (double)abs(dy2);
+		}
+
+		du1_step = 0;
+		dv1_step = 0;
+
+		if (dy1)
+		{
+			du1_step = du1 / (double)abs(dy1);
+			dv1_step = dv1 / (double)abs(dy1);
+			dw1_step = dw1 / (double)abs(dy1);
+		}
+
+		if (dy1)
+		{
+			for (int i = y2; i <= y3; i++)
+			{
+				int ax = x2 + (double)(i - y2) * dax_step;
+				int bx = x1 + (double)(i - y1) * dbx_step;
+
+				double tex_su = u2 + (double)(i - y2) * du1_step;
+				double tex_sv = v2 + (double)(i - y2) * dv1_step;
+				double tex_sw = w2 + (double)(i - y2) * dw1_step;
+
+				double tex_eu = u1 + (double)(i - y1) * du2_step;
+				double tex_ev = v1 + (double)(i - y1) * dv2_step;
+				double tex_ew = w1 + (double)(i - y1) * dw2_step;
+
+				if (ax > bx)
+				{
+					std::swap(ax, bx);
+
+					std::swap(tex_su, tex_eu);
+					std::swap(tex_sv, tex_ev);
+					std::swap(tex_sw, tex_ew);
+				}
+
+				tex_u = tex_su;
+				tex_v = tex_sv;
+				tex_w = tex_sw;
+
+				double tstep = 1.0 / ((double)(bx - ax));
+
+				double t = 0.0;
+
+				for (int j = ax; j < bx; j++)
+				{
+					tex_u = (1.0 - t) * tex_su + t * tex_eu;
+					tex_v = (1.0 - t) * tex_sv + t * tex_ev;
+					tex_w = (1.0 - t) * tex_sw + t * tex_ew;
+
+					unsigned int cs = sample(tex_u / tex_w, tex_v / tex_w, dtex, dtex_w, dtex_h);
+
+					double rs = double(mgetr(cs)) * shading;
+					double gs = double(mgetg(cs)) * shading;
+					double bs = double(mgetb(cs)) * shading;
+
+					plotp(j, i, mrgb(rs, gs, bs));
+
+					t += tstep;
+				}
+			}
+		}
+	}
+
 	// Mesh to render.
 
 	mesh cube;
