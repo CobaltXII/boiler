@@ -1,5 +1,7 @@
 // Software graphics library? Awesome.
 
+#define BOIL_USE_STB_IMAGE
+
 #include "../boiler/boiler.h"
 
 #include <list>
@@ -8,6 +10,43 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <iterator>
+
+std::string path_to_obj = "teapot.obj";
+
+// String split routines.
+
+std::vector<std::string> split(std::string s, std::string delim) 
+{
+    std::vector<std::string> elems;
+
+    std::string elem;
+
+    for (int i = 0; i < s.size(); i++)
+    {
+    	if (delim.find(s[i]) == std::string::npos)
+    	{
+    		// Found non-whitespace.
+
+    		elem.push_back(s[i]);
+    	}
+    	else if (elem.size() != 0)
+    	{
+    		// Found whitespace, and have an element.
+
+    		elems.push_back(elem);
+
+    		elem.clear();
+    	}
+    }
+
+    if (elem.size() != 0)
+    {
+    	elems.push_back(elem);
+    }
+
+    return elems;
+}
 
 // Three-dimensional vector.
 
