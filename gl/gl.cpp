@@ -201,7 +201,7 @@ double dot(vec3 a, vec3 b)
 
 // Vector intersect plane.
 
-vec3 intersect(vec3 plane_p, vec3 plane_n, vec3 line_a, vec3 line_b)
+vec3 intersect(vec3 plane_p, vec3 plane_n, vec3 line_a, vec3 line_b, double& t)
 {
 	plane_n = normalize(plane_n);
 
@@ -210,7 +210,7 @@ vec3 intersect(vec3 plane_p, vec3 plane_n, vec3 line_a, vec3 line_b)
 	double ad = dot(line_a, plane_n);
 	double bd = dot(line_b, plane_n);
 
-	double t = (-plane_d - ad) / (bd - ad);
+	t = (-plane_d - ad) / (bd - ad);
 
 	vec3 line_d = vec_subtract(line_b, line_a);
 
