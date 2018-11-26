@@ -1123,7 +1123,9 @@ struct game: boiler
 
 	// Mesh to render.
 
-	mesh cube;
+	mesh obj;
+
+	bool obj_textured;
 
 	// Projection matrix.
 
@@ -1146,13 +1148,13 @@ struct game: boiler
 
 		title = "GL (using Boiler)";
 
-		cube = load_obj("dragon.obj");
+		obj = load_obj(path_to_obj, obj_textured);
 
 		if (false)
 		{
 			// Generate cube.
 
-			cube.t =
+			obj.t =
 			{
 				triangle(vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(1.0, 1.0, 0.0)),
 				triangle(vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0)),
