@@ -248,6 +248,7 @@ double clip_dist(vec3 p, vec3 plane_p, vec3 plane_n)
 struct triangle
 {
 	vec3 p[3];
+	vec2 t[3];
 
 	unsigned int color;
 
@@ -256,6 +257,10 @@ struct triangle
 		p[0] = vec3();
 		p[1] = vec3();
 		p[2] = vec3();
+
+		t[0] = vec2();
+		t[1] = vec2();
+		t[2] = vec2();
 	}
 
 	triangle(vec3 a, vec3 b, vec3 c)
@@ -263,6 +268,21 @@ struct triangle
 		p[0] = a;
 		p[1] = b;
 		p[2] = c;
+
+		t[0] = vec2();
+		t[1] = vec2();
+		t[2] = vec2();
+	}
+
+	triangle(vec3 a, vec3 b, vec3 c, vec2 ta, vec2 tb, vec2 tc)
+	{
+		p[0] = a;
+		p[1] = b;
+		p[2] = c;
+
+		t[0] = ta;
+		t[1] = tb;
+		t[2] = tc;
 	}
 };
 
