@@ -1137,6 +1137,12 @@ struct game: boiler
 
 	vec3 camera_d = vec3(0.0, 0.0, 1.0);
 
+	// Texture.
+
+	int gdtex_w;
+	int gdtex_h;
+
+	unsigned int* gdtex = loadimg("lebron.png", gdtex_w, gdtex_h);
 
 	// Initializer.
 
@@ -1441,14 +1447,33 @@ struct game: boiler
 
 			for (auto& t: l_triangles)
 			{
-				ftrianglergb
-				(
-					t.p[0].x, t.p[0].y,
-					t.p[1].x, t.p[1].y,
-					t.p[2].x, t.p[2].y,
+				if (obj_textured)
+				{
+					tex_triangle
+					(
+						t.p[0].x, t.p[0].y, t.t[0].u, t.t[0].v, t.t[0].w,
+						t.p[1].x, t.p[1].y, t.t[1].u, t.t[1].v, t.t[1].w,
+						t.p[2].x, t.p[2].y, t.t[2].u, t.t[2].v, t.t[2].w,
 
-					t.color
-				);
+						gdtex,
+
+						gdtex_w,
+						gdtex_h,
+
+						1.0
+					);
+				}
+				else
+				{
+					ftrianglergb
+					(
+						t.p[0].x, t.p[0].y,
+						t.p[1].x, t.p[1].y,
+						t.p[2].x, t.p[2].y,
+
+						t.color
+					);
+				}
 			}
 		}
 	}
