@@ -1543,9 +1543,14 @@ int main(int argc, char** argv)
 		{
 			path_to_obj = std::string(argv[1]);
 		}
+		else if (argc == 3)
+		{
+			path_to_obj = std::string(argv[1]);
+			path_to_tex = std::string(argv[2]);
+		}
 		else
 		{
-			nuke("Usage: ./gl [path-to-.obj]");
+			nuke("Usage: ./gl [path-to-.obj] [path-to-tex]");
 		}
 	}
 
