@@ -14,6 +14,8 @@
 
 std::string path_to_obj = "teapot.obj";
 
+std::string path_to_tex;
+
 // String split routines.
 
 std::vector<std::string> split(std::string s, std::string delim) 
@@ -1180,7 +1182,7 @@ struct game: boiler
 	int gdtex_w;
 	int gdtex_h;
 
-	unsigned int* gdtex = loadimg("lebron.png", gdtex_w, gdtex_h);
+	unsigned int* gdtex;
 
 	// Initializer.
 
@@ -1192,6 +1194,25 @@ struct game: boiler
 		title = "GL (using Boiler)";
 
 		obj = load_obj(path_to_obj, obj_textured);
+
+		if (obj_textured)
+		{
+			if (path_to_tex.size() == 0)
+			{
+				std::cout << "This model can be textured, consider passing a second argument for the texture path." << std::endl;
+
+				obj_textured = false;
+			}
+			else
+			{
+				gdtex = loadimg(path_to_tex, gdtex_w, gdtex_h);
+
+				if (!gdtex)
+				{
+					nuke("Could not load texture \"" + path_to_tex + "\".");
+				}
+			}
+		}
 
 		if (false)
 		{
