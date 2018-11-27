@@ -1155,6 +1155,16 @@ struct game: boiler
 
 	bool obj_textured;
 
+	bool auto_spin = true;
+
+	double obj_rot_x = 0.0;
+	double obj_rot_y = 0.0;
+	double obj_rot_z = 0.0;
+
+	double obj_rot_xv = 0.0;
+	double obj_rot_yv = 0.0;
+	double obj_rot_zv = 0.0;
+
 	// Projection matrix.
 
 	mat4 projection = mat_projection(0.128, 1024.0, 90.0, 1.0);
@@ -1210,6 +1220,18 @@ struct game: boiler
 		}
 	}
 
+	// Keypress handler.
+
+	void keydown(SDL_Event e) override
+	{
+		if (e.key.keysym.sym == SDLK_ESCAPE)
+		{
+			nuke();
+		}
+		else if (e.key.keysym.sym == SDLK_z)
+		{
+			auto_spin = !auto_spin;
+		}
 	// Frame.
 
 	void draw() override
@@ -1264,6 +1286,38 @@ struct game: boiler
 		else if (keys[SDL_SCANCODE_A])
 		{
 			camera_p = vec_add(camera_p, vec_multiply(v_right, f));
+			if (!auto_spin)
+			{
+				f = degrad(5.0);
+
+				if (keys[SDL_SCANCODE_LEFT])
+				{
+					obj_rot_yv -= f;
+				}
+				else if (keys[SDL_SCANCODE_RIGHT])
+				{
+					obj_rot_yv += f;
+				}
+
+				if (keys[SDL_SCANCODE_UP])
+				{
+					obj_rot_zv -= f;
+				}
+				else if (keys[SDL_SCANCODE_DOWN])
+				{
+					obj_rot_xv += f;
+				}
+
+				obj_rot_x += obj_rot_xv;
+				obj_rot_y += obj_rot_yv;
+				obj_rot_z += obj_rot_zv;
+
+				double friction = 0.9;
+
+				obj_rot_xv *= friction;
+				obj_rot_yv *= friction;
+				obj_rot_zv *= friction;
+			}
 		}
 
 		// Preprocess triangles.
