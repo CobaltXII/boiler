@@ -1380,11 +1380,16 @@ struct game: boiler
 
 				double slow = 1.0 / 2.0;
 
-				t_original = multiply(t_original, mat_rot_x(iteration / 26.0 * slow));
+				if (auto_spin)
+				{
+					obj_rot_x = iteration / 26.0 * slow;
+					obj_rot_y = iteration / 22.0 * slow;
+					obj_rot_z = iteration / 38.0 * slow;
+				}
 
-				t_original = multiply(t_original, mat_rot_y(iteration / 22.0 * slow));
-
-				t_original = multiply(t_original, mat_rot_z(iteration / 38.0 * slow));
+				t_original = multiply(t_original, mat_rot_x(obj_rot_x));
+				t_original = multiply(t_original, mat_rot_y(obj_rot_y));
+				t_original = multiply(t_original, mat_rot_z(obj_rot_z));
 
 				// Scale object.
 
@@ -1451,12 +1456,19 @@ struct game: boiler
 
 					double ambient = 30.0;
 
-					t_projected.color = rgb
-					(
-						clamprgb(std::max(0.0, (-t_normal.x + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
-						clamprgb(std::max(0.0, (-t_normal.y + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
-						clamprgb(std::max(0.0, (-t_normal.z + 1.0) / 2.0 * light_dot * 255.0) + ambient)
-					);
+					if (obj_textured)
+					{
+						t_projected.color = (16.0 + light_dot) * 512.0;
+					}
+					else
+					{
+						t_projected.color = rgb
+						(
+							clamprgb(std::max(0.0, (-t_normal.x + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
+							clamprgb(std::max(0.0, (-t_normal.y + 1.0) / 2.0 * light_dot * 255.0) + ambient), 
+							clamprgb(std::max(0.0, (-t_normal.z + 1.0) / 2.0 * light_dot * 255.0) + ambient)
+						);
+					}
 
 					// t_projected.color = rgb
 					// (
@@ -1555,7 +1567,7 @@ struct game: boiler
 						gdtex_w,
 						gdtex_h,
 
-						1.0
+						std::max(0.0, (double(t.color) / 512.0) - 16.0) + (30.0 / 255.0)
 					);
 				}
 				else
