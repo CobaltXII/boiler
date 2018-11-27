@@ -466,9 +466,11 @@ mesh load_obj(std::string path, bool& textured)
 
 	std::ifstream file = std::ifstream(path);
 
-	if (file.is_open() == false)
+	if (!file.is_open())
 	{
-		return mesh();
+		// Can't open it, scream.
+
+		nuke("Could not open object file \"" + path + "\".");
 	}
 
 	std::vector<vec3> vertices;
@@ -484,37 +486,63 @@ mesh load_obj(std::string path, bool& textured)
 
 		std::stringstream string = std::stringstream(line);
 
-		if (line[0] == 'v')
+		if (line.size() == 0 || line[0] == '#' || line.find_first_not_of(" \f\n\r\t\v") == std::string::npos)
 		{
-			if (line[1] == 't')
+			// Comment or whitespace.
+
+			continue;
+		}
+
+		std::string command;
+
+		for (int i = 0; i < line.size(); i++)
+		{
+			if (std::string(" \f\n\r\t\v").find(line[i]) == std::string::npos)
 			{
-				textured = true;
+				// Not whitespace.
 
-				string = std::stringstream(line.substr(2, line.size() - 2));
-
-				double u;
-				double v;
-
-				string >> u >> v;
-
-				textures.push_back(vec2(u, v));
+				command.push_back(line[i]);
 			}
-			else if (std::isspace(line[1]))
+			else
 			{
-				string = std::stringstream(line.substr(1, line.size() - 1));
+				// Whitespace, flush.
 
-				double x;
-				double y;
-				double z;
-
-				string >> x >> y >> z;
-
-				vertices.push_back(vec3(x, y, z));
+				break;
 			}
 		}
-		else if (line[0] == 'f')
+
+		if (command == "v")
 		{
-			// Supports n-gons!
+			// Vertex.
+
+			string = std::stringstream(line.substr(1, line.size() - 1));
+
+			double x;
+			double y;
+			double z;
+
+			string >> x >> y >> z;
+
+			vertices.push_back(vec3(x, y, z));
+		}
+		else if (command == "vt")
+		{
+			// Texture coordinate.
+
+			textured = true;
+
+			string = std::stringstream(line.substr(2, line.size() - 2));
+
+			double u;
+			double v;
+
+			string >> u >> v;
+
+			textures.push_back(vec2(u, v));
+		}
+		else if (command == "f")
+		{
+			// Face.
 
 			std::string datum = line.substr(1, line.size() - 1);
 
@@ -1036,7 +1064,7 @@ struct game: boiler
 					double gs = double(mgetg(cs)) * shading;
 					double bs = double(mgetb(cs)) * shading;
 
-					plotp(j, i, mrgb(rs, gs, bs));
+					plotp(j, i, mrgb(mclamprgb(rs), mclamprgb(gs), mclamprgb(bs)));
 
 					t += tstep;
 				}
@@ -1113,7 +1141,7 @@ struct game: boiler
 					double gs = double(mgetg(cs)) * shading;
 					double bs = double(mgetb(cs)) * shading;
 
-					plotp(j, i, mrgb(rs, gs, bs));
+					plotp(j, i, mrgb(mclamprgb(rs), mclamprgb(gs), mclamprgb(bs)));
 
 					t += tstep;
 				}
