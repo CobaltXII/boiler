@@ -1253,6 +1253,14 @@ struct game: boiler
 		{
 			auto_spin = !auto_spin;
 		}
+		else if (e.key.keysym.sym == SDLK_x)
+		{
+			obj_rot_x = 0.0;
+			obj_rot_y = 0.0;
+			obj_rot_z = 0.0;
+		}
+	}
+
 	// Frame.
 
 	void draw() override
