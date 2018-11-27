@@ -1291,30 +1291,42 @@ struct game: boiler
 
 		// Handle keypresses.
 
-		const Uint8* keys = SDL_GetKeyboardState(NULL);
-
-		double f = 0.65;
-
-		// Movement.
-
-		if (keys[SDL_SCANCODE_S])
 		{
-			camera_p = vec_subtract(camera_p, vec_multiply(camera_d, f));
-		}
-		else if (keys[SDL_SCANCODE_W])
-		{
-			camera_p = vec_add(camera_p, vec_multiply(camera_d, f));
-		}
+			const Uint8* keys = SDL_GetKeyboardState(NULL);
 
-		vec3 v_right = vec_right(camera_p, vec_target, vec_up);
+			double f = 0.65;
 
-		if (keys[SDL_SCANCODE_D])
-		{
-			camera_p = vec_subtract(camera_p, vec_multiply(v_right, f));
-		}
-		else if (keys[SDL_SCANCODE_A])
-		{
-			camera_p = vec_add(camera_p, vec_multiply(v_right, f));
+			// Movement.
+
+			if (keys[SDL_SCANCODE_S])
+			{
+				camera_p = vec_subtract(camera_p, vec_multiply(camera_d, f));
+			}
+			else if (keys[SDL_SCANCODE_W])
+			{
+				camera_p = vec_add(camera_p, vec_multiply(camera_d, f));
+			}
+
+			vec3 v_right = vec_right(camera_p, vec_target, vec_up);
+
+			if (keys[SDL_SCANCODE_D])
+			{
+				camera_p = vec_subtract(camera_p, vec_multiply(v_right, f));
+			}
+			else if (keys[SDL_SCANCODE_A])
+			{
+				camera_p = vec_add(camera_p, vec_multiply(v_right, f));
+			}
+
+			if (keys[SDL_SCANCODE_N])
+			{
+				camera_p = vec_subtract(camera_p, vec_multiply(vec_up, f));
+			}
+			else if (keys[SDL_SCANCODE_M])
+			{
+				camera_p = vec_add(camera_p, vec_multiply(vec_up, f));
+			}
+
 			if (!auto_spin)
 			{
 				f = degrad(5.0);
