@@ -1369,6 +1369,30 @@ struct game: boiler
 					obj_rot_y = iteration / 22.0 * slow;
 					obj_rot_z = iteration / 38.0 * slow;
 				}
+				else if (spin_mode == 1)
+				{
+					obj_rot_x = 0.0;
+					obj_rot_y = 0.0;
+					obj_rot_z = 0.0;
+
+					obj_rot_x = iteration / 16.0 * slow;
+				}
+				else if (spin_mode == 2)
+				{
+					obj_rot_x = 0.0;
+					obj_rot_y = 0.0;
+					obj_rot_z = 0.0;
+
+					obj_rot_y = iteration / 16.0 * slow;
+				}
+				else if (spin_mode == 3)
+				{
+					obj_rot_x = 0.0;
+					obj_rot_y = 0.0;
+					obj_rot_z = 0.0;
+					
+					obj_rot_z = iteration / 16.0 * slow;
+				}
 
 				t_original = multiply(t_original, mat_rot_x(obj_rot_x));
 				t_original = multiply(t_original, mat_rot_y(obj_rot_y));
