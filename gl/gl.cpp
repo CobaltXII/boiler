@@ -1157,7 +1157,7 @@ struct game: boiler
 
 	bool obj_textured;
 
-	bool auto_spin = true;
+	int spin_mode = 0;
 
 	double obj_rot_x = 0.0;
 	double obj_rot_y = 0.0;
