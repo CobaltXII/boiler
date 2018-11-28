@@ -1253,8 +1253,9 @@ struct game: boiler
 		{
 			spin_mode = 0;
 		}
+		else if (e.key.keysym.sym == SDLK_2)
 		{
-			auto_spin = !auto_spin;
+			spin_mode = 1;
 		}
 		else if (e.key.keysym.sym == SDLK_x)
 		{
