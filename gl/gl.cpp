@@ -1262,6 +1262,10 @@ struct game: boiler
 		{
 			spin_mode = 2;
 		}
+		else if (e.key.keysym.sym == SDLK_4)
+		{
+			spin_mode = 3;
+		}
 		{
 			obj_rot_x = 0.0;
 			obj_rot_y = 0.0;
