@@ -1361,9 +1361,9 @@ struct game: boiler
 
 				// Rotate object.
 
-				double slow = 1.0 / 2.0;
+				double slow = 1.0 / 3.0;
 
-				if (auto_spin)
+				if (spin_mode == 0)
 				{
 					obj_rot_x = iteration / 26.0 * slow;
 					obj_rot_y = iteration / 22.0 * slow;
