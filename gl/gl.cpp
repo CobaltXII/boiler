@@ -1342,39 +1342,6 @@ struct game: boiler
 			{
 				camera_p = vec_add(camera_p, vec_multiply(vec_up, f));
 			}
-
-			if (!auto_spin)
-			{
-				f = degrad(5.0);
-
-				if (keys[SDL_SCANCODE_LEFT])
-				{
-					obj_rot_yv -= f;
-				}
-				else if (keys[SDL_SCANCODE_RIGHT])
-				{
-					obj_rot_yv += f;
-				}
-
-				if (keys[SDL_SCANCODE_UP])
-				{
-					obj_rot_zv -= f;
-				}
-				else if (keys[SDL_SCANCODE_DOWN])
-				{
-					obj_rot_xv += f;
-				}
-
-				obj_rot_x += obj_rot_xv;
-				obj_rot_y += obj_rot_yv;
-				obj_rot_z += obj_rot_zv;
-
-				double friction = 0.9;
-
-				obj_rot_xv *= friction;
-				obj_rot_yv *= friction;
-				obj_rot_zv *= friction;
-			}
 		}
 
 		// Preprocess triangles.
