@@ -1249,7 +1249,10 @@ struct game: boiler
 		{
 			nuke();
 		}
-		else if (e.key.keysym.sym == SDLK_z)
+		else if (e.key.keysym.sym == SDLK_1)
+		{
+			spin_mode = 0;
+		}
 		{
 			auto_spin = !auto_spin;
 		}
