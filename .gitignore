@@ -60,4 +60,9 @@ digits/mnist_png/*
 experimental/test/sister.png
 experimental/test/savage.png
 
-img/s_polar_2_2.png
+img/s_polar_2_2.pngimg/s_polar_2_2.png
+
+# Ignore embarrassing .obj models.
+
+gl/jill.obj
+
