@@ -60,9 +60,19 @@ digits/mnist_png/*
 experimental/test/sister.png
 experimental/test/savage.png
 
-img/s_polar_2_2.pngimg/s_polar_2_2.png
+img/s_polar_2_2.png
 
 # Ignore embarrassing .obj models.
 
 gl/jill.obj
 
+# Ignore copyrighted .obj models and .png textures.
+
+gl/Spyro.obj
+gl/Spyro.png
+
+gl/Spyro2.obj
+gl/Spyro2.png
+
+gl/Spyro3.obj
+gl/Spyro3.png
