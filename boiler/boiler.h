@@ -1771,16 +1771,46 @@ Uint32* loadimg(std::string path, int &w, int &h, int stb_f = STBI_rgb)
 			{
 				if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 				{
-					m_bmp[y * s_bitmap->w + x] = p[2] << 16 | p[1] << 8 | p[0];
+					if (stb_f == STBI_rgb_alpha)
+					{
+						m_bmp[y * s_bitmap->w + x] = p[3] << 24 | p[2] << 16 | p[1] << 8 | p[0];
+					}
+					else
+					{
+						m_bmp[y * s_bitmap->w + x] = p[2] << 16 | p[1] << 8 | p[0];
+					}
 				}
 				else
 				{
-					m_bmp[y * s_bitmap->w + x] = p[2] | p[1] << 8 | p[0] << 16;
+					if (stb_f == STBI_rgb_alpha)
+					{
+						// Probably broken.
+
+						m_bmp[y * s_bitmap->w + x] = p[3] << 24 | p[0] << 16 | p[1] << 8 | p[2];
+					}
+					else
+					{
+						m_bmp[y * s_bitmap->w + x] = p[0] << 16 | p[1] << 8 | p[2];
+					}
 				}
 			}
 			else
 			{
-				m_bmp[y * s_bitmap->w + x] = *(Uint32*)p;
+				if (stb_f == STBI_rgb_alpha)
+				{
+					Uint8 _oa;
+					Uint8 _or;
+					Uint8 _og;
+					Uint8 _ob;
+
+					SDL_GetRGBA(*(Uint32*)p, s_bitmap->format, &_or, &_og, &_ob, &_oa);		
+
+					m_bmp[y * s_bitmap->w + x] = argb(_oa, _or, _og, _ob);
+				}
+				else
+				{
+					m_bmp[y * s_bitmap->w + x] = *(Uint32*)p;
+				}
 			}
 		}
 	}
