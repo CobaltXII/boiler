@@ -1319,8 +1319,11 @@ struct boiler
 	void rectrgb(int x, int y, int w, int h, unsigned int c)
 	{
 		linergb(x, y, x + w, y, c);
+
 		linergb(x + w, y, x + w, y + h, c);
+		
 		linergb(x + w, y + h, x, y + h, c);
+
 		linergb(x, y + h, x, y, c);
 	}
 
