@@ -798,6 +798,8 @@ struct boiler
 		{
 			if (dx >= 0)
 			{
+				pixels_placed = INT_MAX / 2 - pixels_placed;
+
 				x = x1;
 				y = y1;
 
@@ -858,6 +860,8 @@ struct boiler
 		{
 			if (dy >= 0)
 			{
+				pixels_placed = INT_MAX / 2 - pixels_placed;
+
 				x = x1;
 				y = y1;
 
