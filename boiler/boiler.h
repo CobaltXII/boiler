@@ -773,6 +773,149 @@ struct boiler
 		}
 	}
 
+	// Same as above, but makes dashed lines. dash is the half period of the dashed line. cond is 
+	// the value that pixels_placed % (dash * 2) must be >= to place a pixel. Change pixels_placed 
+	// to make the dash move.
+
+	void dashedlinergb(int x1, int y1, int x2, int y2, int dash, int cond, int pixels_placed, unsigned int c)
+	{
+		int x;
+		int y;
+
+		int dx = x2 - x1;
+		int dy = y2 - y1;
+
+		int dx1 = std::abs(dx);
+		int dy1 = std::abs(dy);
+
+		int px = 2 * dy1 - dx1;
+		int py = 2 * dx1 - dy1;
+
+		int xe;
+		int ye;
+
+		if (dy1 <= dx1)
+		{
+			if (dx >= 0)
+			{
+				x = x1;
+				y = y1;
+
+				xe = x2;
+			}
+			else
+			{
+				x = x2;
+				y = y2;
+
+				xe = x1;
+			}
+
+			if (x >= 0 && x < width && y >= 0 && y < height)
+			{
+				if (pixels_placed % (dash * 2) >= cond)
+				{
+					pixels[y * width + x] = c;
+				}
+
+				pixels_placed++;
+			}
+
+			for (int i = 0; x < xe; i++)
+			{
+				x = x + 1;
+
+				if (px < 0)
+				{
+					px = px + 2 * dy1;
+				}
+				else
+				{
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
+					{
+						y = y + 1;
+					}
+					else
+					{
+						y = y - 1;
+					}
+
+					px = px + 2 * (dy1 - dx1);
+				}
+
+				if (x >= 0 && x < width && y >= 0 && y < height)
+				{
+					if (pixels_placed % (dash * 2) >= cond)
+					{
+						pixels[y * width + x] = c;
+					}
+
+					pixels_placed++;
+				}
+			}
+		}
+		else
+		{
+			if (dy >= 0)
+			{
+				x = x1;
+				y = y1;
+
+				ye = y2;
+			}
+			else
+			{
+				x = x2;
+				y = y2;
+
+				ye = y1;
+			}
+
+			if (x >= 0 && x < width && y >= 0 && y < height)
+			{
+				if (pixels_placed % (dash * 2) >= cond)
+				{
+					pixels[y * width + x] = c;
+				}
+
+				pixels_placed++;
+			}
+
+			for (int i = 0; y < ye; i++)
+			{
+				y = y + 1;
+
+				if (py <= 0)
+				{
+					py = py + 2 * dx1;
+				}
+				else
+				{
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
+					{
+						x = x + 1;
+					}
+					else
+					{
+						x = x - 1;
+					}
+
+					py = py + 2 * (dx1 - dy1);
+				}
+
+				if (x >= 0 && x < width && y >= 0 && y < height)
+				{
+					if (pixels_placed % (dash * 2) >= cond)
+					{
+						pixels[y * width + x] = c;
+					}
+
+					pixels_placed++;
+				}
+			}
+		}
+	}
+
 	// Draws a triangle. Does not blend, replaces colors directly.
 
 	void trianglergb(int x1, int y1, int x2, int y2, int x3, int y3, unsigned int c)
