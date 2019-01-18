@@ -82,15 +82,23 @@ struct game: boiler
 		}
 		else if (det == 0)
 		{
-			// One solution.
+			// One or zero solution.
 
 			t = -B / (2.0 * A);
 
-			intersection1 = point(point1.x + t * dx, point1.y + t * dy);
+			if (t <= 1.0 && t >= 0.0)
+			{
+				intersection1 = point(point1.x + t * dx, point1.y + t * dy);
 
+				intersection2 = point();
+
+				return 1;
+			}
+
+			intersection1 = point();
 			intersection2 = point();
 
-			return 1;
+			return 0;
 		}
 		else
 		{
