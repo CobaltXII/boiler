@@ -46,6 +46,13 @@ struct game: boiler
 	// The point being dragged.
 
 	point* dragged = nullptr;
+
+	// Check if the mouse is within range of a point.
+
+	inline bool within_point(point p)
+	{
+		return (mouse_x - p.x) * (mouse_x - p.x) + (mouse_y - p.y) * (mouse_y - p.y) < 5 * 5;
+	}
 };
 
 // Entry point for the software renderer.
