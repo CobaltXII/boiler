@@ -122,6 +122,29 @@ struct game: boiler
 
 		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
 	};
+
+	// Draw a strobe_filter_segment*.
+
+	void draw_strobe_filter_segment(strobe_filter_segment* object)
+	{
+		const real normal_length = 16.0f;
+
+		// Draw and drag endpoints.
+
+		circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
+		circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+
+		// Draw segment.
+
+		dashedlinergb(object->p1.x, object->p1.y, object->p2.x, object->p2.y, 5, 5, SDL_GetTicks() / 100, rgb(255, 255, 255));
+
+		// Draw normal.
+
+		real nx = object->p1.x + object->dx / 2.0f;
+		real ny = object->p1.y + object->dy / 2.0f;
+
+		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+	};
 };
 
 // Entry point for the software renderer.
