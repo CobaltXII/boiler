@@ -60,3 +60,100 @@ bool line_intersect
 
 	return false;
 }
+
+// Taken from /boiler/experimental/circle_line.cpp. Does not require l-values
+// anymore.
+
+int circle_intersect
+(
+	point point1,
+	point point2,
+
+	point c,
+
+	real radius,
+
+	point& intersection1,
+	point& intersection2
+)
+{
+	real dx;
+	real dy;
+
+	real A;
+	real B;
+	real C;
+
+	real det;
+
+	real t;
+
+	dx = point2.x - point1.x;
+	dy = point2.y - point1.y;
+
+	A = dx * dx + dy * dy;
+
+	B = 2.0f * (dx * (point1.x - c.x) + dy * (point1.y - c.y));
+
+	C = (point1.x - c.x) * (point1.x - c.x) +
+		(point1.y - c.y) * (point1.y - c.y) -
+
+		radius * radius;
+
+	det = B * B - 4.0f * A * C;
+
+	if ((A <= 1e-7) || (det < 0.0f))
+	{
+		// No real solutions.
+
+		intersection1 = point();
+		intersection2 = point();
+
+		return 0;
+	}
+	else if (det == 0)
+	{
+		// One solution.
+
+		t = -B / (2.0f * A);
+
+		intersection1 = point(point1.x + t * dx, point1.y + t * dy);
+
+		intersection2 = point();
+
+		return 1;
+	}
+	else
+	{
+		// Two, one, or zero solutions.
+
+		int solutions = 0;
+
+		t = (real)((-B + sqrtf(det)) / (2.0f * A));
+
+		if (t <= 1.0f && t >= 0.0f)
+		{
+			intersection1 = point(point1.x + t * dx, point1.y + t * dy);
+
+			solutions++;
+		}
+
+		t = (real)((-B - sqrtf(det)) / (2.0f * A));
+
+		if (t <= 1.0f && t >= 0.0f)
+		{
+			if (solutions == 0)
+			{
+				intersection1 = point(point1.x + t * dx, point1.y + t * dy);
+			}
+			else
+			{
+				intersection2 = point(point1.x + t * dx, point1.y + t * dy);
+			}
+
+			solutions++;
+		}
+
+		return solutions;
+	}
+}
