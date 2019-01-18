@@ -12,3 +12,10 @@ enum intersectable_type
 
 	intersectable_subtractive_filter_segment
 };
+
+// An intersectable type (base class).
+
+struct intersectable
+{
+	intersectable_type type;
+};
