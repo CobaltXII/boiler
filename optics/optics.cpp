@@ -537,6 +537,135 @@ struct game: boiler
 			dashedlinergb(p1x, p1y, p2x, p2y, 32, 3, SDL_GetTicks() / 10, rgb(cr, cg, cb));
 		}
 	}
+
+	// Draw a frame.
+
+	void draw() override
+	{
+		black();
+
+		// Draw the background.
+
+		unsigned int grid_color = rgb(32, 32, 32);
+
+		for (real y = 0.0f; y < height; y += grid)
+		{
+			linergb(0, y, width, y, grid_color);
+		}
+
+		for (real x = 0.0f; x < width; x += grid)
+		{
+			linergb(x, 0, x, height, grid_color);
+		}
+
+		// Do emitter casting.
+
+		for (int i = 0; i < scene_emitter.size(); i++)
+		{
+			emitter* object = scene_emitter[i];
+
+			if (!object->state)
+			{
+				// Emitter is off.
+
+				continue;
+			}
+
+			real tmx = object->p.x + object->n.x * emitter_length / 2.0f;
+			real tmy = object->p.y + object->n.y * emitter_length / 2.0f;
+
+			real p1x = tmx;
+			real p1y = tmy;
+
+			real p2x = tmx + object->n.x * 1024.0f;
+			real p2y = tmy + object->n.y * 1024.0f;
+
+			cast_from_emitter
+			(
+				point(p1x, p1y), 
+				point(p2x, p2y), 
+
+				object->n,
+
+				object->cr,
+				object->cg,
+				object->cb
+			);
+		}
+
+		// Draw the intersectable objects in the scene.
+
+		for (int i = 0; i < scene_intersectable.size(); i++)
+		{
+			intersectable* object = scene_intersectable[i];
+
+			if ((*object).type == intersectable_reflective_segment)
+			{
+				reflective_segment* cast_object = (reflective_segment*)(object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+
+				draw_reflective_segment(cast_object);
+			}
+			else if ((*object).type == intersectable_refractive_segment)
+			{
+				refractive_segment* cast_object = (refractive_segment*)(object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+
+				draw_refractive_segment(cast_object);
+			}
+			else if ((*object).type == intersectable_strobe_filter_segment)
+			{
+				strobe_filter_segment* cast_object = (strobe_filter_segment*)(object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+
+				draw_strobe_filter_segment(cast_object);
+			}
+			else if ((*object).type == intersectable_subtractive_filter_segment)
+			{
+				subtractive_filter_segment* cast_object = (subtractive_filter_segment*)(object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+
+				draw_subtractive_filter_segment(cast_object);
+			}
+		}
+
+		// Draw the emitter objects in the scene.
+
+		for (int i = 0; i < scene_emitter.size(); i++)
+		{
+			emitter* object = scene_emitter[i];
+
+			draw_emitter(object);
+		}
+
+		// Continue dragging.
+
+		if (dragged != nullptr && mouse_l)
+		{
+			dragged->x = round(real(mouse_x) / grid) * grid;
+			dragged->y = round(real(mouse_y) / grid) * grid;
+		}
+
+		if (!mouse_l)
+		{
+			dragged = nullptr;
+		}
 	}
 };
 
