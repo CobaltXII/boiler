@@ -220,6 +220,23 @@ struct game: boiler
 			object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
 		}
 	}
+
+	// Initialize the Boiler framework.
+
+	void steam() override
+	{
+		// Seed the random number generator.
+
+		srand(time(NULL));
+
+		// Initialize the Boiler window.
+
+		width = 960;
+
+		height = 536;
+
+		title = "Optics (using Boiler)";
+	}
 };
 
 // Entry point for the software renderer.
