@@ -236,6 +236,26 @@ struct game: boiler
 		height = 536;
 
 		title = "Optics (using Boiler)";
+
+		// Add demonstration intersectable objects.
+
+		for (int i = 0; i < 20; i++)
+		{
+			real rx1 = width - 64.0f;
+			real rx2 = width - 32.0f;
+
+			real ry1 = round((i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f) / grid) * grid;
+			real ry2 = round((i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f) / grid) * grid;
+
+			if (i > 9)
+			{
+				scene_intersectable.push_back(new refractive_segment(point(rx1, ry1), point(rx2, ry2)));
+			}
+			else
+			{
+				scene_intersectable.push_back(new reflective_segment(point(rx1, ry1), point(rx2, ry2)));
+			}
+		}
 	}
 };
 
