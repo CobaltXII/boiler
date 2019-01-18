@@ -292,6 +292,251 @@ struct game: boiler
 			scene_emitter.push_back(new emitter(point(64.0f, i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f), point(-1.0f, 0.0f), mgetr(c), mgetg(c), mgetb(c)));
 		}
 	}
+
+	// Cast from an emitter.
+
+	void cast_from_emitter
+	(
+		point p1, 
+		point p2, 
+
+		point n, 
+
+		unsigned char cr, 
+		unsigned char cg, 
+		unsigned char cb,
+
+		int depth = 0, 
+
+		intersectable* ignore = nullptr
+	)
+	{
+		if (depth >= 256)
+		{
+			return;
+		}
+
+		real p1x = p1.x;
+		real p1y = p1.y;
+
+		real p2x = p2.x;
+		real p2y = p2.y;
+
+		// Check for intersections against all intersectable objects.
+
+		intersectable* intersected = nullptr;
+
+		real distance_squared = INFINITY;
+
+		point intersection_point;
+
+		for (int j = 0; j < scene_intersectable.size(); j++)
+		{
+			intersectable* intersectable_object = scene_intersectable[j];
+
+			if (intersectable_object == ignore)
+			{
+				continue;
+			}
+
+			if (intersectable_object->type == intersectable_reflective_segment)
+			{
+				reflective_segment* cast_object = (reflective_segment*)(intersectable_object);
+
+				point i_p;
+
+				if (line_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p1, cast_object->p2, i_p))
+				{
+					// Hit the object.
+
+					real i_p_distance_squared = (i_p.x - p1x) * (i_p.x - p1x) + (i_p.y - p1y) * (i_p.y - p1y);
+
+					if (i_p_distance_squared < distance_squared)
+					{
+						intersected = intersectable_object;
+
+						distance_squared = i_p_distance_squared;
+
+						intersection_point = i_p;
+					}
+				}
+			}
+			else if (intersectable_object->type == intersectable_refractive_segment)
+			{
+				refractive_segment* cast_object = (refractive_segment*)(intersectable_object);
+
+				point i_p;
+
+				if (line_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p1, cast_object->p2, i_p))
+				{
+					// Hit the object.
+
+					real i_p_distance_squared = (i_p.x - p1x) * (i_p.x - p1x) + (i_p.y - p1y) * (i_p.y - p1y);
+
+					if (i_p_distance_squared < distance_squared)
+					{
+						intersected = intersectable_object;
+
+						distance_squared = i_p_distance_squared;
+
+						intersection_point = i_p;
+					}
+				}
+			}
+			else if (intersectable_object->type == intersectable_strobe_filter_segment)
+			{
+				strobe_filter_segment* cast_object = (strobe_filter_segment*)(intersectable_object);
+
+				point i_p;
+
+				if (line_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p1, cast_object->p2, i_p))
+				{
+					// Hit the object.
+
+					real i_p_distance_squared = (i_p.x - p1x) * (i_p.x - p1x) + (i_p.y - p1y) * (i_p.y - p1y);
+
+					if (i_p_distance_squared < distance_squared)
+					{
+						intersected = intersectable_object;
+
+						distance_squared = i_p_distance_squared;
+
+						intersection_point = i_p;
+					}
+				}
+			}
+			else if (intersectable_object->type == intersectable_subtractive_filter_segment)
+			{
+				subtractive_filter_segment* cast_object = (subtractive_filter_segment*)(intersectable_object);
+
+				point i_p;
+
+				if (line_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p1, cast_object->p2, i_p))
+				{
+					// Hit the object.
+
+					real i_p_distance_squared = (i_p.x - p1x) * (i_p.x - p1x) + (i_p.y - p1y) * (i_p.y - p1y);
+
+					if (i_p_distance_squared < distance_squared)
+					{
+						intersected = intersectable_object;
+
+						distance_squared = i_p_distance_squared;
+
+						intersection_point = i_p;
+					}
+				}
+			}
+		}
+
+		if (intersected != nullptr)
+		{
+			dashedlinergb(p1x, p1y, intersection_point.x, intersection_point.y, 32, 3, SDL_GetTicks() / 10, rgb(cr, cg, cb));
+
+			if (intersected->type == intersectable_reflective_segment)
+			{
+				reflective_segment* cast_object = (reflective_segment*)(intersected);
+
+				// Reflect off the intersected reflective segment and cast a 
+				// new ray.
+
+				real n_dx = n.x;
+				real n_dy = n.y;
+
+				// Found the original ray's normal. Now, reflect it off the 
+				// surface normal of the intersected reflective segment.
+
+				real two_dot_ni = 2.0f * (n_dx * cast_object->n.x + n_dy * cast_object->n.y);
+
+				real rx = n_dx - two_dot_ni * cast_object->n.x;
+				real ry = n_dy - two_dot_ni * cast_object->n.y;
+
+				// Create and cast the ray.
+
+				cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+			}
+			else if (intersected->type == intersectable_refractive_segment)
+			{
+				refractive_segment* cast_object = (refractive_segment*)(intersected);
+
+				// Do refraction.
+
+				real n_dx = n.x;
+				real n_dy = n.y;
+
+				// Flip surface normals based on the side of the origin point.
+
+				real s_nx = cast_object->n.x;
+				real s_ny = cast_object->n.y;
+
+				if ((p1.x - cast_object->p1.x) * (cast_object->p2.y - cast_object->p1.y) - (p1.y - cast_object->p1.y) * (cast_object->p2.x - cast_object->p1.x) > 0.0f)
+				{
+					s_nx = -s_nx;
+					s_ny = -s_ny;
+				}
+
+				real eta = 1.64f;
+
+				real i_dot_n = n_dx * s_nx + n_dy * s_ny;
+
+				real k = 1.0f - eta * eta * (1.0f - i_dot_n * i_dot_n);
+
+				if (k < 0.0f)
+				{
+					return;
+				}
+				else
+				{
+					real rx = eta * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
+					real ry = eta * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+
+					// Create and cast the ray.
+
+					cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+				}
+			}
+			else if (intersected->type == intersectable_strobe_filter_segment)
+			{
+				strobe_filter_segment* cast_object = (strobe_filter_segment*)(intersected);
+
+				int period = 500;
+
+				if (SDL_GetTicks() % (period * 2) >= period)
+				{
+					cast_from_emitter(intersection_point, point(intersection_point.x + n.x * 1024.0f, intersection_point.y + n.y * 1024.0f), n, cr, cg, cb, depth + 1, intersected);
+				}
+			}
+			else if (intersected->type == intersectable_subtractive_filter_segment)
+			{
+				subtractive_filter_segment* cast_object = (subtractive_filter_segment*)(intersected);
+
+				cast_from_emitter
+				(
+					intersection_point, 
+
+					point
+					(
+						intersection_point.x + n.x * 1024.0f, 
+						intersection_point.y + n.y * 1024.0f
+					), 
+
+					n, 
+
+					(int(cr) - int(cast_object->s_r)) < 0 ? 0 : (int(cr) - int(cast_object->s_r)), 
+					(int(cg) - int(cast_object->s_g)) < 0 ? 0 : (int(cg) - int(cast_object->s_g)), 
+					(int(cb) - int(cast_object->s_b)) < 0 ? 0 : (int(cb) - int(cast_object->s_b)), 
+
+					depth + 1, 
+
+					intersected
+				);
+			}
+		}
+		else
+		{
+			dashedlinergb(p1x, p1y, p2x, p2y, 32, 3, SDL_GetTicks() / 10, rgb(cr, cg, cb));
+		}
+	}
 	}
 };
 
