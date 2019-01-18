@@ -168,6 +168,58 @@ struct game: boiler
 
 		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
 	};
+
+	// Draw a emitter*.
+
+	void draw_emitter(emitter* object)
+	{	
+		circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+
+		real rx = 0.0f - object->n.y; 
+		real ry = 0.0f + object->n.x; 
+
+		real tmx = object->p.x + object->n.x * emitter_length / 2.0f;
+		real tmy = object->p.y + object->n.y * emitter_length / 2.0f;
+
+		real bmx = object->p.x - object->n.x * emitter_length / 2.0f;
+		real bmy = object->p.y - object->n.y * emitter_length / 2.0f;
+
+		// Draw body.
+		
+		linergb(tmx - rx * emitter_width / 2.0f, tmy - ry * emitter_width / 2.0f, tmx + rx * emitter_width / 2.0f, tmy + ry * emitter_width / 2.0f, rgb(255, 255, 255));
+		linergb(bmx - rx * emitter_width / 2.0f, bmy - ry * emitter_width / 2.0f, bmx + rx * emitter_width / 2.0f, bmy + ry * emitter_width / 2.0f, rgb(255, 255, 255));
+
+		linergb(tmx - rx * emitter_width / 2.0f, tmy - ry * emitter_width / 2.0f, bmx - rx * emitter_width / 2.0f, bmy - ry * emitter_width / 2.0f, rgb(255, 255, 255));
+		linergb(tmx + rx * emitter_width / 2.0f, tmy + ry * emitter_width / 2.0f, bmx + rx * emitter_width / 2.0f, bmy + ry * emitter_width / 2.0f, rgb(255, 255, 255));
+
+		// Draw normal.
+
+		object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
+
+		linergb(bmx, bmy, object->a.x, object->a.y, rgb(0, 255, 0));
+
+		circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+
+		// Check for dragging.
+
+		if (dragged == &object->a)
+		{
+			// Normal anchor is being dragged.
+
+			real dx = mouse_x - object->p.x;
+			real dy = mouse_y - object->p.y;
+
+			// Calculate new normal.
+
+			point new_normal = normalize(point(-dx, -dy));
+
+			// Assign new normal and anchor.
+
+			object->n = new_normal;
+
+			object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
+		}
+	}
 };
 
 // Entry point for the software renderer.
