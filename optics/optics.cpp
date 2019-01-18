@@ -282,6 +282,16 @@ struct game: boiler
 				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 0, 0, 255));
 			}
 		}
+
+		// Add demonstration emitters.
+
+		for (int i = 0; i < 20; i++)
+		{
+			unsigned int c = hsl_to_rgb(i * (360 / 20), 1.0f, 0.5f);
+
+			scene_emitter.push_back(new emitter(point(64.0f, i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f), point(-1.0f, 0.0f), mgetr(c), mgetg(c), mgetb(c)));
+		}
+	}
 	}
 };
 
