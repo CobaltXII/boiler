@@ -256,6 +256,32 @@ struct game: boiler
 				scene_intersectable.push_back(new reflective_segment(point(rx1, ry1), point(rx2, ry2)));
 			}
 		}
+
+		for (int i = 0; i < 20; i++)
+		{
+			real rx1 = width - 64.0f - 48.0f;
+			real rx2 = width - 32.0f - 48.0f;
+
+			real ry1 = round((i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f) / grid) * grid;
+			real ry2 = round((i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f) / grid) * grid;
+
+			if (i < 5)
+			{
+				scene_intersectable.push_back(new strobe_filter_segment(point(rx1, ry1), point(rx2, ry2)));
+			}
+			else if (i < 10)
+			{
+				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 255, 0, 0));
+			}
+			else if (i < 15)
+			{
+				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 0, 255, 0));
+			}
+			else if (i < 20)
+			{
+				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 0, 0, 255));
+			}
+		}
 	}
 };
 
