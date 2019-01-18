@@ -53,6 +53,29 @@ struct game: boiler
 	{
 		return (mouse_x - p.x) * (mouse_x - p.x) + (mouse_y - p.y) * (mouse_y - p.y) < 5 * 5;
 	}
+
+	// Check if the mouse is within range of a point. If so, drag the point if
+	// mouse_l is true.
+
+	inline bool within_point_drag(point& p)
+	{
+		if (within_point(p))
+		{
+			if (mouse_l && (dragged == nullptr || dragged == &p))
+			{
+				dragged = &p;
+
+				p.x = round(real(mouse_x) / grid) * grid;
+				p.y = round(real(mouse_y) / grid) * grid;
+			}
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
 // Entry point for the software renderer.
