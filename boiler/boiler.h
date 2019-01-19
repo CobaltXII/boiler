@@ -1714,6 +1714,16 @@ struct boiler
 		}
 	};
 
+	// Convert from polar to Cartesian coordinates. X is rho and Y is theta.
+
+	inline DASHED_CIRCLE__point DASHED_CIRCLE__polar_to_cartesian(DASHED_CIRCLE__point polar)
+	{
+		return DASHED_CIRCLE__point
+		(
+			polar.x * cos(polar.y),
+			polar.x * sin(polar.y)
+		);
+	}
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
