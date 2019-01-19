@@ -555,6 +555,64 @@ struct game: boiler
 					}
 				}
 			}
+			else if (intersectable_object->type == intersectable_refractive_circle)
+			{
+				refractive_circle* cast_object = (refractive_circle*)(intersectable_object);
+
+				point intersection1;
+				point intersection2;
+
+				int intersect = circle_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p, cast_object->r, intersection1, intersection2);
+
+				if (intersect)
+				{
+					// Hit the object.
+
+					if (intersect == 1)
+					{
+						real i_p_distance_squared = (intersection1.x - p1x) * (intersection1.x - p1x) + (intersection1.y - p1y) * (intersection1.y - p1y);
+
+						if (i_p_distance_squared < distance_squared)
+						{
+							intersected = intersectable_object;
+
+							distance_squared = i_p_distance_squared;
+
+							intersection_point = intersection1;
+						}
+					}
+					else
+					{
+						real i1_distance_squared = (intersection1.x - p1x) * (intersection1.x - p1x) + (intersection1.y - p1y) * (intersection1.y - p1y);
+						real i2_distance_squared = (intersection2.x - p1x) * (intersection2.x - p1x) + (intersection2.y - p1y) * (intersection2.y - p1y);
+
+						// Use the closest intersection.
+
+						if (i1_distance_squared < i2_distance_squared)
+						{
+							if (i1_distance_squared < distance_squared)
+							{
+								intersected = intersectable_object;
+
+								distance_squared = i1_distance_squared;
+
+								intersection_point = intersection1;
+							}
+						}
+						else
+						{
+							if (i2_distance_squared < distance_squared)
+							{
+								intersected = intersectable_object;
+
+								distance_squared = i2_distance_squared;
+
+								intersection_point = intersection2;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		if (intersected != nullptr)
@@ -619,7 +677,7 @@ struct game: boiler
 					{
 						// It's white, split into rainbow.
 
-						const int bands = 24;
+						const int bands = 64;
 
 						for (int b = 0; b < bands; b++)
 						{
@@ -699,6 +757,67 @@ struct game: boiler
 				real ry = n.y - two_dot_ni * ny;
 
 				cast_from_emitter(point(intersection_point.x + rx * 1.0f, intersection_point.y + ry * 1.0f), point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), cr, cg, cb, depth + 1, nullptr);
+			}
+			else if (intersected->type == intersectable_refractive_circle)
+			{
+				refractive_circle* cast_object = (refractive_circle*)(intersected);
+
+				// Do refraction.
+
+				real n_dx = n.x;
+				real n_dy = n.y;
+
+				// Circle normal.
+
+				real s_nx = (intersection_point.x - cast_object->p.x) / cast_object->r;
+				real s_ny = (intersection_point.y - cast_object->p.y) / cast_object->r;
+
+				real eta = 1.32f;
+
+				real i_dot_n = n_dx * s_nx + n_dy * s_ny;
+
+				real k = 1.0f - eta * eta * (1.0f - i_dot_n * i_dot_n);
+
+				if (k < 0.0f)
+				{
+					return;
+				}
+				else
+				{
+					if (cr == 255 && cg == 255 && cb == 255)
+					{
+						// It's white, split into rainbow.
+
+						const int bands = 64;
+
+						for (int b = 0; b < bands; b++)
+						{
+							real diff = ((real(b) / real(bands)) * 2.0f - 1.0f) * 0.1f;
+
+							unsigned int split_color = hsl_to_rgb(b * (360 / bands), 1.0f, 0.5f);
+
+							unsigned char br = mgetr(split_color);
+							unsigned char bg = mgetg(split_color);
+							unsigned char bb = mgetb(split_color);
+
+							real rx = (eta + diff) * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
+							real ry = (eta + diff) * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+
+							// Create and cast the ray.
+
+							cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), br, bg, bb, depth + 1, intersected);
+						}
+					}
+					else
+					{
+						real rx = eta * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
+						real ry = eta * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+
+						// Create and cast the ray.
+
+						cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), cr, cg, cb, depth + 1, intersected);
+					}
+				}
 			}
 		}
 		else
@@ -817,6 +936,17 @@ struct game: boiler
 				reflective_circle* cast_object = (reflective_circle*)(object);
 
 				draw_reflective_circle(cast_object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+			}
+			else if ((*object).type == intersectable_refractive_circle)
+			{
+				refractive_circle* cast_object = (refractive_circle*)(object);
+
+				draw_refractive_circle(cast_object);
 
 				if (cast_object->changed())
 				{
