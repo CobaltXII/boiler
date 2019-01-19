@@ -1699,6 +1699,21 @@ struct boiler
 			pixels[y * width + x] = c;
 		}
 	}
+
+	// Point.
+
+	struct DASHED_CIRCLE__point
+	{
+		double x;
+		double y;
+
+		DASHED_CIRCLE__point(double _x, double _y)
+		{
+			x = _x;
+			y = _y;
+		}
+	};
+
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
