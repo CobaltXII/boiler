@@ -662,7 +662,7 @@ struct game: boiler
 				real rx = n.x - two_dot_ni * nx;
 				real ry = n.y - two_dot_ni * ny;
 
-				cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+				cast_from_emitter(point(intersection_point.x + rx * 1.0f, intersection_point.y + ry * 1.0f), point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), cr, cg, cb, depth + 1, nullptr);
 			}
 		}
 		else
