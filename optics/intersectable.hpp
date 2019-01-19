@@ -10,7 +10,9 @@ enum intersectable_type
 
 	intersectable_strobe_filter_segment,
 
-	intersectable_subtractive_filter_segment
+	intersectable_subtractive_filter_segment,
+
+	intersectable_reflective_circle
 };
 
 // An intersectable type (base class).
