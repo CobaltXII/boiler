@@ -325,6 +325,10 @@ struct game: boiler
 		// Add white emitter.
 
 		scene_emitter.push_back(new emitter(point(round(width / 2.0f / grid) * grid, round(height / 2.0f / grid) * grid), point(0.0f, -1.0f), 255, 255, 255));
+
+		// Add circle.
+
+		scene_intersectable.push_back(new reflective_circle(point(round(width / 2.0f / grid) * grid, round(height / 2.0f / grid) * grid), 32.0f));
 	}
 
 	// Cast from an emitter.
