@@ -117,11 +117,19 @@ int circle_intersect
 
 		t = -B / (2.0f * A);
 
-		intersection1 = point(point1.x + t * dx, point1.y + t * dy);
+		if (t <= 1.0 && t >= 0.0)
+		{
+			intersection1 = point(point1.x + t * dx, point1.y + t * dy);
 
+			intersection2 = point();
+
+			return 1;
+		}
+
+		intersection1 = point();
 		intersection2 = point();
 
-		return 1;
+		return 0;
 	}
 	else
 	{
