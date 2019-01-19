@@ -617,6 +617,20 @@ struct game: boiler
 					intersected
 				);
 			}
+			else if (intersected->type == intersectable_reflective_circle)
+			{
+				reflective_circle* cast_object = (reflective_circle*)(intersected);
+
+				real nx = (intersection_point.x - cast_object->p.x) / cast_object->r;
+				real ny = (intersection_point.y - cast_object->p.y) / cast_object->r;
+
+				real two_dot_ni = 2.0f * (n.x * nx + n.y * ny);
+
+				real rx = n.x - two_dot_ni * nx;
+				real ry = n.y - two_dot_ni * ny;
+
+				cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+			}
 		}
 		else
 		{
