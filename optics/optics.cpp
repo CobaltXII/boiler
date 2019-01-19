@@ -455,6 +455,64 @@ struct game: boiler
 					}
 				}
 			}
+			else if (intersectable_object->type == intersectable_reflective_circle)
+			{
+				reflective_circle* cast_object = (reflective_circle*)(intersectable_object);
+
+				point intersection1;
+				point intersection2;
+
+				int intersect = circle_intersect(point(p1x, p1y), point(p2x, p2y), cast_object->p, cast_object->r, intersection1, intersection2);
+
+				if (intersect)
+				{
+					// Hit the object.
+
+					if (intersect == 1)
+					{
+						real i_p_distance_squared = (intersection1.x - p1x) * (intersection1.x - p1x) + (intersection1.y - p1y) * (intersection1.y - p1y);
+
+						if (i_p_distance_squared < distance_squared)
+						{
+							intersected = intersectable_object;
+
+							distance_squared = i_p_distance_squared;
+
+							intersection_point = intersection1;
+						}
+					}
+					else
+					{
+						real i1_distance_squared = (intersection1.x - p1x) * (intersection1.x - p1x) + (intersection1.y - p1y) * (intersection1.y - p1y);
+						real i2_distance_squared = (intersection2.x - p1x) * (intersection2.x - p1x) + (intersection2.y - p1y) * (intersection2.y - p1y);
+
+						// Use the closest intersection.
+
+						if (i1_distance_squared < i2_distance_squared)
+						{
+							if (i1_distance_squared < distance_squared)
+							{
+								intersected = intersectable_object;
+
+								distance_squared = i1_distance_squared;
+
+								intersection_point = intersection1;
+							}
+						}
+						else
+						{
+							if (i2_distance_squared < distance_squared)
+							{
+								intersected = intersectable_object;
+
+								distance_squared = i2_distance_squared;
+
+								intersection_point = intersection2;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		if (intersected != nullptr)
