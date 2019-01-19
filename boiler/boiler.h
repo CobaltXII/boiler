@@ -1724,6 +1724,33 @@ struct boiler
 			polar.x * sin(polar.y)
 		);
 	}
+
+	// Dashed circles. Refer to dashedlinergb to see the significance of parameters.
+
+	void dashedcirclergb(int cx, int cy, double radius, int dash, int cond, int pixels_placed, unsigned int color)
+	{
+		double circ = 2.0 * M_PI * radius;
+
+		double inc = 360.0 / circ;
+
+		double deg = 0.0;
+
+		for (int i = 0; i < circ; i++)
+		{
+			DASHED_CIRCLE__point polar = DASHED_CIRCLE__point(radius, degrad(deg));
+
+			DASHED_CIRCLE__point cartesian = DASHED_CIRCLE__polar_to_cartesian(polar);
+
+			if (pixels_placed % (dash * 2) >= cond)
+			{
+				plotp(cartesian.x + cx, cartesian.y + cy, color);
+			}
+
+			pixels_placed++;
+
+			deg += inc;
+		}
+	}
 };
 
 // Pointless nuke, big explosion without radiation cleansing.
