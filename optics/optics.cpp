@@ -321,6 +321,10 @@ struct game: boiler
 
 			scene_emitter.push_back(new emitter(point(64.0f, i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f), point(-1.0f, 0.0f), mgetr(c), mgetg(c), mgetb(c)));
 		}
+
+		// Add white emitter.
+
+		scene_emitter.push_back(new emitter(point(round(width / 2.0f / grid) * grid, round(height / 2.0f / grid) * grid), point(0.0f, -1.0f), 255, 255, 255));
 	}
 
 	// Cast from an emitter.
