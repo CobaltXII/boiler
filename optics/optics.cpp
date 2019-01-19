@@ -567,7 +567,7 @@ struct game: boiler
 					s_ny = -s_ny;
 				}
 
-				real eta = 1.64f;
+				real eta = 1.32f;
 
 				real i_dot_n = n_dx * s_nx + n_dy * s_ny;
 
