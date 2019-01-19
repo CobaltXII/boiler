@@ -23,6 +23,8 @@ typedef float real;
 
 #include "subtractive_filter_segment.hpp"
 
+#include "reflective_circle.hpp"
+
 #include "emitter.hpp"
 
 #include "line.hpp"
@@ -517,7 +519,7 @@ struct game: boiler
 
 		if (intersected != nullptr)
 		{
-			dashedlinergb(p1x, p1y, intersection_point.x, intersection_point.y, 32, 3, SDL_GetTicks() / 10, rgb(cr, cg, cb));
+			linergb(p1x, p1y, intersection_point.x, intersection_point.y, rgb(cr, cg, cb));
 
 			if (intersected->type == intersectable_reflective_segment)
 			{
@@ -634,7 +636,7 @@ struct game: boiler
 		}
 		else
 		{
-			dashedlinergb(p1x, p1y, p2x, p2y, 32, 3, SDL_GetTicks() / 10, rgb(cr, cg, cb));
+			linergb(p1x, p1y, p2x, p2y, rgb(cr, cg, cb));
 		}
 	}
 
