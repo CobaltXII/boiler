@@ -575,12 +575,39 @@ struct game: boiler
 				}
 				else
 				{
-					real rx = eta * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
-					real ry = eta * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+					if (cr == 255 && cg == 255 && cb == 255)
+					{
+						// It's white, split into rainbow.
 
-					// Create and cast the ray.
+						const int bands = 24;
 
-					cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+						for (int b = 0; b < bands; b++)
+						{
+							real diff = ((real(b) / real(bands)) * 2.0f - 1.0f) * 0.1f;
+
+							unsigned int split_color = hsl_to_rgb(b * (360 / bands), 1.0f, 0.5f);
+
+							unsigned char br = mgetr(split_color);
+							unsigned char bg = mgetg(split_color);
+							unsigned char bb = mgetb(split_color);
+
+							real rx = (eta + diff) * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
+							real ry = (eta + diff) * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+
+							// Create and cast the ray.
+
+							cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), br, bg, bb, depth + 1, intersected);
+						}
+					}
+					else
+					{
+						real rx = eta * n_dx - (eta * i_dot_n + sqrtf(k)) * s_nx;
+						real ry = eta * n_dy - (eta * i_dot_n + sqrtf(k)) * s_ny;
+
+						// Create and cast the ray.
+
+						cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+					}
 				}
 			}
 			else if (intersected->type == intersectable_strobe_filter_segment)
