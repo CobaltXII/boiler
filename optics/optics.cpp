@@ -245,7 +245,7 @@ struct game: boiler
 
 			// Assign new normal and anchor.
 
-			object->n = new_normal;
+			object->n = normalize(new_normal);
 
 			object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
 		}
@@ -545,7 +545,7 @@ struct game: boiler
 
 				// Create and cast the ray.
 
-				cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+				cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), cr, cg, cb, depth + 1, intersected);
 			}
 			else if (intersected->type == intersectable_refractive_segment)
 			{
@@ -610,7 +610,7 @@ struct game: boiler
 
 						// Create and cast the ray.
 
-						cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), point(rx, ry), cr, cg, cb, depth + 1, intersected);
+						cast_from_emitter(intersection_point, point(intersection_point.x + rx * 1024.0f, intersection_point.y + ry * 1024.0f), normalize(point(rx, ry)), cr, cg, cb, depth + 1, intersected);
 					}
 				}
 			}
@@ -718,7 +718,7 @@ struct game: boiler
 				point(p1x, p1y), 
 				point(p2x, p2y), 
 
-				object->n,
+				normalize(object->n),
 
 				object->cr,
 				object->cg,
