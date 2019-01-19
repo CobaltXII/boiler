@@ -169,6 +169,34 @@ struct game: boiler
 		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
 	};
 
+	// Draw a reflective_circle*.
+
+	void draw_reflective_circle(reflective_circle* object)
+	{
+		// Draw the circle.
+
+		circlergb(object->p.x, object->p.y, object->r, rgb(255, 255, 255));
+
+		// Draw the drag point.
+
+		circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+
+		if (dragged == &(object->p))
+		{
+			object->a.x = object->p.x + object->r;
+		}
+
+		object->a.y = object->p.y;
+
+		// Draw the radius marker.
+
+		linergb(object->p.x, object->p.y, object->a.x, object->a.y, rgb(0, 255, 0));
+
+		// Draw the radius anchor.
+
+		circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+	};
+
 	// Draw a emitter*.
 
 	void draw_emitter(emitter* object)
