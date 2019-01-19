@@ -743,6 +743,17 @@ struct game: boiler
 
 				draw_subtractive_filter_segment(cast_object);
 			}
+			else if ((*object).type == intersectable_reflective_circle)
+			{
+				reflective_circle* cast_object = (reflective_circle*)(object);
+
+				draw_reflective_circle(cast_object);
+
+				if (cast_object->changed())
+				{
+					cast_object->recalculate();
+				}
+			}
 		}
 
 		// Draw the emitter objects in the scene.
