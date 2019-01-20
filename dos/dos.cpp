@@ -172,6 +172,25 @@ struct game: boiler
 		// __BACKGROUND).
 
 		#define ASSIGN(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND) assign(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND); ENABLE(selected_menu_tab_still_selected, within_character(__X, __Y));
+
+		// Clear the screen to black.
+
+		black();
+
+		// Clear buffers.
+
+		for (int k = 0; k < chx_res * chy_res; k++)
+		{
+			map1[k] = 0;
+			map2[k] = 0;
+		}
+
+		// Draw the main menu strip.
+
+		for (int i = 0; i < chx_res; i++)
+		{
+			assign(i, 0, 0, vga_black, vga_gray);
+		}
 	}
 };
 
