@@ -33,22 +33,24 @@ unsigned int __vga__
 
 unsigned int vga_rgb[16] =
 {
-	__vga__(0, 0, 0),
-	__vga__(0, 0, 2),
-	__vga__(0, 2, 0),
-	__vga__(0, 2, 2),
-	__vga__(2, 0, 0),
-	__vga__(2, 0, 2),
-	__vga__(2, 1, 0),
-	__vga__(2, 2, 2),
-	__vga__(1, 1, 1),
-	__vga__(1, 1, 3),
-	__vga__(1, 3, 1),
-	__vga__(1, 3, 3),
-	__vga__(3, 1, 1),
-	__vga__(3, 1, 3),
-	__vga__(3, 3, 1),
-	__vga__(3, 3, 3)
+	__vga__(0, 0, 0), // Black
+	__vga__(0, 0, 2), // Dark blue
+	__vga__(0, 2, 0), // Dark green
+	__vga__(0, 2, 2), // Dark cyan
+	__vga__(2, 0, 0), // Dark red
+	__vga__(2, 0, 2), // Dark pink
+	__vga__(2, 1, 0), // Dark yellow
+	__vga__(2, 2, 2), // Gray
+	__vga__(1, 1, 1), // Dark gray
+	__vga__(1, 1, 3), // Blue
+	__vga__(1, 3, 1), // Green
+	__vga__(1, 3, 3), // Cyan
+	__vga__(3, 1, 1), // Red
+	__vga__(3, 1, 3), // Pink
+	__vga__(3, 3, 1), // Yellow
+	__vga__(3, 3, 3)  // White
+};
+
 };
 
 #endif
