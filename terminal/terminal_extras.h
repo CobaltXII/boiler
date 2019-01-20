@@ -51,6 +51,24 @@ unsigned int vga_rgb[16] =
 	__vga__(3, 3, 3)  // White
 };
 
+enum vga_color
+{
+	vga_black,
+	vga_dark_blue,
+	vga_dark_green,
+	vga_dark_cyan,
+	vga_dark_red,
+	vga_dark_pink,
+	vga_dark_yellow,
+	vga_gray,
+	vga_dark_gray,
+	vga_blue,
+	vga_green,
+	vga_cyan,
+	vga_red,
+	vga_pink,
+	vga_yellow,
+	vga_white
 };
 
 #endif
