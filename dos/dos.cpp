@@ -79,6 +79,18 @@ struct game: boiler
 	{
 		"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"
 	};
+
+	// The contents of each main menu. These contents will be displayed under
+	// their corresponding tab when the mouse pointer hovers over it.
+
+	std::vector<std::vector<std::string>> main_menu_contents =
+	{
+		{"Test 1 Subitem 1", "Test 1 Subitem 2", "Test 1 Subitem 3", "", "Test 1 Subitem 4", "Test 1 Subitem 5"},
+		{"Test 2 Subitem 1", "Test 2 Subitem 2", "Test 2 Subitem 3", "", "Test 2 Subitem 4", "Test 2 Subitem 5"},
+		{"Test 3 Subitem 1", "Test 3 Subitem 2", "Test 3 Subitem 3", "", "Test 3 Subitem 4", "Test 3 Subitem 5"},
+		{"Test 4 Subitem 1", "Test 4 Subitem 2", "Test 4 Subitem 3", "", "Test 4 Subitem 4", "Test 4 Subitem 5"},
+		{"Test 5 Subitem 1", "Test 5 Subitem 2", "Test 5 Subitem 3", "", "Test 5 Subitem 4", "Test 5 Subitem 5"}
+	};
 };
 
 // Entry point for the software renderer.
