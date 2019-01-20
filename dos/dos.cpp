@@ -231,6 +231,49 @@ struct game: boiler
 		}
 
 		done_selected_menu_tab:
+
+		// Draw the menu tabs. Menu tabs start at horizontal offset 2 and 
+		// vertical offset 0.
+
+		int menu_tab_index = 2;
+
+		for (int n = 0; n < main_menu.size(); n++)
+		{
+			std::string main_menu_tab = main_menu[n];
+
+			if (selected_menu_tab == n)
+			{
+				// Draw the left bumper.
+
+				ASSIGN(menu_tab_index - 1, 0, 0, vga_gray, vga_black);
+
+				// Draw the right bumper.
+
+				ASSIGN(menu_tab_index + main_menu_tab.size(), 0, 0, vga_gray, vga_black);
+			}
+
+			// Draw the menu tab's text.
+
+			for (int c = 0; c < main_menu_tab.size(); c++)
+			{
+				if (selected_menu_tab == n)
+				{
+					// Draw gray text with a black background.
+
+					ASSIGN(menu_tab_index, 0, main_menu_tab[c], vga_gray, vga_black);
+				}
+				else
+				{
+					// Draw black text with a gray background.
+
+					assign(menu_tab_index, 0, main_menu_tab[c], vga_black, vga_gray);
+				}
+
+				menu_tab_index++;
+			}
+
+			menu_tab_index += 2;
+		}
 	}
 };
 
