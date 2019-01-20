@@ -117,4 +117,32 @@ struct dos_gui
 
 		parent = _parent;
 	}
+
+	// Finalize and initialize.
+
+	void finalize()
+	{
+		// Allocate a block of memory for 'map1' and 'map2'.
+
+		map1 = (unsigned char*)malloc(chx_res * chy_res * sizeof(unsigned char));
+		map2 = (unsigned char*)malloc(chx_res * chy_res * sizeof(unsigned char));
+
+		// Calculate the width of each menu tab's dropdown and store it in
+		// 'main_menu_widths'.
+
+		for (int i = 0; i < main_menu_contents.size(); i++)
+		{
+			int max_width = 16;
+
+			for (int j = 0; j < main_menu_contents[i].size(); j++)
+			{
+				if (main_menu_contents[i][j].size() > max_width)
+				{
+					max_width = main_menu_contents[i][j].size();
+				}
+			}
+
+			main_menu_widths.push_back(max_width);
+		}
+	}
 };
