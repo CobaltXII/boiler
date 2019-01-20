@@ -1003,6 +1003,10 @@ struct game: boiler
 		{
 			dragged = nullptr;
 		}
+
+		// Render the GUI.
+
+		GUI.render();
 	}
 };
 
