@@ -91,6 +91,71 @@ struct game: boiler
 		{"Test 4 Subitem 1", "Test 4 Subitem 2", "Test 4 Subitem 3", "", "Test 4 Subitem 4", "Test 4 Subitem 5"},
 		{"Test 5 Subitem 1", "Test 5 Subitem 2", "Test 5 Subitem 3", "", "Test 5 Subitem 4", "Test 5 Subitem 5"}
 	};
+
+	// Width of each menu tab's dropdown. This will be calculated at runtime 
+	// for ease of access.
+
+	std::vector<unsigned int> main_menu_widths;
+
+	// The currently selected menu tab's index is stored in 
+	// 'selected_menu_tab'. 'selected_menu_tab' is -1 when no menu tab is 
+	// currently selected.
+
+	int selected_menu_tab = -1;
+
+	// The horizontal offset (in characters) of the left edge of the currently
+	// selected menu tab is stored in selected_menu_tab_x_offset.
+
+	int selected_menu_tab_x_offset = 2;
+
+	// Resolution/dimensions in characters.
+
+	int chx_res = 80;
+	int chy_res = 25;
+
+	// Resolution/dimensions in pixels.
+
+	int x_res = chx_res * tf_w;
+	int y_res = chy_res * tf_h;
+
+	// Initialize Boiler.
+
+	void steam() override
+	{
+		// Pass the precalculated dimensions (in pixels) to the Boiler 
+		// framework, to use as the window's dimensions.
+
+		width = x_res;
+
+		height = y_res;
+
+		// Allocate a block of memory for 'map1' and 'map2'.
+
+		map1 = (unsigned char*)malloc(chx_res * chy_res * sizeof(unsigned char));
+		map2 = (unsigned char*)malloc(chx_res * chy_res * sizeof(unsigned char));
+
+		// Set the window's title to "DOS GUI (using Boiler)".
+
+		title = "DOS GUI (using Boiler)";
+
+		// Calculate the width of each menu tab's dropdown and store it in
+		// 'main_menu_widths'.
+
+		for (int i = 0; i < main_menu_contents.size(); i++)
+		{
+			int max_width = 16;
+
+			for (int j = 0; j < main_menu_contents[i].size(); j++)
+			{
+				if (main_menu_contents[i][j].size() > max_width)
+				{
+					max_width = main_menu_contents[i][j].size();
+				}
+			}
+
+			main_menu_widths.push_back(max_width);
+		}
+	}
 };
 
 // Entry point for the software renderer.
