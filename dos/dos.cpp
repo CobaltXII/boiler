@@ -392,6 +392,36 @@ struct game: boiler
 		{
 			selected_menu_tab = -1;
 		}
+
+		// Render 'map1' and 'map2' to the screen as rasterized pixel 
+		// graphics.
+
+		for (int i = 0; i < chx_res; i++)
+		{
+			for (int j = 0; j < chy_res; j++)
+			{
+				unsigned char ascii = map1[j * chx_res + i];
+
+				for (int x = 0; x < tf_w; x++)
+				for (int y = 0; y < tf_h; y++)
+				{
+					if (fetch_glyph(x, y, ascii))
+					{
+						plotp(i * tf_w + x, j * tf_h + y, vga_rgb[map2[j * chx_res + i] >> 4]);
+					}
+					else
+					{
+						plotp(i * tf_w + x, j * tf_h + y, vga_rgb[map2[j * chx_res + i] & 0xF]);
+					}
+				}
+			}
+		}
+
+		// Undefine common macros.
+
+		#undef ENABLE
+
+		#undef ASSIGN
 	}
 };
 
