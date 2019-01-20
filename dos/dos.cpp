@@ -161,6 +161,10 @@ struct game: boiler
 
 	void draw() override
 	{
+		// The following macro 'ENABLE' will set the boolean 'target' to true
+		// if 'value' is true, otherwise 'target' is set to itself.
+
+		#define ENABLE(__TARGET, __VALUE) __TARGET = __VALUE ? __VALUE : __TARGET;
 	}
 };
 
