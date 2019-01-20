@@ -19,4 +19,22 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 
 struct dos_gui
 {
+	boiler* parent;
+
+	// Common colors.
+
+	unsigned char common_foreground = vga_black;
+
+	unsigned char common_background = vga_gray;
+
+	// Check if the mouse pointer is within a character.
+
+	inline bool within_character(unsigned int x, unsigned int y)
+	{
+		return
+		(
+			parent->mouse_x >= x * tf_w && parent->mouse_x < (x + 1) * tf_w &&
+			parent->mouse_y >= y * tf_h && parent->mouse_y < (y + 1) * tf_h
+		);
+	}
 };
