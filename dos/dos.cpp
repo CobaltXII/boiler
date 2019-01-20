@@ -71,6 +71,14 @@ struct game: boiler
 
 		map2[y * chx_res + x] = join_colors(foreground, background);
 	}
+
+	// The main menu tabs. These tabs will be displayed on a menu bar at the
+	// top of the screen.
+
+	std::vector<std::string> main_menu =
+	{
+		"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"
+	};
 };
 
 // Entry point for the software renderer.
