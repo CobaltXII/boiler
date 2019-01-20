@@ -40,6 +40,10 @@ typedef float real;
 
 struct game: boiler
 {	
+	// The GUI renderer.
+
+	dos_gui GUI = dos_gui(104, 35, this);
+
 	// The side length of a grid square.
 
 	const real grid = 8.0f;
@@ -294,11 +298,29 @@ struct game: boiler
 
 		srand(time(NULL));
 
+		// Initialize the GUI.
+
+		GUI.main_menu =
+		{
+			"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"
+		};
+
+		GUI.main_menu_contents =
+		{
+			{"Test 1 Subitem 1", "Test 1 Subitem 2", "Test 1 Subitem 3", "", "Test 1 Subitem 4", "Test 1 Subitem 5"},
+			{"Test 2 Subitem 1", "Test 2 Subitem 2", "Test 2 Subitem 3", "", "Test 2 Subitem 4", "Test 2 Subitem 5"},
+			{"Test 3 Subitem 1", "Test 3 Subitem 2", "Test 3 Subitem 3", "", "Test 3 Subitem 4", "Test 3 Subitem 5"},
+			{"Test 4 Subitem 1", "Test 4 Subitem 2", "Test 4 Subitem 3", "", "Test 4 Subitem 4", "Test 4 Subitem 5"},
+			{"Test 5 Subitem 1", "Test 5 Subitem 2", "Test 5 Subitem 3", "", "Test 5 Subitem 4", "Test 5 Subitem 5"}
+		};
+
+		GUI.finalize();
+
 		// Initialize the Boiler window.
 
-		width = 960;
+		width = GUI.x_res;
 
-		height = 536;
+		height = GUI.y_res;
 
 		title = "Optics (using Boiler)";
 
