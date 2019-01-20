@@ -274,6 +274,124 @@ struct game: boiler
 
 			menu_tab_index += 2;
 		}
+
+		// Draw the selected menu dropdown (if any).
+
+		if (selected_menu_tab != -1)
+		{
+			// Vertical lines.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				ASSIGN(selected_menu_tab_x_offset - 1, i + 2, 179, vga_black, vga_gray);
+
+				ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], i + 2, 179, vga_black, vga_gray);
+			}
+
+			// Horizontal lines.
+
+			for (int i = 0; i < main_menu_widths[selected_menu_tab]; i++)
+			{
+				ASSIGN(selected_menu_tab_x_offset + i, 1, 196, vga_black, vga_gray);
+
+				ASSIGN(selected_menu_tab_x_offset + i, main_menu_contents[selected_menu_tab].size() + 2, 196, vga_black, vga_gray);
+			}
+
+			// Top-left corner.
+
+			ASSIGN(selected_menu_tab_x_offset - 1, 1, 218, vga_black, vga_gray);
+
+			// Top-right corner.
+
+			ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], 1, 191, vga_black, vga_gray);
+
+			// Bottom-left corner.
+
+			ASSIGN(selected_menu_tab_x_offset - 1, main_menu_contents[selected_menu_tab].size() + 2, 192, vga_black, vga_gray);
+
+			// Bottom-right corner.
+
+			ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], main_menu_contents[selected_menu_tab].size() + 2, 217, vga_black, vga_gray);
+
+			// Fill the menu tab dropdown.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				bool is_hover = false;
+
+				for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+				{
+					ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
+				}
+
+				for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+				{
+					if (is_hover)
+					{
+						ASSIGN(selected_menu_tab_x_offset + j, i + 2, 0, vga_gray, vga_black);
+					}
+					else
+					{
+						ASSIGN(selected_menu_tab_x_offset + j, i + 2, 0, vga_black, vga_gray);
+					}
+				}
+			}
+
+			// Write the text inside the menu tab dropdown.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				std::string menu_item = main_menu_contents[selected_menu_tab][i];
+
+				if (menu_item.size() == 0)
+				{
+					// Divider.
+
+					assign(selected_menu_tab_x_offset - 1, i + 2, 195, vga_black, vga_gray);
+
+					assign(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], i + 2, 180, vga_black, vga_gray);
+
+					for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+					{
+						assign(selected_menu_tab_x_offset + j, 2 + i, 196, vga_black, vga_gray);
+					}
+				}
+				else
+				{
+					// Menu item.
+
+					bool is_hover = false;
+
+					for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+					{
+						ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
+					}
+
+					if (is_hover)
+					{
+						for (int j = 0; j < menu_item.size(); j++)
+						{
+							assign(selected_menu_tab_x_offset + j, 2 + i, menu_item[j], vga_gray, vga_black);
+						}
+					}
+					else
+					{
+						for (int j = 0; j < menu_item.size(); j++)
+						{
+							assign(selected_menu_tab_x_offset + j, 2 + i, menu_item[j], vga_black, vga_gray);
+						}
+					}
+				}
+			}
+
+		}
+
+		// Reset the 'selected_menu_tab' if the mouse moved out of the hitbox.
+
+		if (!selected_menu_tab_still_selected)
+		{
+			selected_menu_tab = -1;
+		}
 	}
 };
 
