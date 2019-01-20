@@ -17,3 +17,11 @@ inline unsigned char fetch_glyph(unsigned int x, unsigned int y, unsigned char a
 {
 	return __437__[(ascii / (tfi_w / tf_w) * tf_h + y) * tfi_w + (ascii % (tfi_w / tf_w) * tf_w) + x];
 }
+
+// Join the colors 'foreground' and 'background' (4-bit unsigned integers) in
+// to one 8-bit unsigned integer.
+
+inline unsigned char join_colors(unsigned char foreground, unsigned char background)
+{
+	return foreground << 4 | background;
+}
