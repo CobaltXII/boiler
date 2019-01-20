@@ -165,6 +165,13 @@ struct game: boiler
 		// if 'value' is true, otherwise 'target' is set to itself.
 
 		#define ENABLE(__TARGET, __VALUE) __TARGET = __VALUE ? __VALUE : __TARGET;
+
+		// The following macro 'ASSIGN' will set the variable 'still_selected'
+		// to true if within_character(__X, __Y) is true. The following macro 
+		// will also call assign(__X, __Y, __ASCII, __FOREGROUND, 
+		// __BACKGROUND).
+
+		#define ASSIGN(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND) assign(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND); ENABLE(selected_menu_tab_still_selected, within_character(__X, __Y));
 	}
 };
 
