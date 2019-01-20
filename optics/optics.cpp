@@ -5,6 +5,8 @@
 
 #include "../boiler/boiler.h"
 
+#include "../dos/dos_gui.h"
+
 #include <vector>
 #include <utility>
 #include <iostream>
