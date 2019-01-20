@@ -191,6 +191,46 @@ struct game: boiler
 		{
 			assign(i, 0, 0, vga_black, vga_gray);
 		}
+
+		// If no menu tab is currently selected (i.e. selected_menu_tab is -1)
+		// then find the selected menu tab (if any).
+
+		bool selected_menu_tab_still_selected = false;
+
+		if (selected_menu_tab == -1)
+		{
+			// No menu tab is currently selected.
+
+			selected_menu_tab_x_offset = 2;
+
+			for (int n = 0; n < main_menu.size(); n++)
+			{
+				int x_offset_at_start = selected_menu_tab_x_offset;
+
+				std::string main_menu_tab = main_menu[n];
+
+				for (int c = 0; c < main_menu_tab.size(); c++)
+				{
+					if (within_character(selected_menu_tab_x_offset, 0))
+					{
+						// The menu tab at index 'n' is currently selected, so
+						// write it to 'selected_menu_tab'.
+
+						selected_menu_tab = n;
+
+						selected_menu_tab_x_offset = x_offset_at_start;
+
+						goto done_selected_menu_tab;
+					}
+
+					selected_menu_tab_x_offset++;
+				}
+
+				selected_menu_tab_x_offset += 2;
+			}
+		}
+
+		done_selected_menu_tab:
 	}
 };
 
