@@ -40,6 +40,37 @@ struct game: boiler
 			mouse_y >= y * tf_h && mouse_y < (y + 1) * tf_h
 		);
 	}
+
+	// 'map1' is an array that holds the ASCII character code of each
+	// character on the screen. 'map2' is an array that holds the color 
+	// information of each character on the screen.
+
+	unsigned char* map1;
+	unsigned char* map2;
+
+	// Assign the character code 'ascii' and the colors 'foreground' and
+	// 'background' to 'map1' and 'map2' at the horizontal offset 'x' and the
+	// vertical offset 'y'.
+
+	inline void assign
+	(
+		unsigned int x, 
+		unsigned int y, 
+
+		unsigned char ascii, 
+
+		unsigned char foreground, 
+		unsigned char background
+	)
+	{
+		// Assign 'ascii' to 'map1'.
+
+		map1[y * chx_res + x] = ascii;
+
+		// Assign 'foreground' and 'background' to 'map2'.
+
+		map2[y * chx_res + x] = join_colors(foreground, background);
+	}
 };
 
 // Entry point for the software renderer.
