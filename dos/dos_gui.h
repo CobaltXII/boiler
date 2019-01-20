@@ -68,4 +68,53 @@ struct dos_gui
 
 		map2[y * chx_res + x] = join_colors(foreground, background);
 	}
+
+	// The main menu tabs. These tabs will be displayed on a menu bar at the
+	// top of the screen.
+
+	std::vector<std::string> main_menu;
+
+	// The contents of each main menu. These contents will be displayed under
+	// their corresponding tab when the mouse pointer hovers over it.
+
+	std::vector<std::vector<std::string>> main_menu_contents;
+
+	// Width of each menu tab's dropdown. This will be calculated at runtime 
+	// for ease of access.
+
+	std::vector<unsigned int> main_menu_widths;
+
+	// The currently selected menu tab's index is stored in 
+	// 'selected_menu_tab'. 'selected_menu_tab' is -1 when no menu tab is 
+	// currently selected.
+
+	int selected_menu_tab = -1;
+
+	// The horizontal offset (in characters) of the left edge of the currently
+	// selected menu tab is stored in selected_menu_tab_x_offset.
+
+	int selected_menu_tab_x_offset = 2;
+
+	// Resolution/dimensions in characters.
+
+	int chx_res;
+	int chy_res;
+
+	// Resolution/dimensions in pixels.
+
+	int x_res;
+	int y_res;
+
+	// Constructor.
+
+	dos_gui(int _chx_res, int _chy_res, boiler* _parent)
+	{
+		chx_res = _chx_res;
+		chy_res = _chy_res;
+
+		x_res = chx_res * tf_w;
+		y_res = chy_res * tf_h;
+
+		parent = _parent;
+	}
 };
