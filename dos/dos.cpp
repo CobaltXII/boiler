@@ -25,3 +25,28 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 {
 	return foreground << 4 | background;
 }
+
+// An instance of the Boiler framework.
+
+struct game: boiler
+{	
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
