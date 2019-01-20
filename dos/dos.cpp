@@ -30,6 +30,16 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 
 struct game: boiler
 {	
+	// Check if the mouse pointer is within a character.
+
+	inline bool within_character(unsigned int x, unsigned int y)
+	{
+		return
+		(
+			mouse_x >= x * tf_w && mouse_x < (x + 1) * tf_w &&
+			mouse_y >= y * tf_h && mouse_y < (y + 1) * tf_h
+		);
+	}
 };
 
 // Entry point for the software renderer.
