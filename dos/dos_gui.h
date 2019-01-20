@@ -16,3 +16,7 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 {
 	return foreground << 4 | background;
 }
+
+struct dos_gui
+{
+};
