@@ -156,6 +156,12 @@ struct game: boiler
 			main_menu_widths.push_back(max_width);
 		}
 	}
+
+	// Draw a frame using Boiler.
+
+	void draw() override
+	{
+	}
 };
 
 // Entry point for the software renderer.
