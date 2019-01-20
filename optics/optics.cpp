@@ -1,5 +1,8 @@
 // Optics? Awesome.
 
+#include "../terminal/terminal_codepage.h"
+#include "../terminal/terminal_extras.h"
+
 #include "../boiler/boiler.h"
 
 #include <vector>
