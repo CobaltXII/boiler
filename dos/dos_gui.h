@@ -145,4 +145,271 @@ struct dos_gui
 			main_menu_widths.push_back(max_width);
 		}
 	}
+
+	// Render to parent.
+
+	void render()
+	{
+		// The following macro 'ENABLE' will set the boolean 'target' to true
+		// if 'value' is true, otherwise 'target' is set to itself.
+
+		#define ENABLE(__TARGET, __VALUE) __TARGET = __VALUE ? __VALUE : __TARGET;
+
+		// The following macro 'ASSIGN' will set the variable 'still_selected'
+		// to true if within_character(__X, __Y) is true. The following macro 
+		// will also call assign(__X, __Y, __ASCII, __FOREGROUND, 
+		// __BACKGROUND).
+
+		#define ASSIGN(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND) assign(__X, __Y, __ASCII, __FOREGROUND, __BACKGROUND); ENABLE(selected_menu_tab_still_selected, within_character(__X, __Y));
+
+		// Clear buffers.
+
+		for (int k = 0; k < chx_res * chy_res; k++)
+		{
+			map1[k] = 255;
+			map2[k] = 255;
+		}
+
+		// Draw the main menu strip.
+
+		for (int i = 0; i < chx_res; i++)
+		{
+			assign(i, 0, 0, common_foreground, common_background);
+		}
+
+		// If no menu tab is currently selected (i.e. selected_menu_tab is -1)
+		// then find the selected menu tab (if any).
+
+		bool selected_menu_tab_still_selected = false;
+
+		if (selected_menu_tab == -1)
+		{
+			// No menu tab is currently selected.
+
+			selected_menu_tab_x_offset = 2;
+
+			for (int n = 0; n < main_menu.size(); n++)
+			{
+				int x_offset_at_start = selected_menu_tab_x_offset;
+
+				std::string main_menu_tab = main_menu[n];
+
+				for (int c = 0; c < main_menu_tab.size(); c++)
+				{
+					if (within_character(selected_menu_tab_x_offset, 0))
+					{
+						// The menu tab at index 'n' is currently selected, so
+						// write it to 'selected_menu_tab'.
+
+						selected_menu_tab = n;
+
+						selected_menu_tab_x_offset = x_offset_at_start;
+
+						goto done_selected_menu_tab;
+					}
+
+					selected_menu_tab_x_offset++;
+				}
+
+				selected_menu_tab_x_offset += 2;
+			}
+		}
+
+		done_selected_menu_tab:
+
+		// Draw the menu tabs. Menu tabs start at horizontal offset 2 and 
+		// vertical offset 0.
+
+		int menu_tab_index = 2;
+
+		for (int n = 0; n < main_menu.size(); n++)
+		{
+			std::string main_menu_tab = main_menu[n];
+
+			if (selected_menu_tab == n)
+			{
+				// Draw the left bumper.
+
+				ASSIGN(menu_tab_index - 1, 0, 0, common_background, common_foreground);
+
+				// Draw the right bumper.
+
+				ASSIGN(menu_tab_index + main_menu_tab.size(), 0, 0, common_background, common_foreground);
+			}
+
+			// Draw the menu tab's text.
+
+			for (int c = 0; c < main_menu_tab.size(); c++)
+			{
+				if (selected_menu_tab == n)
+				{
+					// Draw gray text with a black background.
+
+					ASSIGN(menu_tab_index, 0, main_menu_tab[c], common_background, common_foreground);
+				}
+				else
+				{
+					// Draw black text with a gray background.
+
+					assign(menu_tab_index, 0, main_menu_tab[c], common_foreground, common_background);
+				}
+
+				menu_tab_index++;
+			}
+
+			menu_tab_index += 2;
+		}
+
+		// Draw the selected menu dropdown (if any).
+
+		if (selected_menu_tab != -1)
+		{
+			// Vertical lines.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				ASSIGN(selected_menu_tab_x_offset - 1, i + 2, 179, common_foreground, common_background);
+
+				ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], i + 2, 179, common_foreground, common_background);
+			}
+
+			// Horizontal lines.
+
+			for (int i = 0; i < main_menu_widths[selected_menu_tab]; i++)
+			{
+				ASSIGN(selected_menu_tab_x_offset + i, 1, 196, common_foreground, common_background);
+
+				ASSIGN(selected_menu_tab_x_offset + i, main_menu_contents[selected_menu_tab].size() + 2, 196, common_foreground, common_background);
+			}
+
+			// Top-left corner.
+
+			ASSIGN(selected_menu_tab_x_offset - 1, 1, 218, common_foreground, common_background);
+
+			// Top-right corner.
+
+			ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], 1, 191, common_foreground, common_background);
+
+			// Bottom-left corner.
+
+			ASSIGN(selected_menu_tab_x_offset - 1, main_menu_contents[selected_menu_tab].size() + 2, 192, common_foreground, common_background);
+
+			// Bottom-right corner.
+
+			ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], main_menu_contents[selected_menu_tab].size() + 2, 217, common_foreground, common_background);
+
+			// Fill the menu tab dropdown.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				bool is_hover = false;
+
+				for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+				{
+					ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
+				}
+
+				for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+				{
+					if (is_hover)
+					{
+						ASSIGN(selected_menu_tab_x_offset + j, i + 2, 0, common_background, common_foreground);
+					}
+					else
+					{
+						ASSIGN(selected_menu_tab_x_offset + j, i + 2, 0, common_foreground, common_background);
+					}
+				}
+			}
+
+			// Write the text inside the menu tab dropdown.
+
+			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
+			{
+				std::string menu_item = main_menu_contents[selected_menu_tab][i];
+
+				if (menu_item.size() == 0)
+				{
+					// Divider.
+
+					assign(selected_menu_tab_x_offset - 1, i + 2, 195, common_foreground, common_background);
+
+					assign(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], i + 2, 180, common_foreground, common_background);
+
+					for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+					{
+						assign(selected_menu_tab_x_offset + j, 2 + i, 196, common_foreground, common_background);
+					}
+				}
+				else
+				{
+					// Menu item.
+
+					bool is_hover = false;
+
+					for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
+					{
+						ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
+					}
+
+					if (is_hover)
+					{
+						for (int j = 0; j < menu_item.size(); j++)
+						{
+							assign(selected_menu_tab_x_offset + j, 2 + i, menu_item[j], common_background, common_foreground);
+						}
+					}
+					else
+					{
+						for (int j = 0; j < menu_item.size(); j++)
+						{
+							assign(selected_menu_tab_x_offset + j, 2 + i, menu_item[j], common_foreground, common_background);
+						}
+					}
+				}
+			}
+		}
+
+		// Reset the 'selected_menu_tab' if the mouse moved out of the hitbox.
+
+		if (!selected_menu_tab_still_selected)
+		{
+			selected_menu_tab = -1;
+		}
+
+		// Render 'map1' and 'map2' to the screen as rasterized pixel 
+		// graphics.
+
+		for (int i = 0; i < chx_res; i++)
+		{
+			for (int j = 0; j < chy_res; j++)
+			{
+				unsigned char ascii = map1[j * chx_res + i];
+
+				if (ascii == 255 & map2[j * chx_res + i] == 255)
+				{
+					continue;		
+				}
+
+				for (int x = 0; x < tf_w; x++)
+				for (int y = 0; y < tf_h; y++)
+				{
+					if (fetch_glyph(x, y, ascii))
+					{
+						parent->plotp(i * tf_w + x, j * tf_h + y, vga_rgb[map2[j * chx_res + i] >> 4]);
+					}
+					else
+					{
+						parent->plotp(i * tf_w + x, j * tf_h + y, vga_rgb[map2[j * chx_res + i] & 0xF]);
+					}
+				}
+			}
+		}
+
+		// Undefine common macros.
+
+		#undef ENABLE
+
+		#undef ASSIGN
+	}
 };
