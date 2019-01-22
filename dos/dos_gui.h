@@ -47,7 +47,7 @@ int default_menu_callback(void* Userdata, std::string Label, int Tab, int Index)
 {
 	std::cout << "Default Menu Callback Invoked: \"" << Label << "\" (tab " << Tab << ", index" << Index << ")" << std::endl;
 
-	return true;
+	return DOS_MIR_HIDE_LOCK;
 }
 
 struct dos_gui
@@ -127,6 +127,10 @@ struct dos_gui
 	// selected menu tab is stored in selected_menu_tab_x_offset.
 
 	int selected_menu_tab_x_offset = 2;
+
+	// When locked_menus is true, menus are rendered but inactive.
+
+	int locked_menus = false;
 
 	// Resolution/dimensions in characters.
 
@@ -363,6 +367,11 @@ struct dos_gui
 					ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
 				}
 
+				if (locked_menus)
+				{
+					is_hover = false;
+				}
+
 				for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
 				{
 					if (is_hover)
@@ -406,15 +415,42 @@ struct dos_gui
 						ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
 					}
 
+					if (locked_menus)
+					{
+						is_hover = false;
+					}
+
 					if (is_hover)
 					{
 						if (!parent->mouse_ol && parent->mouse_l && menu_item.size() != 0)
 						{
 							// Selected a menu item. Invoke callback.
 
-							if (menu_item_callback(userdata, menu_item, selected_menu_tab, i))
+							int mir_value = menu_item_callback(userdata, menu_item, selected_menu_tab, i);
+
+							if (mir_value == DOS_MIR_NOTHING)
 							{
+								// Do nothing.
+							}
+							else if (mir_value == DOS_MIR_HIDE_MENU)
+							{
+								// Hide menus.
+
 								selected_menu_tab_still_selected = false;
+							}
+							else if (mir_value == DOS_MIR_LOCK)
+							{
+								// Lock menus.
+
+								locked_menus = true;
+							}
+							else if (mir_value == DOS_MIR_HIDE_LOCK)
+							{
+								// Hide and lock menus.
+
+								selected_menu_tab_still_selected = false;
+
+								locked_menus = true;
 							}
 						}
 					}
