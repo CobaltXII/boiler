@@ -119,9 +119,17 @@ struct dos_gui
 	int x_res;
 	int y_res;
 
+	// Menu item callback.
+
+	DOS_GUI_MENU_CALLBACK menu_item_callback;
+
+	// Userdata.
+
+	void* userdata;
+
 	// Constructor.
 
-	dos_gui(int _chx_res, int _chy_res, boiler* _parent)
+	dos_gui(int _chx_res, int _chy_res, boiler* _parent, DOS_GUI_MENU_CALLBACK _menu_item_callback = nullptr, void* _userdata = nullptr)
 	{
 		chx_res = _chx_res;
 		chy_res = _chy_res;
@@ -130,6 +138,19 @@ struct dos_gui
 		y_res = chy_res * tf_h;
 
 		parent = _parent;
+
+		if (_menu_item_callback)
+		{
+			menu_item_callback = _menu_item_callback;
+		}
+		else
+		{
+			// Use default callback.
+
+			menu_item_callback = default_menu_callback;
+		}
+
+		userdata = _userdata;
 	}
 
 	// Finalize and initialize.
@@ -364,6 +385,19 @@ struct dos_gui
 					for (int j = 0; j < main_menu_widths[selected_menu_tab]; j++)
 					{
 						ENABLE(is_hover, within_character(selected_menu_tab_x_offset + j, i + 2));
+					}
+
+					if (is_hover)
+					{
+						if (!parent->mouse_ol && parent->mouse_l && menu_item.size() != 0)
+						{
+							// Selected a menu item. Invoke callback.
+
+							if (menu_item_callback(userdata, menu_item, selected_menu_tab, i))
+							{
+								selected_menu_tab_still_selected = false;
+							}
+						}
 					}
 
 					if (is_hover)
