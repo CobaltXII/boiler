@@ -38,11 +38,11 @@ typedef float real;
 
 // Menu item callback.
 
-bool menu_item_callback(void* userdata, std::string label, int tab, int index)
+int menu_item_callback(void* userdata, std::string label, int tab, int index)
 {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Default Menu Callback Invoked (override)", label.c_str(), NULL);
 
-	return true;
+	return DOS_MIR_DEFAULT;
 }
 
 // Boiler game class.
@@ -1051,6 +1051,8 @@ struct game: boiler
 		// Render the GUI.
 
 		GUI.render();
+
+		GUI.display();
 	}
 };
 
