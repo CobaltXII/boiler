@@ -12,6 +12,8 @@
 #include <iostream>
 
 #define STATE_NORMAL 0
+
+#define STATE_DIALOG 1
 struct game: boiler
 {	
 	dos_gui GUI = dos_gui(80, 25, this);
