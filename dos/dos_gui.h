@@ -240,6 +240,11 @@ struct dos_gui
 
 		bool selected_menu_tab_still_selected = false;
 
+		if (locked_menus)
+		{
+			goto done_selected_menu_tab;
+		}
+
 		if (selected_menu_tab == -1)
 		{
 			// No menu tab is currently selected.
@@ -284,7 +289,7 @@ struct dos_gui
 		{
 			std::string main_menu_tab = main_menu[n];
 
-			if (selected_menu_tab == n)
+			if (selected_menu_tab == n && !locked_menus)
 			{
 				// Draw the left bumper.
 
@@ -299,7 +304,7 @@ struct dos_gui
 
 			for (int c = 0; c < main_menu_tab.size(); c++)
 			{
-				if (selected_menu_tab == n)
+				if (selected_menu_tab == n && !locked_menus)
 				{
 					// Draw gray text with a black background.
 
@@ -356,6 +361,19 @@ struct dos_gui
 
 			ASSIGN(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab], main_menu_contents[selected_menu_tab].size() + 2, 217, common_foreground, common_background);
 
+			// Bottom shadow.
+
+			for (int i = 0; i < main_menu_widths[selected_menu_tab] + 1; i++)
+			{
+				assign(selected_menu_tab_x_offset + i, main_menu_contents[selected_menu_tab].size() + 3, 0, vga_black, vga_black);
+			}
+
+			// Right shadow.
+
+			for (int j = 0; j < main_menu_contents[selected_menu_tab].size() + 3; j++)
+			{
+				assign(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab] + 1, 1 + j, 0, vga_black, vga_black);
+			}
 			// Fill the menu tab dropdown.
 
 			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
