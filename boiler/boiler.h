@@ -45,6 +45,13 @@ Uint32 BOIL_EX_INIT_AUDIO = 2;
 
 Uint32 expected = 1000.0 / 60.0;
 
+// Common includes.
+
+#include <cmath>
+#include <memory>
+
+#include <time.h>
+
 // This helper function will generate a Uint32 value which represents the value of the provided
 // color. The format of the Uint32 is SDL_PIXELFORMAT_ARGB8888.
 
