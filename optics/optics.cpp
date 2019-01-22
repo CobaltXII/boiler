@@ -302,16 +302,42 @@ struct game: boiler
 
 		GUI.main_menu =
 		{
-			"Test 1", "Test 2", "Test 3", "Test 4", "Test 5"
+			"Emitter", "Segment", "Filter", "Circle", "Center", "Edit", "Settings", "Help"
 		};
 
 		GUI.main_menu_contents =
 		{
-			{"Test 1 Subitem 1", "Test 1 Subitem 2", "Test 1 Subitem 3", "", "Test 1 Subitem 4", "Test 1 Subitem 5"},
-			{"Test 2 Subitem 1", "Test 2 Subitem 2", "Test 2 Subitem 3", "", "Test 2 Subitem 4", "Test 2 Subitem 5"},
-			{"Test 3 Subitem 1", "Test 3 Subitem 2", "Test 3 Subitem 3", "", "Test 3 Subitem 4", "Test 3 Subitem 5"},
-			{"Test 4 Subitem 1", "Test 4 Subitem 2", "Test 4 Subitem 3", "", "Test 4 Subitem 4", "Test 4 Subitem 5"},
-			{"Test 5 Subitem 1", "Test 5 Subitem 2", "Test 5 Subitem 3", "", "Test 5 Subitem 4", "Test 5 Subitem 5"}
+			{
+				"Add White Emitter", "Add Colored Emitter", "", "Enable Emitter", "Disable Emitter", "", "Change Emitter Color", "", "Enable Auto Spin", "Enable Auto Cycle", "", "Face North", "Face East", "Face South", "Face West"
+			},
+
+			{
+				"Add Reflective Segment", "Add Refractive Segment"
+			},
+
+			{
+				"Add Strobe Filter", "Add Subtractive Filter"
+			},
+
+			{
+				"Add Reflective Circle", "Add Refractive Circle"
+			},
+
+			{
+				"Center On X Axis", "Center On Y Axis", "Center On Both Axes"
+			},
+
+			{
+				"Set Refractive Index", "Set Strobe Time", "Set Subtractive Color", "", "Delete"
+			},
+
+			{
+				"Set Beam Length", "Set Band Count", "", "Enable Normals", "Disable Normals", "", "Enable Editing", "Disable Editing"
+			},
+
+			{
+				"About"
+			}
 		};
 
 		GUI.finalize();
@@ -381,7 +407,7 @@ struct game: boiler
 
 		// Add white emitter.
 
-		scene_emitter.push_back(new emitter(point(round(width / 2.0f / grid) * grid, round(height / 2.0f / grid) * grid), point(0.0f, -1.0f), 255, 255, 255));
+		scene_emitter.push_back(new emitter(point(round(width / 2.0f / grid) * grid + grid, round(height / 2.0f / grid) * grid), point(0.0f, -1.0f), 255, 255, 255));
 
 		// Add circles.
 
@@ -878,6 +904,15 @@ struct game: boiler
 		for (int i = 0; i < scene_emitter.size(); i++)
 		{
 			emitter* object = scene_emitter[i];
+
+			// if (object->cr == 255 && object->cg == 255 && object->cb == 255)
+			// {
+			// 	object->n = point
+			// 	(
+			// 		cos(SDL_GetTicks() / 5000.0f),
+			// 		sin(SDL_GetTicks() / 5000.0f)
+			// 	);
+			// }
 
 			if (!object->state)
 			{
