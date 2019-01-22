@@ -480,6 +480,17 @@ struct dos_gui
 			selected_menu_tab = -1;
 		}
 
+		// Undefine common macros.
+
+		#undef ENABLE
+
+		#undef ASSIGN
+	}
+
+	// Render to parent.
+
+	void display()
+	{
 		// Render 'map1' and 'map2' to the screen as rasterized pixel 
 		// graphics.
 
@@ -508,11 +519,5 @@ struct dos_gui
 				}
 			}
 		}
-
-		// Undefine common macros.
-
-		#undef ENABLE
-
-		#undef ASSIGN
 	}
 };
