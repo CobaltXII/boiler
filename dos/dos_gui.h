@@ -17,6 +17,9 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 	return foreground << 4 | background;
 }
 
+// Menu item callback type.
+
+typedef bool (*DOS_GUI_MENU_CALLBACK)(void*, std::string, int, int);
 struct dos_gui
 {
 	boiler* parent;
