@@ -1,4 +1,7 @@
 // DOS gui? Awesome.
+//
+// Deprecated; use dos_class.cpp. This file will not be updated when new
+// features are added to dos_gui.h.
 
 #include "../terminal/terminal_codepage.h"
 #include "../terminal/terminal_extras.h"
