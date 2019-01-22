@@ -1336,6 +1336,8 @@ struct boiler
 
 	void circlergb(int xc, int yc, int r, unsigned int c)
 	{
+		r = std::abs(r);
+
 		int x = 0;
 		int y = 0;
 
@@ -1375,6 +1377,8 @@ struct boiler
 
 	void fcirclergb(int xc, int yc, int r, unsigned int c)
 	{
+		r = std::abs(r);
+
 		int x = 0;
 		int y = 0;
 
