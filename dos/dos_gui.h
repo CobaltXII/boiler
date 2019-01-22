@@ -19,7 +19,7 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 
 // Menu item callback type.
 
-typedef bool (*DOS_GUI_MENU_CALLBACK)(void*, std::string, int, int);
+typedef int (*DOS_GUI_MENU_CALLBACK)(void*, std::string, int, int);
 
 // Default callback. Return value indicates whether the menu should be hidden
 // after press.
