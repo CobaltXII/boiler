@@ -142,6 +142,101 @@ struct dos_gui
 	int x_res;
 	int y_res;
 
+	// Draw a dialog.
+
+	void draw_dialog(std::string title, std::string caption, std::string body)
+	{
+		int dialog_xr = 48;
+
+		int dialog_yr = 7 + body.size() / (dialog_xr - 4);
+
+		int tlx = chx_res / 2 - dialog_xr / 2;
+		int tly = chy_res / 2 - dialog_yr / 2;
+
+		// Fill.
+
+		for (int i = 0; i < dialog_xr; i++)
+		for (int j = 0; j < dialog_yr; j++)
+		{
+			assign(i + tlx, j + tly, 0, common_foreground, common_background);
+		}
+
+		// Horizontal lines.
+
+		for (int i = 0; i < dialog_xr; i++)
+		{
+			assign(i + tlx, tly, 205, common_foreground, common_background);
+
+			assign(i + tlx, dialog_yr + tly - 1, 205, common_foreground, common_background);
+		}
+
+		// Vertical lines.
+
+		for (int j = 0; j < dialog_yr; j++)
+		{
+			assign(tlx, j + tly, 186, common_foreground, common_background);
+
+			assign(dialog_xr + tlx - 1, j + tly, 186, common_foreground, common_background);
+		}
+
+		// Top-left corner.
+
+		assign(tlx, tly, 201, common_foreground, common_background);
+
+		// Top-right corner.
+
+		assign(dialog_xr + tlx - 1, tly, 187, common_foreground, common_background);
+
+		// Bottom-left corner.
+
+		assign(tlx, dialog_yr + tly - 1, 200, common_foreground, common_background);
+
+		// Bottom-right corner.
+
+		assign(dialog_xr + tlx - 1, dialog_yr + tly - 1, 188, common_foreground, common_background);
+
+		// Bottom shadow.
+
+		for (int i = 0; i < dialog_xr; i++)
+		{
+			assign(tlx + i + 1, tly + dialog_yr, 0, vga_black, vga_black);
+		}
+
+		// Right shadow.
+
+		for (int j = 0; j < dialog_yr; j++)
+		{
+			assign(tlx + dialog_xr, tly + j + 1, 0, vga_black, vga_black);
+		}
+
+		// Title.
+
+		int title_lx = tlx + dialog_xr / 2 - title.size() / 2;
+
+		for (int c = 0; c < title.size(); c++)
+		{
+			assign(title_lx + c, tly, title[c], common_foreground, common_background);
+		}
+
+		// Caption.
+
+		int caption_lx = tlx + dialog_xr / 2 - caption.size() / 2;
+
+		for (int c = 0; c < caption.size(); c++)
+		{
+			assign(caption_lx + c, tly + 2, caption[c], common_foreground, common_background);
+		}
+
+		// Body.
+
+		int body_lx = tlx + 2;
+
+		for (int c = 0; c < body.size(); c++)
+		{
+			assign(body_lx + c % (dialog_xr - 4), tly + 4 + c / (dialog_xr - 4), body[c], common_foreground, common_background);
+		}
+	}
+
 	// Menu item callback.
 
 	DOS_GUI_MENU_CALLBACK menu_item_callback;
@@ -374,6 +469,7 @@ struct dos_gui
 			{
 				assign(selected_menu_tab_x_offset + main_menu_widths[selected_menu_tab] + 1, 1 + j, 0, vga_black, vga_black);
 			}
+
 			// Fill the menu tab dropdown.
 
 			for (int i = 0; i < main_menu_contents[selected_menu_tab].size(); i++)
