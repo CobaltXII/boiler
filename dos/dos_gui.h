@@ -21,10 +21,29 @@ inline unsigned char join_colors(unsigned char foreground, unsigned char backgro
 
 typedef int (*DOS_GUI_MENU_CALLBACK)(void*, std::string, int, int);
 
-// Default callback. Return value indicates whether the menu should be hidden
-// after press.
+// Do nothing.
 
-bool default_menu_callback(void* Userdata, std::string Label, int Tab, int Index)
+#define DOS_MIR_NOTHING 1
+
+// Hide menus.
+
+#define DOS_MIR_HIDE_MENU 2
+
+// Lock menus.
+
+#define DOS_MIR_LOCK 3
+
+// Hide and lock menus.
+
+#define DOS_MIR_HIDE_LOCK 4
+
+// Default action.
+
+#define DOS_MIR_DEFAULT DOS_MIR_HIDE_MENU
+
+// Default callback.
+
+int default_menu_callback(void* Userdata, std::string Label, int Tab, int Index)
 {
 	std::cout << "Default Menu Callback Invoked: \"" << Label << "\" (tab " << Tab << ", index" << Index << ")" << std::endl;
 
