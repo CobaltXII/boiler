@@ -14,9 +14,14 @@
 #define STATE_NORMAL 0
 
 #define STATE_DIALOG 1
+
+int menu_callback(void* userdata, std::string label, int tab, int index);
+
 struct game: boiler
 {	
-	dos_gui GUI = dos_gui(80, 25, this);
+	dos_gui GUI = dos_gui(80, 25, this, menu_callback, this);
+
+	int state = STATE_NORMAL;
 
 	void steam() override
 	{
@@ -47,13 +52,39 @@ struct game: boiler
 		title = "Class based DOS GUI (using Boiler)";
 	}
 
+	void keydown(SDL_Event e) override
+	{
+		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_ESCAPE)
+		{
+			GUI.locked_menus = false;
+			
+			state = STATE_NORMAL;
+		}
+	}
+
 	void draw() override
 	{
 		clear(vga_rgb[vga_dark_blue]);
 
 		GUI.render();
+
+		if (state == STATE_DIALOG)
+		{
+			GUI.draw_dialog("This is a title", "This is a caption", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+		}
+
+		GUI.display();
 	}
 };
+
+int menu_callback(void* userdata, std::string label, int tab, int index)
+{
+	((game*)userdata)->state = STATE_DIALOG;
+
+	return DOS_MIR_HIDE_LOCK;
+}
 
 // Entry point for the software renderer.
 
