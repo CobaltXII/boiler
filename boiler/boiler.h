@@ -37,6 +37,20 @@
 
 #include <SDL2/SDL.h>
 
+// On Windows, it is reported that one must define WinMain() instead of main(). This breaks
+// compatibility on many sub-projects. For this reason, #define main WinMain. If you don't want
+// that to happen, #define BOIL_NO_ENTRY_POINT_CONVERSIONS.
+
+#ifndef BOIL_NO_ENTRY_POINT_CONVERSIONS
+
+#ifdef _WIN32
+
+#define main WinMain
+
+#endif
+
+#endif
+
 Uint32 BOIL_EX_INIT_NOSUB = 1;
 Uint32 BOIL_EX_INIT_AUDIO = 2;
 
