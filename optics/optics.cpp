@@ -36,13 +36,22 @@ typedef float real;
 
 #include "line.hpp"
 
+// Menu item callback.
+
+bool menu_item_callback(void* userdata, std::string label, int tab, int index)
+{
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Default Menu Callback Invoked (override)", label.c_str(), NULL);
+
+	return true;
+}
+
 // Boiler game class.
 
 struct game: boiler
 {	
 	// The GUI renderer.
 
-	dos_gui GUI = dos_gui(104, 35, this);
+	dos_gui GUI = dos_gui(104, 35, this, menu_item_callback);
 
 	// The side length of a grid square.
 
