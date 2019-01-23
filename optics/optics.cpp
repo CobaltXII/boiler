@@ -1616,6 +1616,32 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 
 		return DOS_MIR_HIDE_LOCK;
 	}
+
+	if (label == "About")
+	{
+		parent->GUI.status_text = "Press ESC to escape dialog";
+
+		parent->state = gs_dialog;
+
+		parent->dialog_title = "About Optics";
+
+		parent->dialog_caption = "About Optics";
+
+		std::stringstream dialog_text;
+
+		dialog_text << "The program 'Optics' was written by the developer Co";
+		dialog_text << "baltXII (Adam Sidat) on January 15, 2019. The projec";
+		dialog_text << "t gained ideas from users of the OneLoneCoder Discor";
+		dialog_text << "d server. Thank you to all of the original beta test";
+		dialog_text << "ers, supporters and idea providers.                 ";
+
+		parent->dialog_text = dialog_text.str();
+
+		parent->state = gs_dialog;
+
+		return DOS_MIR_HIDE_LOCK;
+	}
+
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
