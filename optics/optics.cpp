@@ -1277,6 +1277,16 @@ struct game: boiler
 
 				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 255, 0, 0));
 			}
+			else if (GUI.status_text == "Press SPACE to drop a Green Subtractive Filter")
+			{
+				real rx1 = round(mouse_x / grid) * grid - (grid * 3);
+				real rx2 = round(mouse_x / grid) * grid + (grid * 3);
+
+				real ry1 = round(mouse_y / grid) * grid;
+				real ry2 = round(mouse_y / grid) * grid;
+
+				scene_intersectable.push_back(new subtractive_filter_segment(point(rx1, ry1), point(rx2, ry2), 0, 255, 0));
+			}
 		{
 			linergb(0, y, width, y, grid_color);
 		}
