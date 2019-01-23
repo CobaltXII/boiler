@@ -7,8 +7,13 @@
 
 #include "../dos/dos_gui.h"
 
+#include <climits>
+#include <cmath>
+#include <ctime>
+
 #include <vector>
 #include <utility>
+#include <sstream>
 #include <iostream>
 
 // Use 'real' instead of float or double. This makes it easy to switch between
