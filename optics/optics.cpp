@@ -1441,25 +1441,27 @@ struct game: boiler
 
 		done_render:
 
-
-				draw_subtractive_filter_segment(cast_object);
-			}
-			else if ((*object).type == intersectable_reflective_circle)
+		if (GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Intersectable.")
+		{
+			if (SDL_GetTicks() % 200 >= 100 - 1)
 			{
-				reflective_circle* cast_object = (reflective_circle*)(object);
+				delete_selection = std::max(0, std::min(delete_selection, int(scene_intersectable.size() - 1)));
 
-				draw_reflective_circle(cast_object);
-
-				if (cast_object->changed())
+				draw_intersectable(scene_intersectable[delete_selection]);
+			}
+			
+			for (int i = 0; i < scene_intersectable.size(); i++)
+			{
+				if (i != delete_selection)
 				{
-					cast_object->recalculate();
+					draw_intersectable(scene_intersectable[i]);
 				}
 			}
-			else if ((*object).type == intersectable_refractive_circle)
-			{
-				refractive_circle* cast_object = (refractive_circle*)(object);
 
-				draw_refractive_circle(cast_object);
+			for (int i = 0; i < scene_emitter.size(); i++)
+			{
+				emitter* object = scene_emitter[i];
+
 
 				if (cast_object->changed())
 				{
