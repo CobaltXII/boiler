@@ -102,6 +102,10 @@ struct dos_gui
 		map2[y * chx_res + x] = join_colors(foreground, background);
 	}
 
+	// Status bar text.
+
+	std::string status_text;
+
 	// The main menu tabs. These tabs will be displayed on a menu bar at the
 	// top of the screen.
 
@@ -321,6 +325,20 @@ struct dos_gui
 		{
 			map1[k] = 255;
 			map2[k] = 255;
+		}
+
+		// Draw the status strip.
+
+		for (int i = 0; i < chx_res; i++)
+		{
+			assign(i, chy_res - 1, 0, common_foreground, common_background);
+		}
+
+		// Draw the status text.
+
+		for (int c = 0; c < status_text.size(); c++)
+		{
+			assign(c, chy_res - 1, status_text[c], common_foreground, common_background);
 		}
 
 		// Draw the main menu strip.
