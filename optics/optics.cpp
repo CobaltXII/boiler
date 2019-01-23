@@ -59,6 +59,13 @@ struct game: boiler
 	// The GUI renderer.
 
 	dos_gui GUI = dos_gui(104, 35, this, menu_item_callback);
+	// The dialog strings.
+
+	std::string dialog_title;
+	
+	std::string dialog_caption;
+
+	std::string dialog_text;
 
 	// The side length of a grid square.
 
