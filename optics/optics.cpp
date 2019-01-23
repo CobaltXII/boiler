@@ -1462,11 +1462,29 @@ struct game: boiler
 			{
 				emitter* object = scene_emitter[i];
 
+				draw_emitter(object);
+			}
+		}
+		else if (GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Emitter.")
+		{
+			if (SDL_GetTicks() % 200 >= 100 - 1)
+			{
+				delete_selection = std::max(0, std::min(delete_selection, int(scene_emitter.size() - 1)));
 
-				if (cast_object->changed())
+				draw_emitter(scene_emitter[delete_selection]);
+			}
+			
+			for (int i = 0; i < scene_emitter.size(); i++)
+			{
+				if (i != delete_selection)
 				{
-					cast_object->recalculate();
+					draw_emitter(scene_emitter[i]);
 				}
+			}
+
+			for (int i = 0; i < scene_intersectable.size(); i++)
+			{
+				draw_intersectable(scene_intersectable[i]);
 			}
 		}
 
