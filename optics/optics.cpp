@@ -1763,6 +1763,14 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 	{
 		parent->editing = true;
 	}
+	else if (label == "Disable Editing")
+	{
+		parent->editing = false;
+	}
+
+	return DOS_MIR_DEFAULT;
+}
+
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
