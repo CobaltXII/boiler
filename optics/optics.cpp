@@ -475,7 +475,16 @@ struct game: boiler
 
 	void draw_emitter(emitter* object)
 	{	
-		circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+		int touch = int_within_point_drag(object->p);
+
+		if (touch == 2 && GUI.status_text == "Click on the Emitter to enable")
+		{
+			object->state = true;
+
+			state = gs_default;
+
+			GUI.locked_menus = false;
+		}
 
 		real rx = 0.0f - object->n.y; 
 		real ry = 0.0f + object->n.x; 
