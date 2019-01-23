@@ -485,6 +485,14 @@ struct game: boiler
 
 			GUI.locked_menus = false;
 		}
+		else if (touch == 2 && GUI.status_text == "Click on the Emitter to disable")
+		{
+			object->state = false;
+
+			state = gs_default;
+
+			GUI.locked_menus = false;
+		}
 
 		real rx = 0.0f - object->n.y; 
 		real ry = 0.0f + object->n.x; 
