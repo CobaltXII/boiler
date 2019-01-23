@@ -157,6 +157,64 @@ struct game: boiler
 		}
 	}
 
+	// Return 0 if nothing, 1 if inside mouse, and 2 if inside mouse and mouse 
+	// down.
+
+	inline int int_within_point_drag(point& p)
+	{
+		if (within_point(p) && state != gs_dialog && editing)
+		{
+			if (mouse_l && (dragged == nullptr || dragged == &p))
+			{
+				dragged = &p;
+
+				p.x = round(real(mouse_x) / grid) * grid;
+				p.y = round(real(mouse_y) / grid) * grid;
+
+				if (GUI.status_text == "Click on the point to center on the X axis")
+				{
+					p.x = round(real(width / 2) / grid) * grid;
+
+					dragged = nullptr;
+
+					state = gs_default;
+
+					GUI.locked_menus = false;
+				}
+				else if (GUI.status_text == "Click on the point to center on the Y axis")
+				{
+					p.y = round(real(height / 2) / grid) * grid;
+
+					dragged = nullptr;
+
+					state = gs_default;
+
+					GUI.locked_menus = false;
+				}
+				else if (GUI.status_text == "Click on the point to center on both axes")
+				{
+					p.x = round(real(width / 2) / grid) * grid;
+
+					p.y = round(real(height / 2) / grid) * grid;
+
+					dragged = nullptr;
+
+					state = gs_default;
+
+					GUI.locked_menus = false;
+				}
+
+				return 2;
+			}
+
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
 	// Draw a reflective_segment*.
 
 	void draw_reflective_segment(reflective_segment* object)
