@@ -41,14 +41,10 @@ typedef float real;
 
 #include "line.hpp"
 
-// Menu item callback.
+// Menu item callback prototype.
 
-int menu_item_callback(void* userdata, std::string label, int tab, int index)
-{
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Default Menu Callback Invoked (override)", label.c_str(), NULL);
+int menu_item_callback(void* userdata, std::string label, int tab, int index);
 
-	return DOS_MIR_DEFAULT;
-}
 
 // Boiler game class.
 
