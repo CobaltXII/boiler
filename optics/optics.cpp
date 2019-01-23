@@ -549,6 +549,19 @@ struct game: boiler
 
 			GUI.locked_menus = false;
 		}
+		else if (touch == 2 && GUI.status_text == "Click on the Emitter to Face West")
+		{
+			object->n = point(-1.0f, 0.0f);
+			
+			state = gs_default;
+
+			GUI.locked_menus = false;
+		}
+
+		if (editing)
+		{
+			circlergb(object->p.x, object->p.y, std::min(1, touch) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		real rx = 0.0f - object->n.y; 
 		real ry = 0.0f + object->n.x; 
