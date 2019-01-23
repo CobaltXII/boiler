@@ -26,6 +26,10 @@ struct emitter
 
 	bool state;
 
+	bool auto_spin = false;
+
+	bool auto_cycle = false;
+
 	// The color of the emitter.
 
 	unsigned char cr;
