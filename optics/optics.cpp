@@ -469,7 +469,7 @@ struct game: boiler
 		GUI.main_menu_contents =
 		{
 			{
-				"Add White Emitter", "Add Colored Emitter", "", "Enable Emitter", "Disable Emitter", "", "Change Emitter Color", "", "Enable Auto Spin", "Enable Auto Cycle", "", "Face North", "Face East", "Face South", "Face West"
+				"Add White Emitter", "Add Colored Emitter", "", "Enable Emitter", "Disable Emitter", "", "Enable Auto Spin", "Enable Auto Cycle", "Disable Auto Spin", "Disable Auto Cycle", "", "Face North", "Face East", "Face South", "Face West"
 			},
 
 			{
@@ -477,7 +477,7 @@ struct game: boiler
 			},
 
 			{
-				"Add Strobe Filter", "Add Subtractive Filter"
+				"Add Strobe Filter", "Add Red Subtractive Filter", "Add Green Subtractive Filter", "Add Blue Subtractive Filter"
 			},
 
 			{
@@ -489,11 +489,11 @@ struct game: boiler
 			},
 
 			{
-				"Set Refractive Index", "Set Strobe Time", "Set Subtractive Color", "", "Delete"
+				"Delete Intersectable", "Delete Emitter"
 			},
 
 			{
-				"Set Beam Length", "Set Band Count", "", "Enable Normals", "Disable Normals", "", "Enable Editing", "Disable Editing"
+				"Enable Normals", "Disable Normals", "", "Enable Editing", "Disable Editing"
 			},
 
 			{
@@ -563,7 +563,7 @@ struct game: boiler
 		{
 			unsigned int c = hsl_to_rgb(i * (360 / 20), 1.0f, 0.5f);
 
-			scene_emitter.push_back(new emitter(point(64.0f, i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f), point(-1.0f, 0.0f), mgetr(c), mgetg(c), mgetb(c)));
+			scene_emitter.push_back(new emitter(point(64.0f, round((i * 24.0f + (height - (19.0f * 24.0f)) / 2.0f) / grid) * grid), point(-1.0f, 0.0f), mgetr(c), mgetg(c), mgetb(c)));
 		}
 
 		// Add white emitter.
