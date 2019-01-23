@@ -582,11 +582,14 @@ struct game: boiler
 
 		// Draw normal.
 
-		object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
+		if (editing)
+		{
+			object->a = point(bmx - object->n.x * emitter_normal, bmy - object->n.y * emitter_normal);
 
-		linergb(bmx, bmy, object->a.x, object->a.y, rgb(0, 255, 0));
+			linergb(bmx, bmy, object->a.x, object->a.y, rgb(0, 255, 0));
 
-		circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+			circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+		}
 
 		// Check for dragging.
 
@@ -1198,17 +1201,38 @@ struct game: boiler
 		}
 	}
 
-	// Draw a frame.
+	// Handle keypresses.
 
-	void draw() override
+	void keydown(SDL_Event e) override
 	{
-		black();
+		SDL_Keycode key = e.key.keysym.sym;
 
-		// Draw the background.
+		if (key == SDLK_ESCAPE)
+		{
+			state = gs_default;
 
-		unsigned int grid_color = rgb(32, 32, 32);
+			GUI.locked_menus = false;
+		}
+		else if (key == SDLK_SPACE)
+		{
+			if (GUI.status_text == "Press SPACE to drop a White Emitter")
+			{
+				scene_emitter.push_back(new emitter(point(round(mouse_x / grid) * grid, round(mouse_y / grid) * grid), point(0.0f, -1.0f), 255, 255, 255));
+			}
+			else if (GUI.status_text == "Press SPACE to drop a Colored Emitter")
+			{
+				unsigned int c = hsl_to_rgb(rand() % 360, 1.0f, 0.5);
 
-		for (real y = 0.0f; y < height; y += grid)
+				unsigned char cr = mgetr(c);
+				unsigned char cg = mgetg(c);
+				unsigned char cb = mgetb(c);
+
+				scene_emitter.push_back(new emitter(point(round(mouse_x / grid) * grid, round(mouse_y / grid) * grid), point(0.0f, -1.0f), cr, cg, cb));
+			}
+			else if (GUI.status_text == "Press SPACE to drop a Reflective Circle")
+			{
+				scene_intersectable.push_back(new reflective_circle(point(round(mouse_x / grid) * grid, round(mouse_y / grid) * grid), 48.0f));
+			}
 		{
 			linergb(0, y, width, y, grid_color);
 		}
