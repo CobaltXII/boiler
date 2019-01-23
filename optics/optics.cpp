@@ -106,7 +106,7 @@ struct game: boiler
 
 	inline bool within_point_drag(point& p)
 	{
-		if (within_point(p))
+		if (within_point(p) && state != gs_dialog && editing)
 		{
 			if (mouse_l && (dragged == nullptr || dragged == &p))
 			{
@@ -114,6 +114,17 @@ struct game: boiler
 
 				p.x = round(real(mouse_x) / grid) * grid;
 				p.y = round(real(mouse_y) / grid) * grid;
+
+				if (GUI.status_text == "Click on the point to center on the X axis")
+				{
+					p.x = round(real(width / 2) / grid) * grid;
+
+					dragged = nullptr;
+
+					state = gs_default;
+
+					GUI.locked_menus = false;
+				}
 			}
 
 			return true;
