@@ -67,6 +67,16 @@ struct game: boiler
 
 	std::string dialog_text;
 
+	// The game state.
+
+	game_state state = gs_default;
+
+	bool normals = true;
+
+	bool editing = true;
+
+	int delete_selection = 0;
+
 	// The side length of a grid square.
 
 	const real grid = 8.0f;
