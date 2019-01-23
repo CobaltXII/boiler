@@ -125,6 +125,18 @@ struct game: boiler
 
 					GUI.locked_menus = false;
 				}
+				else if (GUI.status_text == "Click on the point to center on the Y axis")
+				{
+					p.y = round(real(height / 2) / grid) * grid;
+
+					dragged = nullptr;
+
+					state = gs_default;
+
+					GUI.locked_menus = false;
+				}
+					GUI.locked_menus = false;
+				}
 			}
 
 			return true;
