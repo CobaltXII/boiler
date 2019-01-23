@@ -1302,11 +1302,34 @@ struct game: boiler
 
 			GUI.locked_menus = false;
 		}
+		else if (key == SDLK_LEFT)
 		{
-			linergb(0, y, width, y, grid_color);
+			delete_selection--;
 		}
+		else if (key == SDLK_RIGHT)
+		{
+			delete_selection++;
+		}
+		else if (key == SDLK_RETURN)
+		{
+			if (GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Intersectable.")
+			{
+				scene_intersectable.erase(scene_intersectable.begin() + delete_selection);
 
-		for (real x = 0.0f; x < width; x += grid)
+				state = gs_default;
+
+				GUI.locked_menus = false;
+			}
+			else if (GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Emitter.")
+			{
+				scene_emitter.erase(scene_emitter.begin() + delete_selection);
+
+				state = gs_default;
+
+				GUI.locked_menus = false;
+			}
+		}
+	}
 		{
 			linergb(x, 0, x, height, grid_color);
 		}
