@@ -533,6 +533,14 @@ struct game: boiler
 
 			GUI.locked_menus = false;
 		}
+		else if (touch == 2 && GUI.status_text == "Click on the Emitter to Face East")
+		{
+			object->n = point(1.0f, 0.0f);
+			
+			state = gs_default;
+
+			GUI.locked_menus = false;
+		}
 
 		real rx = 0.0f - object->n.y; 
 		real ry = 0.0f + object->n.x; 
