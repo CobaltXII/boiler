@@ -1378,17 +1378,36 @@ struct game: boiler
 			real p2x = tmx + object->n.x * 1024.0f;
 			real p2y = tmy + object->n.y * 1024.0f;
 
-			cast_from_emitter
-			(
-				point(p1x, p1y), 
-				point(p2x, p2y), 
+			if (object->auto_cycle)
+			{
+				unsigned int c = hsl_to_rgb((SDL_GetTicks() / 25) % 360, 1.0f, 0.5f);
 
-				normalize(object->n),
+				cast_from_emitter
+				(
+					point(p1x, p1y), 
+					point(p2x, p2y), 
 
-				object->cr,
-				object->cg,
-				object->cb
-			);
+					normalize(object->n),
+
+					mgetr(c),
+					mgetg(c),
+					mgetb(c)
+				);
+			}
+			else
+			{
+				cast_from_emitter
+				(
+					point(p1x, p1y), 
+					point(p2x, p2y), 
+
+					normalize(object->n),
+
+					object->cr,
+					object->cg,
+					object->cb
+				);
+			}
 		}
 
 		// Draw the intersectable objects in the scene.
