@@ -399,6 +399,78 @@ struct game: boiler
 		}
 	};
 
+	// Draw an intersectable*.
+
+	void draw_intersectable(intersectable* object)
+	{
+		if ((*object).type == intersectable_reflective_segment)
+		{
+			reflective_segment* cast_object = (reflective_segment*)(object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+
+			draw_reflective_segment(cast_object);
+		}
+		else if ((*object).type == intersectable_refractive_segment)
+		{
+			refractive_segment* cast_object = (refractive_segment*)(object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+
+			draw_refractive_segment(cast_object);
+		}
+		else if ((*object).type == intersectable_strobe_filter_segment)
+		{
+			strobe_filter_segment* cast_object = (strobe_filter_segment*)(object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+
+			draw_strobe_filter_segment(cast_object);
+		}
+		else if ((*object).type == intersectable_subtractive_filter_segment)
+		{
+			subtractive_filter_segment* cast_object = (subtractive_filter_segment*)(object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+
+			draw_subtractive_filter_segment(cast_object);
+		}
+		else if ((*object).type == intersectable_reflective_circle)
+		{
+			reflective_circle* cast_object = (reflective_circle*)(object);
+
+			draw_reflective_circle(cast_object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+		}
+		else if ((*object).type == intersectable_refractive_circle)
+		{
+			refractive_circle* cast_object = (refractive_circle*)(object);
+
+			draw_refractive_circle(cast_object);
+
+			if (cast_object->changed())
+			{
+				cast_object->recalculate();
+			}
+		}
+	}
+
 	// Draw a emitter*.
 
 	void draw_emitter(emitter* object)
