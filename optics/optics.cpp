@@ -1742,6 +1742,15 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 
 		return DOS_MIR_HIDE_LOCK;
 	}
+	else if (label == "Delete Emitter")
+	{
+		parent->GUI.status_text = "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Emitter.";
+
+		parent->state = gs_place;
+
+		return DOS_MIR_HIDE_LOCK;
+	}
+
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
