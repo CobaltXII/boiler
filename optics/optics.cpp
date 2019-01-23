@@ -223,8 +223,11 @@ struct game: boiler
 
 		// Draw and drag endpoints.
 
-		circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
-		circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
+			circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		// Draw segment.
 
@@ -232,10 +235,13 @@ struct game: boiler
 
 		// Draw normal.
 
-		real nx = object->p1.x + object->dx / 2.0f;
-		real ny = object->p1.y + object->dy / 2.0f;
+		if (normals && editing)
+		{
+			real nx = object->p1.x + object->dx / 2.0f;
+			real ny = object->p1.y + object->dy / 2.0f;
 
-		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+			linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a refractive_segment*.
@@ -246,8 +252,11 @@ struct game: boiler
 
 		// Draw and drag endpoints.
 
-		circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
-		circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
+			circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		// Draw segment.
 
@@ -255,10 +264,13 @@ struct game: boiler
 
 		// Draw normal.
 
-		real nx = object->p1.x + object->dx / 2.0f;
-		real ny = object->p1.y + object->dy / 2.0f;
+		if (normals && editing)
+		{
+			real nx = object->p1.x + object->dx / 2.0f;
+			real ny = object->p1.y + object->dy / 2.0f;
 
-		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+			linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a strobe_filter_segment*.
@@ -269,8 +281,11 @@ struct game: boiler
 
 		// Draw and drag endpoints.
 
-		circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
-		circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
+			circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		// Draw segment.
 
@@ -278,10 +293,13 @@ struct game: boiler
 
 		// Draw normal.
 
-		real nx = object->p1.x + object->dx / 2.0f;
-		real ny = object->p1.y + object->dy / 2.0f;
+		if (normals && editing)
+		{
+			real nx = object->p1.x + object->dx / 2.0f;
+			real ny = object->p1.y + object->dy / 2.0f;
 
-		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+			linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a subtractive_filter_segment*.
@@ -292,8 +310,11 @@ struct game: boiler
 
 		// Draw and drag endpoints.
 
-		circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
-		circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p1.x, object->p1.y, within_point_drag(object->p1) * 2 + 3, rgb(255, 255, 255));
+			circlergb(object->p2.x, object->p2.y, within_point_drag(object->p2) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		// Draw segment.
 
@@ -301,10 +322,13 @@ struct game: boiler
 
 		// Draw normal.
 
-		real nx = object->p1.x + object->dx / 2.0f;
-		real ny = object->p1.y + object->dy / 2.0f;
+		if (normals && editing)
+		{
+			real nx = object->p1.x + object->dx / 2.0f;
+			real ny = object->p1.y + object->dy / 2.0f;
 
-		linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+			linergb(nx, ny, nx + object->n.x * normal_length, ny + object->n.y * normal_length, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a reflective_circle*.
@@ -317,7 +341,10 @@ struct game: boiler
 
 		// Draw the drag point.
 
-		circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		if (dragged == &(object->p))
 		{
@@ -326,13 +353,16 @@ struct game: boiler
 
 		object->a.y = object->p.y;
 
-		// Draw the radius marker.
+		if (editing)
+		{
+			// Draw the radius marker.
 
-		linergb(object->p.x, object->p.y, object->a.x, object->a.y, rgb(0, 255, 0));
+			linergb(object->p.x, object->p.y, object->a.x, object->a.y, rgb(0, 255, 0));
 
-		// Draw the radius anchor.
+			// Draw the radius anchor.
 
-		circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+			circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a refractive_circle*.
@@ -345,7 +375,10 @@ struct game: boiler
 
 		// Draw the drag point.
 
-		circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+		if (editing)
+		{
+			circlergb(object->p.x, object->p.y, within_point_drag(object->p) * 2 + 3, rgb(255, 255, 255));
+		}
 
 		if (dragged == &(object->p))
 		{
@@ -354,13 +387,16 @@ struct game: boiler
 
 		object->a.y = object->p.y;
 
-		// Draw the radius marker.
+		if (editing)
+		{
+			// Draw the radius marker.
 
-		linergb(object->p.x, object->p.y, object->a.x, object->a.y, rgb(0, 255, 0));
+			linergb(object->p.x, object->p.y, object->a.x, object->a.y, rgb(0, 255, 0));
 
-		// Draw the radius anchor.
+			// Draw the radius anchor.
 
-		circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+			circlergb(object->a.x, object->a.y, within_point_drag(object->a) * 2 + 3, rgb(0, 255, 0));
+		}
 	};
 
 	// Draw a emitter*.
