@@ -1233,6 +1233,10 @@ struct game: boiler
 			{
 				scene_intersectable.push_back(new reflective_circle(point(round(mouse_x / grid) * grid, round(mouse_y / grid) * grid), 48.0f));
 			}
+			else if (GUI.status_text == "Press SPACE to drop a Refractive Circle")
+			{
+				scene_intersectable.push_back(new refractive_circle(point(round(mouse_x / grid) * grid, round(mouse_y / grid) * grid), 48.0f));
+			}
 		{
 			linergb(0, y, width, y, grid_color);
 		}
