@@ -1414,49 +1414,33 @@ struct game: boiler
 
 		for (int i = 0; i < scene_intersectable.size(); i++)
 		{
-			intersectable* object = scene_intersectable[i];
+			draw_intersectable(scene_intersectable[i]);
+		}
 
-			if ((*object).type == intersectable_reflective_segment)
-			{
-				reflective_segment* cast_object = (reflective_segment*)(object);
+		// Draw the emitter objects in the scene.
 
-				if (cast_object->changed())
-				{
-					cast_object->recalculate();
-				}
+		for (int i = 0; i < scene_emitter.size(); i++)
+		{
+			emitter* object = scene_emitter[i];
 
-				draw_reflective_segment(cast_object);
-			}
-			else if ((*object).type == intersectable_refractive_segment)
-			{
-				refractive_segment* cast_object = (refractive_segment*)(object);
+			draw_emitter(object);
+		}
 
-				if (cast_object->changed())
-				{
-					cast_object->recalculate();
-				}
+		// Continue dragging.
 
-				draw_refractive_segment(cast_object);
-			}
-			else if ((*object).type == intersectable_strobe_filter_segment)
-			{
-				strobe_filter_segment* cast_object = (strobe_filter_segment*)(object);
+		if (dragged != nullptr && mouse_l)
+		{
+			dragged->x = round(real(mouse_x) / grid) * grid;
+			dragged->y = round(real(mouse_y) / grid) * grid;
+		}
 
-				if (cast_object->changed())
-				{
-					cast_object->recalculate();
-				}
+		if (!mouse_l)
+		{
+			dragged = nullptr;
+		}
 
-				draw_strobe_filter_segment(cast_object);
-			}
-			else if ((*object).type == intersectable_subtractive_filter_segment)
-			{
-				subtractive_filter_segment* cast_object = (subtractive_filter_segment*)(object);
+		done_render:
 
-				if (cast_object->changed())
-				{
-					cast_object->recalculate();
-				}
 
 				draw_subtractive_filter_segment(cast_object);
 			}
