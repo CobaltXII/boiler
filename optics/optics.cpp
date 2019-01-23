@@ -1755,6 +1755,10 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 	{
 		parent->normals = true;
 	}
+	else if (label == "Disable Normals")
+	{
+		parent->normals = false;
+	}
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
