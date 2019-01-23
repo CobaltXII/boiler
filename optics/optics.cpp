@@ -1514,6 +1514,20 @@ struct game: boiler
 	}
 };
 
+// Menu item callback.
+
+int menu_item_callback(void* userdata, std::string label, int tab, int index)
+{
+	game* parent = (game*)userdata;
+
+	if (label == "Add White Emitter")
+	{
+		parent->GUI.status_text = "Press SPACE to drop a White Emitter";
+
+		parent->state = gs_place;
+
+		return DOS_MIR_HIDE_LOCK;
+	}
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
