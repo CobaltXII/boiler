@@ -1330,8 +1330,21 @@ struct game: boiler
 			}
 		}
 	}
+
+	// Draw a frame.
+
+	void draw() override
+	{
+		clear(vga_rgb[vga_dark_blue]);
+
+		if 
+		(
+			GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Intersectable." ||
+
+			GUI.status_text == "Use LEFT and RIGHT to switch between objects. Press RETURN to delete the selected Emitter."
+		)
 		{
-			linergb(x, 0, x, height, grid_color);
+			goto done_render;
 		}
 
 		// Do emitter casting.
@@ -1340,14 +1353,14 @@ struct game: boiler
 		{
 			emitter* object = scene_emitter[i];
 
-			// if (object->cr == 255 && object->cg == 255 && object->cb == 255)
-			// {
-			// 	object->n = point
-			// 	(
-			// 		cos(SDL_GetTicks() / 5000.0f),
-			// 		sin(SDL_GetTicks() / 5000.0f)
-			// 	);
-			// }
+			if (object->auto_spin)
+			{
+				object->n = point
+				(
+					cos(SDL_GetTicks() / 1000.0f + i * 13.0f),
+					sin(SDL_GetTicks() / 1000.0f + i * 13.0f)
+				);
+			}
 
 			if (!object->state)
 			{
