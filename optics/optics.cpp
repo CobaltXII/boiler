@@ -1544,6 +1544,14 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 
 		return DOS_MIR_HIDE_LOCK;
 	}
+	else if (label == "Disable Emitter")
+	{
+		parent->GUI.status_text = "Click on the Emitter to disable";
+
+		parent->state = gs_place;
+
+		return DOS_MIR_HIDE_LOCK;
+	}
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
