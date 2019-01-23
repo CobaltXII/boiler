@@ -45,6 +45,12 @@ typedef float real;
 
 int menu_item_callback(void* userdata, std::string label, int tab, int index);
 
+// Game states.
+
+enum game_state
+{
+	gs_default, gs_dialog, gs_place
+};
 
 // Boiler game class.
 
