@@ -58,7 +58,8 @@ struct game: boiler
 {	
 	// The GUI renderer.
 
-	dos_gui GUI = dos_gui(104, 35, this, menu_item_callback);
+	dos_gui GUI = dos_gui(104, 35, this, menu_item_callback, this);
+
 	// The dialog strings.
 
 	std::string dialog_title;
