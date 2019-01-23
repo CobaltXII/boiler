@@ -1488,31 +1488,27 @@ struct game: boiler
 			}
 		}
 
-		// Draw the emitter objects in the scene.
+		// Generate the status text.
 
-		for (int i = 0; i < scene_emitter.size(); i++)
+		if (state == gs_default)
 		{
-			emitter* object = scene_emitter[i];
+			std::stringstream status_text;
 
-			draw_emitter(object);
-		}
+			status_text << round(real(mouse_x) / grid) << ", " << round(real(mouse_y) / grid) << " (" << mouse_x << ", " << mouse_y << ")";
 
-		// Continue dragging.
+			status_text << " | " << scene_intersectable.size() << " intersectables, " << scene_emitter.size() << " emitters";
 
-		if (dragged != nullptr && mouse_l)
-		{
-			dragged->x = round(real(mouse_x) / grid) * grid;
-			dragged->y = round(real(mouse_y) / grid) * grid;
-		}
-
-		if (!mouse_l)
-		{
-			dragged = nullptr;
+			GUI.status_text = status_text.str();
 		}
 
 		// Render the GUI.
 
 		GUI.render();
+
+		if (state == gs_dialog)
+		{
+			GUI.draw_dialog(dialog_title, dialog_caption, dialog_text);
+		}
 
 		GUI.display();
 	}
