@@ -1759,6 +1759,10 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 	{
 		parent->normals = false;
 	}
+	else if (label == "Enable Editing")
+	{
+		parent->editing = true;
+	}
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
