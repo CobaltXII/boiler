@@ -98,9 +98,23 @@ struct game: boiler
 		}
 	}
 
+	bool temporal_filtering = false;
+
 	void draw() override
 	{
-		black();
+		if (temporal_filtering)
+		{
+			for (int i = 0; i < width * height; i++)
+			{
+				unsigned char n = mgetr(pixels[i]) / 1.125f;
+
+				pixels[i] = rgb(n, n, n);
+			}
+		}
+		else
+		{
+			black();
+		}
 
 		body_force(bodies, 10.0f);
 
