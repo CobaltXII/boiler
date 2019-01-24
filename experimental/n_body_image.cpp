@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 	const real xr = 1000.0f;
 	const real yr = 1000.0f;
 
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 20000; i++)
 	{
 		real r1 = float(rand()) / float(RAND_MAX) * 2.0f - 1.0f;
 		real r2 = float(rand()) / float(RAND_MAX) * 2.0f - 1.0f;
@@ -97,11 +97,11 @@ int main(int argc, char** argv)
 		bodies.push_back(body(angx * r2 * xr, angy * r2 * yr));
 	}
 
-	for (int i = 0; i < 600; i++)
+	for (int i = 0; i < 3600; i++)
 	{
 		memset(img_data, 0, x_res * y_res * 3 * sizeof(unsigned char));
 
-		body_force(bodies, 10.0f);
+		body_force(bodies, 5.0f);
 
 		for (int i = 0; i < bodies.size(); i++)
 		{
