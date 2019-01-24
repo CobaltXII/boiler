@@ -35,7 +35,11 @@
 
 #endif
 
+#ifndef BOIL_PRE_INCLUDE
+
 #include <SDL2/SDL.h>
+
+#endif
 
 // On Windows, it is reported that one must define WinMain() instead of main(). This breaks
 // compatibility on many sub-projects. For this reason, #define main WinMain. If you don't want
@@ -62,6 +66,8 @@ Uint32 expected = 1000.0 / 60.0;
 // Common includes.
 
 #include <cmath>
+#include <climits>
+
 #include <memory>
 
 #include <time.h>
