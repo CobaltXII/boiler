@@ -650,7 +650,7 @@ struct game: boiler
 			},
 
 			{
-				"Delete Intersectable", "Delete Emitter"
+				"Delete Intersectable", "Delete Emitter", "", "Delete All Intersectables", "Delete All Emitters"
 			},
 
 			{
@@ -1749,6 +1749,14 @@ int menu_item_callback(void* userdata, std::string label, int tab, int index)
 		parent->state = gs_place;
 
 		return DOS_MIR_HIDE_LOCK;
+	}
+	else if (label == "Delete All Intersectables")
+	{
+		parent->scene_intersectable.clear();
+	}
+	else if (label == "Delete All Emitters")
+	{
+		parent->scene_emitter.clear();
 	}
 
 	if (label == "Enable Normals")
