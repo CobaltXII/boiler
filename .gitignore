@@ -76,3 +76,7 @@ gl/Spyro2.png
 
 gl/Spyro3.obj
 gl/Spyro3.png
+
+# Ignore n-body simulation output
+
+experimental/n_body_image/*
