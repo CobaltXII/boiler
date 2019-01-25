@@ -205,6 +205,41 @@ struct game: boiler
 
 			constraints.push_back(new constraint(p1, p2));
 		}
+
+		// Add random polygons, yeah.
+
+		for (int i = 0; i < 25; i++)
+		{
+			int sides = 3;
+
+			real radius = (1.0f + real(rand()) / real(RAND_MAX)) * 12.0f;
+
+			real rot = real(rand()) / real(RAND_MAX) * 2.0f * M_PI;
+
+			real cx = randx();
+			real cy = randy();
+
+			real x[sides];
+			real y[sides];
+
+			for (int i = 0; i < sides; i++)
+			{
+				x[i] = cx + cos(rot + degrad(360.0f / sides * i)) * radius;
+				y[i] = cy + sin(rot + degrad(360.0f / sides * i)) * radius;
+			}
+
+			point* p[sides];
+
+			for (int i = 0; i < sides; i++)
+			{
+				points.push_back(p[i] = new point(x[i], y[i]));
+			}
+
+			for (int i = 0; i < sides; i++)
+			{
+				constraints.push_back(new constraint(p[i], p[(i + 1) % sides]));
+			}
+		}
 	}
 
 	// Draw a frame using Boiler.
