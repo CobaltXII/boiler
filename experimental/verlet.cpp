@@ -173,6 +173,49 @@ struct constraint
 	}
 };
 
+// A circle.
+
+struct circle
+{
+	// The position.
+
+	real x;
+	real y;
+
+	// The radius.
+
+	real r;
+
+	// Default constructor.
+
+	circle
+	(
+		real _x,
+		real _y,
+
+		real _r
+	)
+	{
+		x = _x;
+		y = _y;
+
+		r = _r;
+	}
+
+	// Check if a point is within this circle.
+
+	inline bool within(point* p)
+	{
+		return
+		(
+			(p->x - x) * (p->x - x) +
+			(p->y - y) * (p->y - y)
+
+			<= r * r
+		);
+	}
+};
+
 struct game: boiler
 {	
 	// The points in the simulation.
