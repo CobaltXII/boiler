@@ -151,4 +151,225 @@ struct constraint
 		}
 	}
 };
+
+struct game: boiler
+{	
+	// The points in the simulation.
+
+	std::vector<point*> points;
+
+	// The constraints in the simulation.
+
+	std::vector<constraint*> constraints;
+
+	// The selected point (if nothing is selected, nullptr).
+
+	point* selection = nullptr;
+
+	// Generate a random point.
+
+	point* random_point()
+	{
+		return new point(randx(), randy());
+	}
+
+	// Initialize Boiler.
+
+	void steam() override
+	{
+		width = 800;
+		
+		height = 600;
+
+		title = "Verlet sandbox (using Boiler)";
+
+		// Add random sticks, yeah.
+
+		for (int i = 0; i < 50; i++)
+		{
+			real x1 = randx();
+			real y1 = randy();
+
+			real r = real(rand()) / real(RAND_MAX) * 2.0f * M_PI;
+
+			real len = (1.0f + real(rand()) / real(RAND_MAX)) * 24.0f;
+
+			real x2 = x1 + cosf(r) * len;
+			real y2 = y1 + sinf(r) * len;
+
+			point* p1 = new point(x1, y1);
+			point* p2 = new point(x2, y2);
+
+			points.push_back(p1);
+			points.push_back(p2);
+
+			constraints.push_back(new constraint(p1, p2));
+		}
+	}
+
+	// Draw a frame using Boiler.
+
+	void draw() override
+	{
+		black();
+
+		// Drag points with left click.
+
+		if (mouse_l && !selection)
+		{
+			for (int i = 0; i < points.size(); i++)
+			{
+				if 
+				(
+					(mouse_x - points[i]->x) * (mouse_x - points[i]->x) +
+					(mouse_y - points[i]->y) * (mouse_y - points[i]->y) 
+
+					<= 
+
+					5.0f * 5.0f
+				)
+				{
+					selection = points[i];
+				}
+			}
+		}
+		else if (mouse_l && selection)
+		{
+			selection->x = mouse_x;
+			selection->y = mouse_y;
+		}
+		else
+		{
+			selection = nullptr;
+		}
+
+		// Update all points.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			if (p->locked == false)
+			{
+				real vx = (p->x - p->ox) * 0.99f;
+				real vy = (p->y - p->oy) * 0.99f;
+
+				vx = clampm(vx, 50.0f);
+				vy = clampm(vy, 50.0f);
+
+				p->ox = p->x;
+				p->oy = p->y;
+
+				p->x += vx;
+				p->y += vy;
+
+				p->y += 0.2f;
+			}
+		}
+
+		// Constrain all points to the boundaries.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			real vx = (p->x - p->ox) * 0.99f;
+			real vy = (p->y - p->oy) * 0.99f;
+
+			if (p->x > width)
+			{
+				p->x = width;
+
+				p->ox = p->x + vx * 0.5f;
+			}
+			else if (p->x < 0.0f)
+			{
+				p->x = 0.0f;
+
+				p->ox = p->x + vx * 0.5f;
+			}
+
+			if (p->y > height)
+			{
+				p->y = height;
+
+				p->oy = p->y + vy * 0.5f;
+			}
+			else if (p->y < 0.0f)
+			{
+				p->y = 0.0f;
+
+				p->oy = p->y + vy * 0.5f;
+			}
+		}
+
+		// Apply forces of all constraints.
+
+		for (int i = 0; i < constraints.size(); i++)
+		{
+			constraint* c = constraints[i];
+
+			if (c->active)
+			{
+				c->do_constraint();
+			}
+		}
+
+		// Draw all points.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			circlergb
+			(
+				p->x,
+				p->y,
+
+				2,
+
+				rgb(255, 255, 255)
+			);
+		}
+
+		// Draw all constraints.
+
+		for (int i = 0; i < constraints.size(); i++)
+		{
+			constraint* c = constraints[i];
+
+			if (c->active)
+			{
+				linergb
+				(
+					c->p1->x,
+					c->p1->y,
+
+					c->p2->x,
+					c->p2->y,
+
+					rgb(255, 255, 255)
+				);
+			}
+		}
+	}
 };
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
