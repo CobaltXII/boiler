@@ -356,10 +356,7 @@ struct game: boiler
 		{
 			constraint* c = constraints[i];
 
-			if (c->active)
-			{
-				c->do_constraint();
-			}
+			c->do_constraint();
 		}
 
 		// Draw all points.
@@ -373,7 +370,12 @@ struct game: boiler
 				p->x,
 				p->y,
 
-				2,
+				(mouse_x - p->x) * (mouse_x - p->x) +
+				(mouse_y - p->y) * (mouse_y - p->y) 
+
+				<= 
+
+				5.0f * 5.0f ? 5 : 3,
 
 				rgb(255, 255, 255)
 			);
@@ -385,7 +387,7 @@ struct game: boiler
 		{
 			constraint* c = constraints[i];
 
-			if (c->active)
+			if (c->visible)
 			{
 				linergb
 				(
