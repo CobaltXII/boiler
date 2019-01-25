@@ -88,8 +88,8 @@ struct game: boiler
 
 		for (int i = 0; i < 1000; i++)
 		{
-			real r1 = float(rand()) / float(RAND_MAX) * 2.0f - 1.0f;
-			real r2 = float(rand()) / float(RAND_MAX) * 2.0f - 1.0f;
+			real r1 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
+			real r2 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
 			
 			real angx = cos(r1 * 2.0f * M_PI);
 			real angy = sin(r1 * 2.0f * M_PI);
