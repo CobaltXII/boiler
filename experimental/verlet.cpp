@@ -300,40 +300,6 @@ struct game: boiler
 		height = 600;
 
 		title = "Verlet sandbox (using Boiler)";
-
-		// Add random sticks, yeah.
-
-		for (int i = 0; i < 50; i++)
-		{
-			break;
-
-			real x1 = randx();
-			real y1 = randy();
-
-			real r = real(rand()) / real(RAND_MAX) * 2.0f * M_PI;
-
-			real len = (1.0f + real(rand()) / real(RAND_MAX)) * 24.0f;
-
-			real x2 = x1 + cosf(r) * len;
-			real y2 = y1 + sinf(r) * len;
-
-			point* p1 = new point(x1, y1);
-			point* p2 = new point(x2, y2);
-
-			points.push_back(p1);
-			points.push_back(p2);
-
-			constraints.push_back(new constraint(p1, p2));
-		}
-
-		// Add random polygons, yeah.
-
-		for (int i = 0; i < 40; i++)
-		{
-			break;
-
-			random_polygon(randx(), randy(), 0.0f, 0.0f);
-		}
 	}
 
 	// Handle a key press using Boiler.
