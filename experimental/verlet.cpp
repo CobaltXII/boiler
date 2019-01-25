@@ -179,8 +179,7 @@ struct circle
 {
 	// The position.
 
-	real x;
-	real y;
+	point* p;
 
 	// The radius.
 
@@ -190,26 +189,24 @@ struct circle
 
 	circle
 	(
-		real _x,
-		real _y,
+		point* _p,
 
 		real _r
 	)
 	{
-		x = _x;
-		y = _y;
+		p = _p;
 
 		r = _r;
 	}
 
 	// Check if a point is within this circle.
 
-	inline bool within(point* p)
+	inline bool within(point* _p)
 	{
 		return
 		(
-			(p->x - x) * (p->x - x) +
-			(p->y - y) * (p->y - y)
+			(_p->x - p->x) * (_p->x - p->x) +
+			(_p->y - p->y) * (_p->y - p->y)
 
 			<= r * r
 		);
