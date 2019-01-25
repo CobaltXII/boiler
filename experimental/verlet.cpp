@@ -194,6 +194,51 @@ struct game: boiler
 		return new point(randx(), randy());
 	}
 
+	// Generate a random polygon.
+
+	void random_polygon(real cx, real cy, real vx, real vy)
+	{
+		int sides = rand() % 4 + 3;
+
+		real radius = (1.0f + real(rand()) / real(RAND_MAX)) * 12.0f;
+
+		real rot = real(rand()) / real(RAND_MAX) * 2.0f * M_PI;
+
+		real x[sides];
+		real y[sides];
+
+		for (int i = 0; i < sides; i++)
+		{
+			x[i] = cx + cos(rot + degrad(360.0f / sides * i)) * radius;
+			y[i] = cy + sin(rot + degrad(360.0f / sides * i)) * radius;
+		}
+
+		point* p[sides];
+
+		for (int i = 0; i < sides; i++)
+		{
+			points.push_back(p[i] = new point(x[i], y[i], x[i] - vx, y[i] - vy));
+		}
+
+		for (int i = 0; i < sides; i++)
+		{
+			constraints.push_back(new constraint(p[i], p[(i + 1) % sides]));
+		}
+
+		for (int i = 0; i < sides; i++)
+		{
+			for (int j = 0; j < sides; j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				constraints.push_back(new constraint(p[i], p[j], false));
+			}
+		}
+	}
+
 	// Initialize Boiler.
 
 	void steam() override
