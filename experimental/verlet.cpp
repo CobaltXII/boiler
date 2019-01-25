@@ -226,6 +226,10 @@ struct game: boiler
 
 	std::vector<constraint*> constraints;
 
+	// The circles in the simulation.
+
+	std::vector<circle*> circles;
+
 	// The selected point (if nothing is selected, nullptr).
 
 	point* selection = nullptr;
@@ -335,10 +339,18 @@ struct game: boiler
 
 		if (key == SDLK_SPACE)
 		{
-			real vx = (real(rand()) / real(RAND_MAX) * 2.0f - 1.0f) * 16.0f;
-			real vy = (real(rand()) / real(RAND_MAX) * 2.0f - 1.0f) * 16.0f;
+			real vx = (real(rand()) / real(RAND_MAX) * 2.0f - 1.0f) * 4.0f;
+			real vy = (real(rand()) / real(RAND_MAX) * 2.0f - 1.0f) * 4.0f;
 
 			random_polygon(mouse_x, mouse_y, vx, vy);
+		}
+		if (key == SDLK_c)
+		{
+			circles.push_back(new circle(mouse_x, mouse_y, 48.0f));
+		}
+		else if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
 		}
 	}
 
@@ -399,6 +411,28 @@ struct game: boiler
 				p->y += vy;
 
 				p->y += 0.2f;
+
+				for (int j = 0; j < circles.size(); j++)
+				{
+					// Circle collision detection and response.
+
+					circle* c = circles[j];
+
+					if (c->within(p))
+					{
+						real d = sqrt
+						(
+							(p->x - c->x) * (p->x - c->x) +
+							(p->y - c->y) * (p->y - c->y)
+						);
+
+						real nx = (p->x - c->x) / d;
+						real ny = (p->y - c->y) / d;
+
+						p->x = c->x + nx * c->r;
+						p->y = c->y + ny * c->r;
+					}
+				}
 			}
 		}
 
@@ -455,17 +489,27 @@ struct game: boiler
 		{
 			point* p = points[i];
 
-			circlergb
-			(
-				p->x,
-				p->y,
+			int radius = 3;
 
+			if
+			(
 				(mouse_x - p->x) * (mouse_x - p->x) +
 				(mouse_y - p->y) * (mouse_y - p->y) 
 
 				<= 
 
-				5.0f * 5.0f ? 5 : 3,
+				5.0f * 5.0f
+			)
+			{
+				radius = 5;
+			}
+
+			circlergb
+			(
+				p->x,
+				p->y,
+
+				radius,
 
 				rgb(255, 255, 255)
 			);
@@ -490,6 +534,23 @@ struct game: boiler
 					rgb(255, 255, 255)
 				);
 			}
+		}
+
+		// Draw all circles.
+
+		for (int i = 0; i < circles.size(); i++)
+		{
+			circle* c = circles[i];
+
+			circlergb
+			(
+				c->x,
+				c->y,
+
+				c->r,
+
+				rgb(255, 255, 255)
+			);
 		}
 	}
 };
