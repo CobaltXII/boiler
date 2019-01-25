@@ -209,7 +209,7 @@ struct game: boiler
 
 		for (int i = 0; i < 25; i++)
 		{
-			int sides = 3;
+			int sides = rand() % 4 + 3;
 
 			real radius = (1.0f + real(rand()) / real(RAND_MAX)) * 12.0f;
 
@@ -237,6 +237,19 @@ struct game: boiler
 			for (int i = 0; i < sides; i++)
 			{
 				constraints.push_back(new constraint(p[i], p[(i + 1) % sides]));
+			}
+
+			for (int i = 0; i < sides; i++)
+			{
+				for (int j = 0; j < sides; j++)
+				{
+					if (i == j)
+					{
+						continue;
+					}
+
+					constraints.push_back(new constraint(p[i], p[j], false));
+				}
 			}
 		}
 	}
