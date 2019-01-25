@@ -73,10 +73,9 @@ struct constraint
 
 	real d;
 
-	// Inactive constraints are invisible and have no effect on their 
-	// contained points.
+	// Visible constraints are, well, visible.
 
-	bool active;
+	bool visible;
 
 	// Default constructor.
 
@@ -85,7 +84,7 @@ struct constraint
 		point* _p1,
 		point* _p2,
 
-		bool _active = true
+		bool _visible = true
 	)
 	{
 		p1 = _p1;
@@ -100,7 +99,7 @@ struct constraint
 			dy * dy
 		);
 
-		active = _active;
+		visible = _visible;
 	}
 
 	// Do constraint.
