@@ -21,3 +21,41 @@ real clampm(real val, real clamp)
 		return std::max(val, -clamp);
 	}
 }
+
+// A point.
+
+struct point
+{
+	// Current position.
+
+	real x;
+	real y;
+
+	// Previous position.
+
+	real ox;
+	real oy;
+
+	// Locked points cannot move.
+
+	bool locked;
+
+	// Default constructor.
+
+	point
+	(
+		real _x, 
+		real _y, 
+
+		bool _locked = false
+	)
+	{
+		x = _x;
+		y = _y;
+
+		ox = x;
+		oy = y;
+
+		locked = _locked;
+	}
+};
