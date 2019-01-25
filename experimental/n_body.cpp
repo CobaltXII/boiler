@@ -118,6 +118,8 @@ struct game: boiler
 
 		body_force(bodies, 10.0f);
 
+		real inv_scale = 10.0f;
+
 		for (int i = 0; i < bodies.size(); i++)
 		{
 			body& bi = bodies[i];
@@ -125,7 +127,7 @@ struct game: boiler
 			bi.x += bi.vx;
 			bi.y += bi.vy;
 
-			plotp(bi.x / 10.0f + h_width, bi.y / 10.0f + h_height, rgb(255, 255, 255));
+			plotp(bi.x / inv_scale + h_width, bi.y / inv_scale + h_height, rgb(255, 255, 255));
 		}
 	}
 };
