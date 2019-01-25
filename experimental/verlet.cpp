@@ -44,8 +44,8 @@ struct point
 
 	point
 	(
-		real _x, 
-		real _y, 
+		real _x,
+		real _y,
 
 		bool _locked = false
 	)
@@ -55,6 +55,28 @@ struct point
 
 		ox = x;
 		oy = y;
+
+		locked = _locked;
+	}
+
+	// Constructor, specify old position.
+
+	point
+	(
+		real _x,
+		real _y,
+
+		real _ox,
+		real _oy,
+
+		bool _locked = false
+	)
+	{
+		x = _x;
+		y = _y;
+
+		ox = _ox;
+		oy = _oy;
 
 		locked = _locked;
 	}
