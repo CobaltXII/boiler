@@ -250,7 +250,7 @@ struct game: boiler
 
 	void random_polygon(real cx, real cy, real vx, real vy)
 	{
-		int sides = rand() % 4 + 3;
+		int sides = rand() % 5 + 3;
 
 		real radius = (1.0f + real(rand()) / real(RAND_MAX)) * 12.0f;
 
