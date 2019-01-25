@@ -102,4 +102,53 @@ struct constraint
 
 		active = _active;
 	}
+
+	// Do constraint.
+
+	void do_constraint()
+	{
+		real dx = p2->x - p1->x;
+		real dy = p2->y - p1->y;
+
+		real cd = sqrtf
+		(
+			dx * dx +
+			dy * dy
+		);
+
+		// Calculate half of the difference between the constraint distance
+		// and the current distance. Each point will be pushed away from each
+		// other by this factor.
+
+		real nd = (d - cd) / cd / 2.0f;
+
+		real ox = dx * nd;
+		real oy = dy * nd;
+
+		if (p1->locked == false)
+		{
+			if (p2->locked == false)
+			{		
+				p1->x -= ox;
+				p1->y -= oy;	
+
+				p2->x += ox;
+				p2->y += oy;
+			}
+			else
+			{
+				p1->x -= ox * 2.0;
+				p1->y -= oy * 2.0;
+			}
+		}
+		else
+		{
+			if (p2->locked == false)
+			{		
+				p2->x += ox * 2.0;
+				p2->y += oy * 2.0;
+			}
+		}
+	}
+};
 };
