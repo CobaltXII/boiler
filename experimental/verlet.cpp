@@ -270,6 +270,8 @@ struct game: boiler
 		for (int i = 0; i < sides; i++)
 		{
 			points.push_back(p[i] = new point(x[i], y[i], x[i] - vx, y[i] - vy));
+
+			circles.push_back(new circle(p[i], 3.0f));
 		}
 
 		for (int i = 0; i < sides; i++)
@@ -300,6 +302,74 @@ struct game: boiler
 		height = 600;
 
 		title = "Verlet sandbox (using Boiler)";
+
+		// Add a rope.
+
+		if (false)
+		{
+			int segments = 48;
+
+			real length = 256.0f;
+
+			point* r[segments];
+
+			for (int i = 0; i < segments; i++)
+			{
+				points.push_back(r[i] = new point(width / 2, 32 + (length / segments) * (i + 1)));
+
+				circles.push_back(new circle(r[i], 3.0f));
+			}
+
+			r[0]->locked = true;
+
+			for (int i = 0; i < segments - 1; i++)
+			{
+				constraints.push_back(new constraint(r[i], r[i + 1]));
+			}
+		}
+
+		// Add a cloth.
+
+		int x_segments = 32;
+		int y_segments = 32;
+
+		real x_length = 384.0f;
+		real y_length = 384.0f;
+
+		point* c[x_segments][y_segments];
+
+		for (int i = 0; i < x_segments; i++)
+		{
+			real x = width / 2 - (x_length / 2.0f) + ((i + 1) * (x_length / x_segments));
+
+			for (int j = 0; j < y_segments; j++)
+			{
+				real y = 32.0f + ((j + 1) * (y_length / y_segments));
+
+				points.push_back(c[i][j] = new point(x, y));
+
+				if (!j)
+				{
+					c[i][j]->locked = true;
+				}
+			}
+		}
+
+		for (int i = 0; i < x_segments - 1; i++)
+		{
+			for (int j = 0; j < y_segments; j++)
+			{
+				constraints.push_back(new constraint(c[i][j], c[i + 1][j]));
+			}
+		}
+
+		for (int i = 0; i < x_segments; i++)
+		{
+			for (int j = 0; j < y_segments - 1; j++)
+			{
+				constraints.push_back(new constraint(c[i][j], c[i][j + 1]));
+			}
+		}
 	}
 
 	// Handle a key press using Boiler.
@@ -325,7 +395,14 @@ struct game: boiler
 
 			points.push_back(p);
 
-			circles.push_back(new circle(p, 24.0f));
+			circles.push_back(new circle(p, 15.0f));
+		}
+		if (key == SDLK_l)
+		{
+			if (selection)
+			{
+				selection->locked = !selection->locked;
+			}
 		}
 		else if (key == SDLK_ESCAPE)
 		{
@@ -339,34 +416,64 @@ struct game: boiler
 	{
 		black();
 
-		// Drag points with left click.
+		// Circle vs. circle collisions.
 
-		if (mouse_l && !selection)
+		for (int i = 0; i < circles.size(); i++)
 		{
-			for (int i = 0; i < points.size(); i++)
+			circle* c1 = circles[i];
+
+			for (int j = 0; j < circles.size(); j++)
 			{
-				if 
-				(
-					(mouse_x - points[i]->x) * (mouse_x - points[i]->x) +
-					(mouse_y - points[i]->y) * (mouse_y - points[i]->y) 
-
-					<= 
-
-					5.0f * 5.0f
-				)
+				if (i == j)
 				{
-					selection = points[i];
+					continue;
+				}
+
+				circle* c2 = circles[j];
+
+				if (c1->p->locked && c2->p->locked)
+				{
+					// No point to continue if none can be moved.
+
+					continue;
+				}
+
+				real dx = c1->p->x - c2->p->x;
+				real dy = c1->p->y - c2->p->y;
+
+				real d2 = dx * dx + dy * dy;
+
+				if (d2 < (c1->r + c2->r) * (c1->r + c2->r))
+				{
+					// Intersecting, find overlap distance.
+
+					real d = sqrt(d2);
+
+					real overlap = d - c1->r - c2->r;
+
+					real nx = dx / d;
+					real ny = dy / d;
+
+					if (!c1->p->locked && !c2->p->locked)
+					{
+						c1->p->x -= nx * overlap / 2.0f;
+						c1->p->y -= ny * overlap / 2.0f;
+
+						c2->p->x += nx * overlap / 2.0f;
+						c2->p->y += ny * overlap / 2.0f;
+					}
+					else if (c1->p->locked)
+					{
+						c2->p->x += nx * overlap;
+						c2->p->y += ny * overlap;
+					}
+					else
+					{
+						c1->p->x -= nx * overlap;
+						c1->p->y -= ny * overlap;
+					}
 				}
 			}
-		}
-		else if (mouse_l && selection)
-		{
-			selection->x = mouse_x;
-			selection->y = mouse_y;
-		}
-		else
-		{
-			selection = nullptr;
 		}
 
 		// Update all points.
@@ -422,6 +529,36 @@ struct game: boiler
 			}
 		}
 
+		// Drag points with left click.
+
+		if (mouse_l && !selection)
+		{
+			for (int i = 0; i < points.size(); i++)
+			{
+				if 
+				(
+					(mouse_x - points[i]->x) * (mouse_x - points[i]->x) +
+					(mouse_y - points[i]->y) * (mouse_y - points[i]->y) 
+
+					<= 
+
+					5.0f * 5.0f
+				)
+				{
+					selection = points[i];
+				}
+			}
+		}
+		else if (mouse_l && selection)
+		{
+			selection->x = mouse_x;
+			selection->y = mouse_y;
+		}
+		else
+		{
+			selection = nullptr;
+		}
+
 		// Constrain all points to the boundaries.
 
 		for (int i = 0; i < points.size(); i++)
@@ -467,25 +604,26 @@ struct game: boiler
 			c->do_constraint();
 		}
 
+		// Apply forces of all constraints in reverse order.
+
+		for (int i = 1; i <= constraints.size(); i++)
+		{
+			constraint* c = constraints[constraints.size() - i];
+
+			c->do_constraint();
+		}
+
 		// Draw all points.
 
 		for (int i = 0; i < points.size(); i++)
 		{
 			point* p = points[i];
 
-			int radius = 3;
+			unsigned int color = rgb(255, 255, 255);
 
-			if
-			(
-				(mouse_x - p->x) * (mouse_x - p->x) +
-				(mouse_y - p->y) * (mouse_y - p->y) 
-
-				<= 
-
-				5.0f * 5.0f
-			)
+			if (p->locked)
 			{
-				radius = 5;
+				color = rgb(255, 0, 0);
 			}
 
 			circlergb
@@ -493,9 +631,9 @@ struct game: boiler
 				p->x,
 				p->y,
 
-				radius,
+				3,
 
-				rgb(255, 255, 255)
+				color
 			);
 		}
 
