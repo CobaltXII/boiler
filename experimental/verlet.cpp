@@ -215,6 +215,14 @@ struct circle
 
 struct game: boiler
 {	
+	// Universal constants.
+
+	const real friction = 0.99f;
+
+	const real gravity = 0.20f;
+
+	const real bounce = 0.50f;
+
 	// The points in the simulation.
 
 	std::vector<point*> points;
