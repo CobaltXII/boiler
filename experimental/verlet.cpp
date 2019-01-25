@@ -368,30 +368,32 @@ struct game: boiler
 			real vx = (p->x - p->ox) * 0.99f;
 			real vy = (p->y - p->oy) * 0.99f;
 
+			real bounce = 0.999f;
+
 			if (p->x > width)
 			{
 				p->x = width;
 
-				p->ox = p->x + vx * 0.5f;
+				p->ox = p->x + vx * bounce;
 			}
 			else if (p->x < 0.0f)
 			{
 				p->x = 0.0f;
 
-				p->ox = p->x + vx * 0.5f;
+				p->ox = p->x + vx * bounce;
 			}
 
 			if (p->y > height - 64.0f)
 			{
 				p->y = height - 64.0f;
 
-				p->oy = p->y + vy * 0.5f;
+				p->oy = p->y + vy * bounce;
 			}
 			else if (p->y < 0.0f)
 			{
 				p->y = 0.0f;
 
-				p->oy = p->y + vy * 0.5f;
+				p->oy = p->y + vy * bounce;
 			}
 		}
 
