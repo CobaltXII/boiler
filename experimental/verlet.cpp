@@ -324,9 +324,9 @@ struct game: boiler
 				p->ox = p->x + vx * 0.5f;
 			}
 
-			if (p->y > height)
+			if (p->y > height - 64.0f)
 			{
-				p->y = height;
+				p->y = height - 64.0f;
 
 				p->oy = p->y + vy * 0.5f;
 			}
