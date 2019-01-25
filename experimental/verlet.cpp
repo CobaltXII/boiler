@@ -317,7 +317,15 @@ struct game: boiler
 		}
 		if (key == SDLK_c)
 		{
-			circles.push_back(new circle(mouse_x, mouse_y, 48.0f));
+			point* p = new point
+			(
+				mouse_x,
+				mouse_y
+			);
+
+			points.push_back(p);
+
+			circles.push_back(new circle(p, 24.0f));
 		}
 		else if (key == SDLK_ESCAPE)
 		{
@@ -369,8 +377,8 @@ struct game: boiler
 
 			if (p->locked == false)
 			{
-				real vx = (p->x - p->ox) * 0.99f;
-				real vy = (p->y - p->oy) * 0.99f;
+				real vx = (p->x - p->ox) * friction;
+				real vy = (p->y - p->oy) * friction;
 
 				vx = clampm(vx, 50.0f);
 				vy = clampm(vy, 50.0f);
@@ -381,7 +389,7 @@ struct game: boiler
 				p->x += vx;
 				p->y += vy;
 
-				p->y += 0.2f;
+				p->y += gravity;
 
 				for (int j = 0; j < circles.size(); j++)
 				{
@@ -389,19 +397,26 @@ struct game: boiler
 
 					circle* c = circles[j];
 
+					if (c->p == p)
+					{
+						// Can't have circles intersecting themselves!
+
+						continue;
+					}
+
 					if (c->within(p))
 					{
 						real d = sqrt
 						(
-							(p->x - c->x) * (p->x - c->x) +
-							(p->y - c->y) * (p->y - c->y)
+							(p->x - c->p->x) * (p->x - c->p->x) +
+							(p->y - c->p->y) * (p->y - c->p->y)
 						);
 
-						real nx = (p->x - c->x) / d;
-						real ny = (p->y - c->y) / d;
+						real nx = (p->x - c->p->x) / d;
+						real ny = (p->y - c->p->y) / d;
 
-						p->x = c->x + nx * c->r;
-						p->y = c->y + ny * c->r;
+						p->x = c->p->x + nx * c->r;
+						p->y = c->p->y + ny * c->r;
 					}
 				}
 			}
@@ -415,8 +430,6 @@ struct game: boiler
 
 			real vx = (p->x - p->ox) * 0.99f;
 			real vy = (p->y - p->oy) * 0.99f;
-
-			real bounce = 0.999f;
 
 			if (p->x > width)
 			{
@@ -515,8 +528,8 @@ struct game: boiler
 
 			circlergb
 			(
-				c->x,
-				c->y,
+				c->p->x,
+				c->p->y,
 
 				c->r,
 
