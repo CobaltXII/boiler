@@ -2067,3 +2067,10 @@ inline double rand_01()
 {
 	return double(rand()) / double(RAND_MAX);
 }
+
+// Random value between -1.0 and 1.0.
+
+inline double rand_11()
+{
+	return double(rand()) / double(RAND_MAX) * 2.0 - 1.0;
+}
