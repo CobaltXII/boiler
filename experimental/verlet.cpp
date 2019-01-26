@@ -303,6 +303,39 @@ struct game: boiler
 
 		title = "Verlet sandbox (using Boiler)";
 
+		// Add a Newton's cradle.
+
+		if (true)
+		{
+			for (int h = 0; h < 5; h++)
+			{
+				int segments = 16;
+
+				real length = 256.0f;
+
+				point* r[segments];
+
+				for (int i = 0; i < segments; i++)
+				{
+					points.push_back(r[i] = new point(width / 2.0f - (5.0f * 55.0f) / 2.0f + (h + 0.5f) * 55.0f, 32 + (length / segments) * (i + 1)));
+
+					if (i == segments - 1)
+					{
+						points[points.size() - 1]->y += 48.0f;
+					}
+				}
+
+				r[0]->locked = true;
+
+				for (int i = 0; i < segments - 1; i++)
+				{
+					constraints.push_back(new constraint(r[i], r[i + 1]));
+				}
+
+				circles.push_back(new circle(r[segments - 1], 55.0f / 2.0f));
+			}
+		}
+
 		// Add a rope.
 
 		if (false)
@@ -330,44 +363,47 @@ struct game: boiler
 
 		// Add a cloth.
 
-		int x_segments = 32;
-		int y_segments = 32;
-
-		real x_length = 384.0f;
-		real y_length = 384.0f;
-
-		point* c[x_segments][y_segments];
-
-		for (int i = 0; i < x_segments; i++)
+		if (false)
 		{
-			real x = width / 2 - (x_length / 2.0f) + ((i + 1) * (x_length / x_segments));
+			int x_segments = 32;
+			int y_segments = 32;
 
-			for (int j = 0; j < y_segments; j++)
+			real x_length = 384.0f;
+			real y_length = 384.0f;
+
+			point* c[x_segments][y_segments];
+
+			for (int i = 0; i < x_segments; i++)
 			{
-				real y = 32.0f + ((j + 1) * (y_length / y_segments));
+				real x = width / 2 - (x_length / 2.0f) + ((i + 1) * (x_length / x_segments));
 
-				points.push_back(c[i][j] = new point(x, y));
-
-				if (!j)
+				for (int j = 0; j < y_segments; j++)
 				{
-					c[i][j]->locked = true;
+					real y = 32.0f + ((j + 1) * (y_length / y_segments));
+
+					points.push_back(c[i][j] = new point(x, y));
+
+					if (!j)
+					{
+						c[i][j]->locked = true;
+					}
 				}
 			}
-		}
 
-		for (int i = 0; i < x_segments - 1; i++)
-		{
-			for (int j = 0; j < y_segments; j++)
+			for (int i = 0; i < x_segments - 1; i++)
 			{
-				constraints.push_back(new constraint(c[i][j], c[i + 1][j]));
+				for (int j = 0; j < y_segments; j++)
+				{
+					constraints.push_back(new constraint(c[i][j], c[i + 1][j]));
+				}
 			}
-		}
 
-		for (int i = 0; i < x_segments; i++)
-		{
-			for (int j = 0; j < y_segments - 1; j++)
+			for (int i = 0; i < x_segments; i++)
 			{
-				constraints.push_back(new constraint(c[i][j], c[i][j + 1]));
+				for (int j = 0; j < y_segments - 1; j++)
+				{
+					constraints.push_back(new constraint(c[i][j], c[i][j + 1]));
+				}
 			}
 		}
 	}
