@@ -69,6 +69,8 @@ struct game: boiler
     		linergb(px, py, x, y, rgb(0, 255, 0));
 		}
 
+		line1.push_back(y);
+
 		// Add the position of the 'head' to line2x and line2y. Do this many 
 		// times to create a smooth line.
 
@@ -111,8 +113,6 @@ struct game: boiler
 		linergb(x, y, cx + cr + 256, y, rgb(255, 255, 255));
 
 		// Draw line1 (the Y coordinate of the 'head' over time).
-
-		line1.push_back(y);
 
 		for (int i = 1; i < line1.size(); i++)
 		{
