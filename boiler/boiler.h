@@ -2060,3 +2060,10 @@ Uint32* loadimg(std::string path, int &w, int &h, int stb_f = STBI_rgb)
 }
 
 #endif
+
+// Random value between 0.0 and 1.0.
+
+inline double rand_01()
+{
+	return double(rand()) / double(RAND_MAX);
+}
