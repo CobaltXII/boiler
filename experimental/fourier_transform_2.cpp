@@ -92,6 +92,23 @@ struct game: boiler
 
 		fourier1 = discrete_fourier_transform(input1);
 		fourier2 = discrete_fourier_transform(input2);
+
+		struct amp_sort_t
+		{
+			bool operator () 
+			(
+				fourier_t f1,
+				fourier_t f2
+			)
+			{
+				return f1.amp > f2.amp;
+			}
+		};
+
+		amp_sort_t amp_sort;
+
+		std::sort(fourier1.begin(), fourier1.end(), amp_sort);
+		std::sort(fourier2.begin(), fourier2.end(), amp_sort);
 	}
 
 	void draw() override
