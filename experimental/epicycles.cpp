@@ -70,3 +70,41 @@ std::vector<fourier_t> discrete_fourier_transform(std::vector<point>& x)
 
 	return X;
 }
+
+struct game: boiler
+{	
+	float cx = 0.0f;
+	float cy = 0.0f;
+
+	std::vector<point> input;
+
+	std::vector<float> linex;
+	std::vector<float> liney;
+
+	std::vector<fourier_t> fourier;
+
+	// A state of 0 means that the system is waiting for input. A state of 1
+	// means that the system is in the process of capturing input. A state of
+	// 2 means that the system is normal.
+
+	int state = 0;
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
