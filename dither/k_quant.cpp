@@ -200,3 +200,129 @@ image_rgb quant(image_rgb img, int w, int h, std::vector<point> pal)
 
 	return o_rgb;
 }
+
+// Lena Söderberg is commonly used as a test image for computer graphics. Given her importance, it
+// would be rude to not declare her as a global variable.
+
+int lena_w;
+int lena_h;
+
+image_rgb lena_rgb = NULL;
+
+// Total annihilation!
+
+image_rgb lena_gs_rgb = NULL;
+
+image_gs lena_gs = NULL;
+
+// The Boiler structure used to render Lena.
+
+struct game: boiler
+{	
+	int lena_m_w;
+	int lena_m_h;
+
+	image_rgb lena_m;
+
+	void steam() override
+	{
+		lena_rgb = loadimg
+		(
+			path_to_img,
+
+			lena_w, 
+			lena_h
+		);
+
+		if (!lena_rgb)
+		{
+			nuke("Could not load image.");
+		}
+
+		width = 800;
+		height = 600;
+
+		title = "K-means quantization (using Boiler)";
+
+		// Generate the palette.
+
+		std::vector<point> dataset(lena_w * lena_h);
+
+		for (int x = 0; x < lena_w; x++)
+		for (int y = 0; y < lena_h; y++)
+		{
+			int r = getr(lena_rgb[y * lena_w + x]);
+			int g = getg(lena_rgb[y * lena_w + x]);
+			int b = getb(lena_rgb[y * lena_w + x]);
+
+			float nr = r / 255.0f;
+			float ng = g / 255.0f;
+			float nb = b / 255.0f;
+
+			point data;
+
+			data.x = nr;
+			data.y = ng;
+			data.z = nb;
+
+			dataset[y * lena_w + x] = data;
+		}
+
+		std::vector<point> palette = k_means(dataset, 8, 256);
+
+		// Quantize the image.
+
+		lena_m = quant(lena_rgb, lena_w, lena_h, palette);
+
+		lena_m_w = lena_w;
+		lena_m_h = lena_h;
+	}
+
+	void draw() override
+	{
+		memset((void*)pixels, 0, width * height * sizeof(Uint32));
+
+		// Draw Lena really, really fast.
+
+		int ox = h_width - (lena_m_w / 2);
+		int oy = h_height - (lena_m_h / 2);
+
+		for (int y = 0; y < lena_m_h; y++)
+		{
+			memcpy(&(pixels[(oy + y) * width + ox]), &(lena_m[y * lena_m_w]), sizeof(Uint32) * lena_m_w);
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	if (argc != 1 && argc != 2)
+	{
+		nuke("Usage: ./dither [path-to-img]");
+	}
+
+	if (argc == 2)
+	{
+		path_to_img = std::string(argv[1]);
+	}
+	else
+	{
+		path_to_img = "lena_color.bmp";
+	}
+
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
