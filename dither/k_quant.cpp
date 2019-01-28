@@ -22,3 +22,26 @@ typedef Uint32* image_rgb;
 // of unsigned chars. An array of unsigned chars is ambiguous, so we use a typedef.
 
 typedef Uint8* image_gs;
+
+// A three-dimensional point.
+
+struct point
+{
+	float x;
+	float y;
+	float z;
+
+	point()
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+
+	point(float _x, float _y, float _z)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+	}
+};
