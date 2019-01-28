@@ -12,7 +12,7 @@
 
 // Point count.
 
-int n = 3136;
+int n = 2304;
 
 // Boundaries.
 
