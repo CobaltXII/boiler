@@ -88,6 +88,21 @@ struct game: boiler
 	// 2 means that the system is normal.
 
 	int state = 0;
+
+	void steam() override
+	{
+		width = 800;
+		height = 800;
+
+		title = "Fourier transform (using Boiler)";
+
+		// Find the center.
+
+		cx = 0.5f * width;
+		cy = 0.5f * height;
+
+		std::cout << "Press the mouse down to begin drawing a continuous path. Once you release the mouse, the epicycles will draw your path back to you." << std::endl;
+	}
 };
 
 // Entry point for the software renderer.
