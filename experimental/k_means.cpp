@@ -109,3 +109,111 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 
 	return clusters;
 }
+
+struct game: boiler
+{	
+	std::vector<point> dataset;
+
+	std::vector<point> clusters;
+
+	void steam() override
+	{
+		width = 960;
+		
+		height = 960;
+
+		title = "K-means clustering (using Boiler)";
+
+		// Initialize the random number generator.
+
+		srand(time(NULL));
+
+		// Initialize a dataset.
+
+		for (int i = 0; i < 16; i++)
+		{
+			float rx = rand_01();
+			float ry = rand_01();
+
+			for (int j = 0; j < 64; j++)
+			{
+				float r1 = rand_11();
+				float r2 = rand_11();
+
+				float px = rx + cos(r1 * 2.0f * M_PI) * r2 * 0.1f;
+				float py = ry + sin(r1 * 2.0f * M_PI) * r2 * 0.1f;
+
+				dataset.push_back(point(px, py));
+			}
+		}
+
+		// Do k-means clustering.
+
+		clusters = k_means(dataset, 16, 1024);
+	}
+
+	void draw() override
+	{
+		black();
+
+		// Render the dataset.
+
+		for (int i = 0; i < dataset.size(); i++)
+		{
+			circlergb(dataset[i].x * width, dataset[i].y * width, 3, rgb(255, 255, 255));
+		}
+
+		// Render the clusters.
+
+		for (int i = 0; i < clusters.size(); i++)
+		{
+			circlergb(clusters[i].x * width, clusters[i].y * width, 5, hsl_to_rgb(i * (360 / clusters.size()), 1.0f, 0.5f));
+		}
+
+		// Render lines connecting the dataset and the clusters.
+
+		for (int i = 0; i < dataset.size(); i++)
+		{
+			float max_dist = INFINITY;
+
+			int index = -1;
+
+			for (int j = 0; j < clusters.size(); j++)
+			{
+				float dx = dataset[i].x - clusters[j].x;
+				float dy = dataset[i].y - clusters[j].y;
+
+				float d = dx * dx + dy * dy;
+
+				if (d < max_dist)
+				{
+					max_dist = d;
+
+					index = j;
+				}
+			}
+
+			linergb(dataset[i].x * width, dataset[i].y * width, clusters[index].x * width, clusters[index].y * width, hsl_to_rgb(index * (360 / clusters.size()), 1.0f, 0.5f));
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+
+	demo.sweep();
+
+	return 0;
+}
