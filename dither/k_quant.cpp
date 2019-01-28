@@ -17,3 +17,8 @@ std::default_random_engine rng_source;
 // unsigned integers can be any number of other things as well. For clarity, we use a typedef.
 
 typedef Uint32* image_rgb;
+
+// Similar to the above statement, a grayscale image can be represented by a one-dimensional array
+// of unsigned chars. An array of unsigned chars is ambiguous, so we use a typedef.
+
+typedef Uint8* image_gs;
