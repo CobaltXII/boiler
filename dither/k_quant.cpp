@@ -151,3 +151,52 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 
 	return clusters;
 }
+
+// Quantize an image using a color palette.
+
+image_rgb quant(image_rgb img, int w, int h, std::vector<point> pal)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			// Find the closest color in RGB space.
+
+			float max_dist = INFINITY;
+
+			int index = -1;
+
+			float nr = getr(img[y * w + x]) / 255.0f;
+			float ng = getg(img[y * w + x]) / 255.0f;
+			float nb = getb(img[y * w + x]) / 255.0f;
+
+			for (int p = 0; p < pal.size(); p++)
+			{
+				float dx = nr - pal[p].x;
+				float dy = ng - pal[p].y;
+				float dz = nb - pal[p].z;
+
+				float d = dx * dx + dy * dy + dz * dz;
+
+				if (d < max_dist)
+				{
+					max_dist = d;
+
+					index = p;
+				}
+			}
+			
+			// Set the output color to the closest color.
+
+			int pr = pal[index].x * 255;
+			int pg = pal[index].y * 255;
+			int pb = pal[index].z * 255;
+
+			o_rgb[y * w + x] = rgb(pr, pg, pb);
+		}
+	}
+
+	return o_rgb;
+}
