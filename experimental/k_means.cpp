@@ -79,6 +79,16 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 
 		for (int m = 0; m < k; m++)
 		{
+			if (buckets[m].size() == 0)
+			{
+				cx[m] = rand_01();
+				cy[m] = rand_01();
+
+				j++;
+
+				continue;
+			}
+
 			float avgx = 0.0f;
 			float avgy = 0.0f;
 
