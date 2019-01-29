@@ -165,3 +165,19 @@ inline int clamp_pix(int p)
 		return p;
 	}
 }
+
+// Safely add a pixel to a pixel.
+
+inline void add_pixel(image_rgb img, int w, int h, int x, int y, int r, int g, int b, int C, int D)
+{
+	if (x < 0 || y < 0 || x >= w || y >= h)
+	{
+		return;
+	}
+
+	int cr = clamp_pix(getr(img[y * w + x]) + r * C / D);
+	int cg = clamp_pix(getg(img[y * w + x]) + g * C / D);
+	int cb = clamp_pix(getb(img[y * w + x]) + b * C / D);
+
+	img[y * w + x] = rgb(cr, cg, cb);
+}
