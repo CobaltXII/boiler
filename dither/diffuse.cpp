@@ -108,8 +108,6 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 				cy[m] = rand_01();
 				cz[m] = rand_01();
 
-				j++;
-
 				continue;
 			}
 
@@ -128,6 +126,8 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 			cy[m] = avgy / float(buckets[m].size());
 			cz[m] = avgz / float(buckets[m].size());
 		}
+
+		std::cout << "Iteration " << i << "/" << j << "\r" << std::flush;
 	}
 
 	// Construct a vector of clusters to return.
