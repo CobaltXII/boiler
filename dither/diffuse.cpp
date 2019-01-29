@@ -57,6 +57,27 @@ point __vga__(unsigned char v, unsigned char g, unsigned char a)
 
 	return point(fv, fg, fa);
 }
+
+std::vector<point> vga_palette =
+{
+	__vga__(0, 0, 0),
+	__vga__(0, 0, 2),
+	__vga__(0, 2, 0),
+	__vga__(0, 2, 2),
+	__vga__(2, 0, 0),
+	__vga__(2, 0, 2),
+	__vga__(2, 1, 0),
+	__vga__(2, 2, 2),
+	__vga__(1, 1, 1),
+	__vga__(1, 1, 3),
+	__vga__(1, 3, 1),
+	__vga__(1, 3, 3),
+	__vga__(3, 1, 1),
+	__vga__(3, 1, 3),
+	__vga__(3, 3, 1),
+	__vga__(3, 3, 3)
+};
+
 // Do k-means clustering on a dataset of points. j is the number of iterations.
 
 std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
