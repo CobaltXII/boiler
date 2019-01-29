@@ -315,7 +315,7 @@ struct game: boiler
 			dataset[y * lena_w + x] = data;
 		}
 
-		std::vector<point> palette = k_means(dataset, 64, 256);
+		std::vector<point> palette = k_means(dataset, 8, 512);
 
 		// Quantize the image.
 
