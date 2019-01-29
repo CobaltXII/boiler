@@ -9,6 +9,10 @@
 
 std::string path_to_img;
 
+int colors;
+
+int iterations;
+
 // An image is a one-dimensional array of unsigned integers. However, a one-dimensional array of
 // unsigned integers can be any number of other things as well. For clarity, we use a typedef.
 
@@ -360,7 +364,7 @@ struct game: boiler
 			dataset[y * lena_w + x] = data;
 		}
 
-		std::vector<point> palette = k_means(dataset, 8, 512);
+		std::vector<point> palette = k_means(dataset, colors, iterations);
 
 		// Quantize the image.
 
@@ -390,18 +394,42 @@ struct game: boiler
 
 int main(int argc, char** argv)
 {
-	if (argc != 1 && argc != 2)
+	if (argc != 1 && argc != 2 && argc != 3 && argc != 4)
 	{
-		nuke("Usage: ./dither [path-to-img]");
+		nuke("Usage: ./diffuse [path-to-img=\"lena_color.bmp\" [colors=8] [iterations=512]]");
 	}
 
-	if (argc == 2)
+	if (argc == 1)
 	{
+		colors = 8;
+
+		iterations = 512;
+
+		path_to_img = "lena_color.bmp";
+	}
+	else if (argc == 2)
+	{
+		colors = 8;
+
+		iterations = 512;
+
 		path_to_img = std::string(argv[1]);
 	}
-	else
+	else if (argc == 3)
 	{
-		path_to_img = "lena_color.bmp";
+		colors = std::stoi(std::string(argv[2]));
+
+		iterations = 512;
+
+		path_to_img = std::string(argv[1]);
+	}
+	else if (argc == 4)
+	{
+		colors = std::stoi(std::string(argv[2]));
+
+		iterations = std::stoi(std::string(argv[3]));
+
+		path_to_img = std::string(argv[1]);
 	}
 
 	game demo;
