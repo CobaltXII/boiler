@@ -181,3 +181,69 @@ inline void add_pixel(image_rgb img, int w, int h, int x, int y, int r, int g, i
 
 	img[y * w + x] = rgb(cr, cg, cb);
 }
+
+// Floyd–Steinberg dithering/error diffusion. Clobbers img.
+
+image_rgb floyd_steinberg(image_rgb img, int w, int h, std::vector<point> pal)
+{
+	image_rgb o_rgb = (image_rgb)malloc(sizeof(Uint32) * w * h);
+
+	for (int x = 0; x < w; x++)
+	{
+		for (int y = 0; y < h; y++)
+		{
+			int old_r = getr(img[y * w + x]);
+			int old_g = getg(img[y * w + x]);
+			int old_b = getb(img[y * w + x]);
+
+			// Find closest color.
+
+			float nr = old_r / 255.0f;
+			float ng = old_g / 255.0f;
+			float nb = old_b / 255.0f;
+
+			float max_dist = INFINITY;
+
+			int index = -1;
+
+			for (int p = 0; p < pal.size(); p++)
+			{
+				float dx = nr - pal[p].x;
+				float dy = ng - pal[p].y;
+				float dz = nb - pal[p].z;
+
+				float d = dx * dx + dy * dy + dz * dz;
+
+				if (d < max_dist)
+				{
+					max_dist = d;
+
+					index = p;
+				}
+			}
+
+			// Set the output pixel to the closest color.
+
+			int new_r = pal[index].x * 255;
+			int new_g = pal[index].y * 255;
+			int new_b = pal[index].z * 255;
+
+			o_rgb[y * w + x] = rgb(new_r, new_g, new_b);
+
+			// Find the error.
+
+			int err_r = old_r - new_r;
+			int err_g = old_g - new_g;
+			int err_b = old_b - new_b;
+
+			// Diffuse the error.
+
+			add_pixel(img, w, h, x + 1, y + 0, err_r, err_g, err_b, 7, 16);
+			add_pixel(img, w, h, x - 1, y + 1, err_r, err_g, err_b, 3, 16);
+			add_pixel(img, w, h, x + 0, y + 1, err_r, err_g, err_b, 5, 16);
+			add_pixel(img, w, h, x + 1, y + 1, err_r, err_g, err_b, 1, 16);
+		}
+	}
+
+	return o_rgb;
+}
