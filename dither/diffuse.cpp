@@ -42,6 +42,21 @@ struct point
 	}
 };
 
+// Taken from ../terminal/terminal_extras.h and modified to work with this project.
+
+point __vga__(unsigned char v, unsigned char g, unsigned char a)
+{
+	const unsigned char __vga__m[4] =
+	{
+		0x00, 0x55, 0xAA, 0xFF
+	};
+
+	float fv = float(__vga__m[v]) / 255.0f;
+	float fg = float(__vga__m[g]) / 255.0f;
+	float fa = float(__vga__m[a]) / 255.0f;
+
+	return point(fv, fg, fa);
+}
 // Do k-means clustering on a dataset of points. j is the number of iterations.
 
 std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
