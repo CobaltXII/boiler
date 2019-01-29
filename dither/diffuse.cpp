@@ -236,6 +236,15 @@ image_rgb floyd_steinberg(image_rgb img, int w, int h, std::vector<point> pal)
 			int err_g = old_g - new_g;
 			int err_b = old_b - new_b;
 
+			// Uncomment this to see the error.
+			//
+			// o_rgb[y * w + x] = rgb
+			// (
+			// 	clamp_pix(abs(err_r) * 2),
+			// 	clamp_pix(abs(err_g) * 2),
+			// 	clamp_pix(abs(err_b) * 2)
+			// );
+
 			// Diffuse the error.
 
 			add_pixel(img, w, h, x + 1, y + 0, err_r, err_g, err_b, 7, 16);
