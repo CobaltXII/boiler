@@ -147,3 +147,21 @@ std::vector<point> k_means(std::vector<point>& dataset, int k, int j)
 
 	return clusters;
 }
+
+// Clamp a pixel to the range 0 to 255.
+
+inline int clamp_pix(int p)
+{
+	if (p > 255)
+	{
+		return 255;
+	}
+	else if (p < 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return p;
+	}
+}
