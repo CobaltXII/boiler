@@ -146,7 +146,7 @@ int main(int argc, char** argv)
 {
 	if (argc != 2 && argc != 3)
 	{
-		std::cout << "Usage: " << argv[0] << " S/B [frequency]" << std::endl;
+		std::cout << "Usage: " << argv[0] << " <s/b> [frequency]" << std::endl;
 
 		exit(EXIT_FAILURE);
 	}
