@@ -40,6 +40,10 @@ struct game: boiler
 		state1 = (cell*)malloc(state_len * sizeof(cell));
 		state2 = (cell*)malloc(state_len * sizeof(cell));
 
+		// Seed the random number generator.
+
+		srand(time(NULL));
+
 		// Initialize to randomness.
 
 		for (int i = 0; i < state_len; i++)
