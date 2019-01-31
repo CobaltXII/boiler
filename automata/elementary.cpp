@@ -62,7 +62,7 @@ struct game: boiler
 					(cell_0 << 2)
 				);
 
-				state[(i + 1) * width + j] = bit_array[7 - permutation];
+				state[(i + 1) * width + j] = bit_array[permutation];
 			}
 		}
 	}
@@ -113,7 +113,7 @@ struct game: boiler
 				(cell_0 << 2)
 			);
 
-			state[(height - 1) * width + i] = bit_array[7 - permutation];
+			state[(height - 1) * width + i] = bit_array[permutation];
 		}
 
 		// Blit to the screen.
