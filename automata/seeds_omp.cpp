@@ -33,6 +33,10 @@ struct game: boiler
 
 		title = "Cellular automata (using Boiler)";
 
+		// Seed the random number generator.
+
+		srand(time(NULL));
+
 		// Allocate states.
 
 		state_len = width * height;
