@@ -73,6 +73,8 @@ struct game: boiler
 
 		if (key == SDLK_c)
 		{
+			// Switch color scheme.
+
 			if (cell_color[0])
 			{
 				cell_color[0] = rgb(0x00, 0x00, 0x00);
@@ -82,6 +84,15 @@ struct game: boiler
 			{
 				cell_color[0] = rgb(0xFF, 0xFF, 0xFF);
 				cell_color[1] = rgb(0x00, 0x00, 0x00);
+			}
+		}
+		else if (key == SDLK_r)
+		{
+			// Randomize bottom row.
+
+			for (int i = 0; i < width; i++)
+			{
+				state[(height - 1) * width + i] = rand() % 2;
 			}
 		}
 		else if (key == SDLK_ESCAPE)
