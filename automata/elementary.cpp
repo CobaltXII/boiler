@@ -12,8 +12,6 @@ typedef unsigned char cell;
 
 bool* bit_array;
 
-int frequency = 4;
-
 struct game: boiler
 {	
 	cell* state;
@@ -44,7 +42,7 @@ struct game: boiler
 
 		for (int i = 0; i < width; i++)
 		{
-			state[i] = 1 - std::min(1, rand() % frequency);
+			state[i] = rand() % 2;
 		}
 
 		// Fill the following horizontal lines using the ruleset.
