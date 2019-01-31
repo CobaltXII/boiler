@@ -126,3 +126,42 @@ struct game: boiler
 		}
 	}
 };
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	if (argc != 2)
+	{
+		std::cout << "Usage: " << argv[0] << " <rule>" << std::endl;
+
+		exit(EXIT_FAILURE);
+	}
+
+	// Generate the rule.
+
+	std::bitset<8> bits(atoi(argv[1]));
+
+	bit_array = (bool*)malloc(8 * sizeof(bool));
+
+	for (int i = 0; i < 8; i++)
+	{
+		bit_array[i] = bits[i];
+	}
+
+	// Start Boiler.
+
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
