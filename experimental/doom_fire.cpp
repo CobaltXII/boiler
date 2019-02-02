@@ -18,8 +18,8 @@ typedef unsigned char cell;
 
 struct game: boiler
 {	
-	const int block_xr = 3;
-	const int block_yr = 3;
+	const int block_xr = 2;
+	const int block_yr = 2;
 
 	const int x_res = 600;
 	const int y_res = 600;
@@ -103,7 +103,7 @@ struct game: boiler
 	{
 		// Spread fire upwards and horizontally while losing heat.
 
-		int deviation = std::round(rand_01() * 3.0f);
+		int deviation = std::round(rand_01() * 2.4f);
 
 		if (fire_map[idx] - (deviation & 1) >= 0)
 		{
