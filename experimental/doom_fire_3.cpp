@@ -263,6 +263,16 @@ struct game: boiler
 				p->oy = p->y + vy * 0.5f;
 			}
 		}
+
+		// Propagate the fire.
+
+		for (int x = 0; x < fx_res; x++)
+		{
+			for (int y = 0; y <= fy_res; y++)
+			{
+				spread_fire(y * fx_res + x);
+			}
+		}
 	}
 };
 
