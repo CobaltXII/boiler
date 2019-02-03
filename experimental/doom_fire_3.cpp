@@ -227,6 +227,42 @@ struct game: boiler
 			selection_x = nullptr;
 			selection_y = nullptr;
 		}
+
+		// Constrain all points to the boundaries.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			float vx = (p->x - p->ox) * 0.99f;
+			float vy = (p->y - p->oy) * 0.99f;
+
+			if (p->x + r > fx_res)
+			{
+				p->x = fx_res - r;
+
+				p->ox = p->x + vx * 0.5f;
+			}
+			else if (p->x < r)
+			{
+				p->x = r;
+
+				p->ox = p->x + vx * 0.5f;
+			}
+
+			if (p->y + r > fy_res)
+			{
+				p->y = fy_res - r;
+
+				p->oy = p->y + vy * 0.5f;
+			}
+			else if (p->y < r)
+			{
+				p->y = r;
+
+				p->oy = p->y + vy * 0.5f;
+			}
+		}
 	}
 };
 
