@@ -195,6 +195,38 @@ struct game: boiler
 
 			p->y += 0.05f;
 		}
+
+		// Drag points with left click.
+
+		if (mouse_l && !selection_x)
+		{
+			for (int i = 0; i < points.size(); i++)
+			{
+				if 
+				(
+					(mouse_x / block_xr - points[i]->x) * (mouse_x / block_xr - points[i]->x) +
+					(mouse_y / block_yr - points[i]->y) * (mouse_y / block_yr - points[i]->y)
+
+					<= 
+
+					r * r
+				)
+				{
+					selection_x = &(points[i]->x);
+					selection_y = &(points[i]->y);
+				}
+			}
+		}
+		else if (mouse_l && selection_x)
+		{
+			*selection_x = mouse_x / block_xr;
+			*selection_y = mouse_y / block_yr;
+		}
+		else
+		{
+			selection_x = nullptr;
+			selection_y = nullptr;
+		}
 	}
 };
 
