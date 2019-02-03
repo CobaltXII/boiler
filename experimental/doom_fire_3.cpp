@@ -138,6 +138,45 @@ struct game: boiler
 
 	void draw() override
 	{
+		black();
+
+		// Circle vs. circle collisions.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p1 = points[i];
+
+			for (int j = 0; j < points.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				point* p2 = points[j];
+
+				float dx = p1->x - p2->x;
+				float dy = p1->y - p2->y;
+
+				float d2 = dx * dx + dy * dy;
+
+				if (d2 < r * r * 4.0f)
+				{
+					float d = sqrt(d2);
+
+					float overlap = d - r * 2.0f;
+
+					float nx = dx / d;
+					float ny = dy / d;
+
+					p1->x -= nx * overlap / 2.0f;
+					p1->y -= ny * overlap / 2.0f;
+
+					p2->x += nx * overlap / 2.0f;
+					p2->y += ny * overlap / 2.0f;
+				}
+			}
+		}
 	}
 };
 
