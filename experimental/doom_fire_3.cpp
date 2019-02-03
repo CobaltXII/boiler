@@ -273,6 +273,28 @@ struct game: boiler
 				spread_fire(y * fx_res + x);
 			}
 		}
+
+		// Render the fire.
+
+		for (int y = 0; y < fy_res; y++)
+		{
+			for (int x = 0; x < fx_res; x++)
+			{
+				int r = fire_map[y * fx_res + x] * 14;
+
+				int g = fire_map[y * fx_res + x] * 14 - 256;
+				int b = fire_map[y * fx_res + x] * 28 - 768;
+
+				unsigned int color = rgb
+				(
+					clamprgb(r),
+					clamprgb(g),
+					clamprgb(b)
+				);
+
+				frectrgb(x * block_xr, y * block_yr, block_xr, block_yr, color);
+			}
+		}
 	}
 };
 
