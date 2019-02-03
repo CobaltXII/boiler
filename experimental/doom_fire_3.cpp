@@ -123,6 +123,18 @@ struct game: boiler
 			);
 		}
 	}
+
+	void spread_fire(int idx)
+	{
+		// Spread fire upwards and horizontally while losing heat.
+
+		int deviation = std::round(rand_01() * 2.4f);
+
+		if (fire_map[idx] - (deviation & 1) * 3 >= 0)
+		{
+			fire_map[(idx - deviation + 1) - fx_res] = fire_map[idx] - (deviation & 1) * 3;
+		}
+	}
 };
 
 // Entry point for the software renderer.
