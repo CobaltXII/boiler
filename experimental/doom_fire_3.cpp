@@ -49,6 +49,14 @@ typedef unsigned char cell;
 
 struct game: boiler
 {	
+	// Stuff to do with the Verlet balls simulation.
+
+	std::vector<point*> points;
+
+	float* selection_x = nullptr;
+	float* selection_y = nullptr;
+
+	const float r = 5.0f;
 };
 
 // Entry point for the software renderer.
