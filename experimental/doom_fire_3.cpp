@@ -177,6 +177,24 @@ struct game: boiler
 				}
 			}
 		}
+
+		// Update all points.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			float vx = (p->x - p->ox) * 0.99f;
+			float vy = (p->y - p->oy) * 0.99f;
+
+			p->ox = p->x;
+			p->oy = p->y;
+
+			p->x += vx;
+			p->y += vy;
+
+			p->y += 0.05f;
+		}
 	}
 };
 
