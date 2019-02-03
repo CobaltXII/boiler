@@ -12,7 +12,7 @@ Boiler is oriented around per-pixel rasterization. It does not use any SDL2 grap
 
 Boiler is an object-oriented library. It provides a base class with all the implemented drawing routines and class members. The standard header also defines many global functions for convenience. 
 
-To set up Boiler, you must create your own class that inherits from the generic `boiler` class. You may then override `steam` to initialize the underlying SDL2 window. You should also override `draw`, and optionally `keydown` and `keyup` as well. 
+To set up Boiler, you must create your own class that inherits from the generic `boiler` class. You may then override `steam` to initialize the underlying SDL2 window. You should also override `draw`, and optionally `keydown` and `keyup` and other functions as well. 
 
 To use Boiler, you must create a default instance of your child class which inherits from `boiler`. You then call `make`, which will return a non-zero value if it fails. After that, you should call `engine`, which will execute until the program exits. After calling `engine`, calling `sweep` is good practise to ensure all memory is freed.
 
@@ -61,76 +61,6 @@ To build any project that uses the Boiler framework, you must link the SDL2 libr
 ```bash
 clang++ my_project.cpp -std=c++11 -lSDL2 -Ofast
 ```
-
-**To Mojave users:** Since the release of Mojave, the Boiler framework has a few bugs which are associated with the SDL2 library. These bugs cause errors in many OpenGL frameworks (including Boiler), so you may experience them in your project. The most common bug is the one that causes the window to appear black until it is moved (by the user, drag it using the title bar). This will be fixed in SDL 2.0.9, which should be released soon.
-
-## Other
-
-**If all you are looking for is the single Boiler header**, and not the associated projects, then do not clone the repository! Most of the repository is not the framework itself, but projects that I have created which utilize the framework. You can find a direct link to the header [here](https://raw.githubusercontent.com/CobaltXII/boiler/master/boiler/boiler.h "Direct download"). 
-
-You may have noticed that there are many directories in this repository, and they do not seem relevant to the Boiler framework. These sub-repositories, to use my word for them, are projects that I have made myself (for fun) that utilize the Boiler framework. I encourage you to take a look at these projects, they show how Boiler makes it extremely easy to render graphics quickly and cleanly.
-
-If you ever use any concepts or code from any of the files in this repository, I would greatly appreciate it if you could credit (or link) this repository. Notifying me that you have used this code would also be appreciated. Thank you!
-
-### Balls
-
-Balls is a simple, inaccurate and fun toy for simulating the physics of rigid circular bodies. The simulation supports circle vs. circle collisions, along with circle vs. capsule collisions. It also supports momentum conservation, displacement and gravity. It is oddly satisfying to create hourglasses, slopes, marble runs and other physics demonstrations with this tool.
-
-### Raster
-
-Raster is a software rasterizer. It is capable of rendering three-dimensional objects to the screen as pixels; this is called rasterization. Currently, this rasterizer supports rotation, scaling, translation, projection, and limited clipping. The clipping is very buggy, so objects must be rendered at a distance. Texturing is not supported, objects are colored with a color derived from their normals. Only flat shading is implemented.
-
-### Normals
-
-This is an extremely simple normal mapping implementation. This code takes an image (called a normal map) and uses the color values to generate a map of normals. A diffuse shading implementation uses the normal map and a list of point lights to generate extremely realistic lighting effects. This program renders a few lights interacting with a normal mapped image in three-dimensional space.
-
-### Barycentric
-
-Barycentric is a triangle renderer. It renders triangles using a hard-coded shader, which can manipulate the triangle in any way. The renderer uses barycentric coordinates to 'weigh' the vertex data of the triangle, and then uses those weights to fetch texture information or generate a color value. The renderer is moderately fast, and I hope to use it in my future projects. Barycentric currently has color and texture interpolation support.
-
-### Additive
-
-Additive is an additive blending demonstration. It features three circles, which are red, green and blue. The circles pulse, spin, and swap positions at a fast pace. Additive blending is a form of color blending, which closely mimics the effect produced by blending physical lights. Additive blending can be used in many applications, such as dynamic lighting, realistic particle effects, glowing sprites, and rendering.
-
-### Sierpiński
-
-Sierpiński is a simple program to render the Sierpiński triangle fractal. I thought of the algorithm to render the fractal myself, but I am sure that someone else has thought of a similar (if not identical) algorithm before. No recursive functions are used, just a vector of triangles that mutate on demand. I find watching the Sierpiński triangle progress very satisfying, and the resulting pattern is beautiful.
-
-### Cloth
-
-Cloth is a cloth simulation implemented using Verlet integration. The cloth simulation is made up of tiny point masses arranged in a net or grid pattern, which are linked together with rigid constraints. The constraints try hard to keep the two points they are tethered to a certain distance from each other, but sometimes external forces are too great; the constraints break. Currently, this project supports untextured, rippable cloth, and textured, unrippable cloth.
-
-### Dither
-
-Dither is a tiny dithering library. It supports black and white thresholding, random dithering, Gaussian dithering, and ordered dithering. It also supports splicing color images into their one-dimensional channels, and joining grayscale images to create color images. It includes Bayer matrices of varying sizes, cluster dot matrices, horizontal line matrices and vertical line matrices. Gamma correction is also implemented. It can be used for 1-bit grayscale dithering, or 3-bit color dithering.
-
-### Neural
-
-Neural is a tiny neural network library. It supports creating neural networks with any amount of input, hidden and output nodes. It supports forward propagation using Sigmoid activation, and back propagation using gradient descent. The library also implements it's own matrix library, which has many common functions and is useable for other applications as well. Currently, a 1-dimensional XOR solver and a 3-dimensional RGB solver have been created with this library.
-
-### Terminal
-
-Terminal is an extension to the Boiler framework. It allows you to draw text to the screen easily and quickly. It uses the original Code Page 437 font, developed by IBM for the IBM PC. It does not use any external files at runtime, as the entire font is encoded in a header. It also supports the VGA color palette, and makes it easy to align text. The Terminal extension is very useful for any visual debugging and logging purposes.
-
-### Lights
-
-Lights is a dynamic lighting engine. It uses an algorithm to construct an array of edges from a boolean tile map, and then uses line-line intersection mathematics to cast rays from each light to each edge. The lights in the scene can be modified in real time, and the same goes with the tile map. However, the algorithm executes entirely on the CPU, and therefore is much too slow to be used in practical applications. However, the results are still pretty fun to watch.
-
-### Matrix
-
-Matrix is a small demoscene that simulates falling text (as in the Matrix). It uses a grid of ASCII characters rendered using the Terminal extension to Boiler. The font used is Code Page 437. Currently, Matrix has green, blue, cyan, red, magenta, gold and white color modes, all operating on a black background. The original VGA color palette is used to color every pixel.
-
-### Mandelbrot
-
-Mandelbrot is a set of different two-dimensional fractal renderers. Originally it was just going to render the Mandelbrot set, but it has been expanded to render the Mandelbrot set along with the Julia set and the Burning Ship fractal. Plans for adding the Newton fractal also exist. Currently, each of the renderers support normalized iteration count algorithms (smooth coloring), and coloring using Bernstein polynomials.
-
-### Minecraft
-
-Minecraft is a remake of Notch (Markus Persson)'s `minecraft4k` demoscene that he made a very long time ago. I ported it to use the Boiler framework, and that's about all the work I did. Notch created the demoscene to run in Java, but then ported it to Javascript. The amazing thing is that he fit it all in 4 kilobytes. Currently, the Minecraft demo listed here takes up around 6-7 kilobytes (but that is with formatting).
-
-## Dependencies
-
-The Boiler framework depends on SDL2. It includes the header files `stb_image.hpp` and `stb_truetype.hpp`. These do not need to be included in any distribution or usage of Boiler in order for Boiler to function. They are just included for convenience.
 
 ## License
 
