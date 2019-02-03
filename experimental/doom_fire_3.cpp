@@ -91,6 +91,38 @@ struct game: boiler
 			);
 		}
 	}
+
+	void steam() override
+	{
+		width = x_res;
+		height = y_res;
+
+		title = "Doom fire (using Boiler)";
+
+		// Allocate fire_map.
+
+		fire_map = (cell*)malloc(fx_res * fy_res * sizeof(cell));
+
+		// Clear the fire_map.
+
+		memset(fire_map, 0, fx_res * fy_res * sizeof(cell));
+
+		// Add balls.
+
+		srand(time(NULL));
+
+		for (int i = 0; i < 4; i++)
+		{
+			points.push_back
+			(
+				new point
+				(
+					rand_11() * 10 + fx_res / 2,
+					rand_11() * 10 + fy_res / 2
+				)
+			);
+		}
+	}
 };
 
 // Entry point for the software renderer.
