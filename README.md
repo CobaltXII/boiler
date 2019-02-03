@@ -134,6 +134,4 @@ The Boiler framework depends on SDL2. It includes the header files `stb_image.hp
 
 ## License
 
-The Boiler framework and all other included projects are licensed under the [GNU General Public License v3.0](https://github.com/CobaltXII/boiler/blob/master/LICENSE "GNU General Public License v3.0"). A short paragraph provided by GitHub briefly summarizes the license
-
-> Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights. This is not legal advice.
+The Boiler framework and all other included projects are licensed under the MIT License.
