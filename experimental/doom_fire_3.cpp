@@ -44,3 +44,5 @@ struct point
 		oy = _oy;
 	}
 };
+
+typedef unsigned char cell;
