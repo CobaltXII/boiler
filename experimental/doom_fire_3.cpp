@@ -70,6 +70,27 @@ struct game: boiler
 	const int fy_res = y_res / block_yr;
 
 	cell* fire_map = nullptr;
+
+	void keydown(SDL_Event e) override
+	{
+		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
+		}
+		else
+		{
+			points.push_back
+			(
+				new point
+				(
+					mouse_x / block_xr, 
+					mouse_y / block_yr
+				)
+			);
+		}
+	}
 };
 
 // Entry point for the software renderer.
