@@ -57,6 +57,19 @@ struct game: boiler
 	float* selection_y = nullptr;
 
 	const float r = 5.0f;
+
+	// Stuff to do with the fire simulation.
+
+	const int block_xr = 3;
+	const int block_yr = 3;
+
+	const int x_res = 600;
+	const int y_res = 600;
+
+	const int fx_res = x_res / block_xr;
+	const int fy_res = y_res / block_yr;
+
+	cell* fire_map = nullptr;
 };
 
 // Entry point for the software renderer.
