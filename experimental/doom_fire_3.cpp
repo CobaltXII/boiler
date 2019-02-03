@@ -135,6 +135,10 @@ struct game: boiler
 			fire_map[(idx - deviation + 1) - fx_res] = fire_map[idx] - (deviation & 1) * 3;
 		}
 	}
+
+	void draw() override
+	{
+	}
 };
 
 // Entry point for the software renderer.
