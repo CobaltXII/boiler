@@ -295,6 +295,27 @@ struct game: boiler
 				frectrgb(x * block_xr, y * block_yr, block_xr, block_yr, color);
 			}
 		}
+
+		// Set the balls on fire.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			int x = points[i]->x;
+			int y = points[i]->y;
+
+			for (int i = -r; i <= r; i++)
+			for (int j = -r; j <= r; j++)
+			{
+				if (i * i + j * j < r * r)
+				{
+					if (x + i >= 0 && x + i < fx_res)
+					if (y + j >= 0 && y + j < fy_res)
+					{
+						fire_map[(y + j) * fx_res + (x + i)] = 36;
+					}
+				}
+			}
+		}
 	}
 };
 
