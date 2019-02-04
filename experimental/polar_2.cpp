@@ -100,7 +100,7 @@ struct game: boiler
 				cartesian_1.x + h_width, cartesian_1.y + h_height,
 				cartesian_2.x + h_width, cartesian_2.y + h_height, 
 
-				rgb(cc, cc, cc)
+				rgb(0, 0, 0)
 			);
 
 			deg += inc;
