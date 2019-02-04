@@ -449,7 +449,7 @@ struct game: boiler
 					{
 						cell& fire_cell = fire_map[((fy_res - y) + j) * fx_res + (x + i)];
 
-						fire_cell += 9;
+						fire_cell += 1;
 
 						if (fire_cell > 36)
 						{
