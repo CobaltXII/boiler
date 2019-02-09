@@ -71,4 +71,10 @@ struct fluid
 
 	float* vx;
 	float* vy;
+
+	// The 'vx0' and 'vy0' arrays are used as arrays to represent the previous
+	// velocity of each fluid cell.
+
+	float* vx0;
+	float* vy0;
 };
