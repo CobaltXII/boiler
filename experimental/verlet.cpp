@@ -213,6 +213,10 @@ struct game: boiler
 	// The shapes in the simulation.
 
 	std::vector<shape> shapes;
+
+	// The selected point (if nothing is selected, this is nullptr).
+
+	point* selection = nullptr;
 };
 
 // Entry point for the software renderer.
