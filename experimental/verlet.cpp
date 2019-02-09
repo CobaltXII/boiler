@@ -505,6 +505,42 @@ struct game: boiler
 				p->y += gravity;
 			}
 		}
+
+		// Constrain all points to the boundaries.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			float vx = (p->x - p->ox) * friction;
+			float vy = (p->y - p->oy) * friction;
+
+			if (p->x > width - border * 2.0f)
+			{
+				p->x = width - border * 2.0f;
+
+				p->ox = p->x + vx * bounce;
+			}
+			else if (p->x < 0.0f)
+			{
+				p->x = 0.0f;
+
+				p->ox = p->x + vx * bounce;
+			}
+
+			if (p->y > height - border * 2.0f)
+			{
+				p->y = height - border * 2.0f;
+
+				p->oy = p->y + vy * bounce;
+			}
+			else if (p->y < 0.0f)
+			{
+				p->y = 0.0f;
+
+				p->oy = p->y + vy * bounce;
+			}
+		}
 	}
 };
 
