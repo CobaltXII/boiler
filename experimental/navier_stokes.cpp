@@ -29,4 +29,14 @@ struct fluid
 
 	int x_res;
 	int y_res;
+
+	// 1-dimensional index from 2-dimensional coordinates.
+
+	inline int idx(int x, int y)
+	{
+		x = std::max(0, std::min(x_res - 1, x));
+		y = std::max(0, std::min(y_res - 1, y));
+
+		return y * x_res + x;
+	}
 };
