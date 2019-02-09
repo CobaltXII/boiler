@@ -463,6 +463,13 @@ struct game: boiler
 			running = SDL_FALSE;
 		}
 	}
+
+	// Draw a frame with Boiler.
+
+	void draw() override
+	{
+		black();
+	}
 };
 
 // Entry point for the software renderer.
