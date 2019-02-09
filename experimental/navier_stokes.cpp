@@ -339,4 +339,17 @@ struct fluid
 
 		density[idx(x, y)] += amount;
 	}
+
+	// Add velocity.
+
+	inline void add_velocity(int x, int y, float vel_x, float vel_y)
+	{
+		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		{
+			return;
+		}
+
+		vx[idx(x, y)] += vel_x;
+		vy[idx(x, y)] += vel_y;
+	}
 };
