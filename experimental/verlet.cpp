@@ -484,6 +484,27 @@ struct game: boiler
 				separating_axis_theorem(shapes[i], shapes[j]);
 			}
 		}
+
+		// Update all points.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			if (!p->locked)
+			{
+				float vx = (p->x - p->ox) * friction;
+				float vy = (p->y - p->oy) * friction;
+
+				p->ox = p->x;
+				p->oy = p->y;
+
+				p->x += vx;
+				p->y += vy;
+
+				p->y += gravity;
+			}
+		}
 	}
 };
 
