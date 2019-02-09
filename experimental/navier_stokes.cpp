@@ -55,4 +55,14 @@ struct fluid
 	// cause the fluid to flow slower.
 
 	float viscosity;
+
+	// The 'scratch' array is used as a temporary array to do calculations on.
+	// It should not be modified by the user.
+
+	float* scratch;
+
+	// The 'density' array is used as an array to represent the density of
+	// each fluid cell.
+
+	float* density;
 };
