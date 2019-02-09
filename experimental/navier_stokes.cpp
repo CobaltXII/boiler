@@ -111,4 +111,39 @@ struct fluid
 		vx0 = (float*)malloc(x_res * y_res * sizeof(float));
 		vy0 = (float*)malloc(x_res * y_res * sizeof(float));
 	}
+
+	// Mike Ash: This is short for "set bounds", and it's a way to keep fluid
+	// from leaking out of your box. Not that it could really leak, since it's
+	// just a simulation in memory, but not having walls really screws up the
+	// simulation code. Walls are added by treating the outer layer of cells
+	// as the wall. Basically, every velocity in the layer next to this outer
+	// layer is mirrored. So when you have some velocity towards the wall in
+	// the next-to-outer layer, the wall gets a velocity that perfectly
+	// counters it.
+
+	inline void set_bnd(int b, float* x)
+	{
+		for (int i = 1; i < y_res - 1; i++)
+		{
+			x[idx(0, i)] = b == 1 ? -x[idx(1, i)] : x[idx(1, i)];
+
+			x[idx(x_res - 1, i)] = b == 1 ? -x[idx(x_res - 1, i)] : x[idx(x_res - 1, i)];
+  		}
+
+		for (int i = 1; i < x_res - 1; i++)
+		{
+
+			x[idx(i, 0)] = b == 2 ? -x[idx(i, 1)] : x[idx(i, 1)];
+
+			x[idx(i, y_res - 1)] = b == 2 ? -x[idx(i, y_res - 1)] : x[idx(i, y_res - 1)];
+		}
+
+		x[idx(0, 0)] = 0.5f * (x[idx(1, 0)] + x[idx(0, 1)]);
+
+		x[idx(0, y_res - 1)] = 0.5f * (x[idx(1, y_res - 1)] + x[idx(0, y_res - 1)]);
+
+		x[idx(x_res - 1, 0)] = 0.5f * (x[idx(x_res - 2, 0)] + x[idx(x_res - 1, 1)]);
+
+		x[idx(x_res - 1, y_res - 1)] = 0.5f * (x[idx(x_res - 2, y_res - 1)] + x[idx(x_res - 1, y_res - 2)]);
+	}
 };
