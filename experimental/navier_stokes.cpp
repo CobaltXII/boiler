@@ -413,6 +413,10 @@ struct game: boiler
 				delta_y * v_factor
 			);
 		}
+
+		// Update the fluid.
+
+		simulation.step(1);
 	}
 };
 
