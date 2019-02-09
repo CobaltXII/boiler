@@ -596,6 +596,36 @@ struct game: boiler
 				);
 			}
 		}
+
+		// Drag points with left click.
+
+		if (mouse_l && !selection)
+		{
+			for (int i = 0; i < points.size(); i++)
+			{
+				if 
+				(
+					(mouse_x - (points[i]->x + border)) * (mouse_x - (points[i]->x + border)) +
+					(mouse_y - (points[i]->y + border)) * (mouse_y - (points[i]->y + border)) 
+
+					<= 
+
+					5.0f * 5.0f
+				)
+				{
+					selection = points[i];
+				}
+			}
+		}
+		else if (mouse_l && selection)
+		{
+			selection->x = mouse_x - border;
+			selection->y = mouse_y - border;
+		}
+		else
+		{
+			selection = nullptr;
+		}
 	}
 };
 
