@@ -439,6 +439,14 @@ struct game: boiler
 				vx, vy
 			);
 		}
+		if (key == SDLK_q)
+		{
+			points.clear();
+
+			constraints.clear();
+
+			shapes.clear();
+		}
 	}
 };
 
