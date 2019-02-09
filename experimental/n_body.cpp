@@ -90,13 +90,18 @@ struct game: boiler
 
 		for (int i = 0; i < 1000; i++)
 		{
-			real r1 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
-			real r2 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
-			
-			real angx = cos(r1 * 2.0f * M_PI);
-			real angy = sin(r1 * 2.0f * M_PI);
+			if (true)
+			{
+				// Circular placement.
 
-			bodies.push_back(body(angx * r2 * xr, angy * r2 * yr));
+				real r1 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
+				real r2 = real(rand()) / real(RAND_MAX) * 2.0f - 1.0f;
+				
+				real angx = cos(r1 * 2.0f * M_PI);
+				real angy = sin(r1 * 2.0f * M_PI);
+
+				bodies.push_back(body(angx * r2 * xr, angy * r2 * yr));
+			}
 		}
 	}
 
