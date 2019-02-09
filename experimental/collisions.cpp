@@ -151,3 +151,113 @@ bool separating_axis_theorem(shape& s1, shape& s2)
 
 	return false;
 }
+
+struct game: boiler
+{	
+	std::vector<shape> shapes;
+
+	void steam() override
+	{
+		width = 600;
+		height = 600;
+
+		title = "Seperating axis theorem (using Boiler)";
+
+		// Add shapes.
+
+		srand(time(NULL));
+
+		for (int i = 0; i < 32; i++)
+		{
+			shape brand_spanking_new_shape;
+
+			float rand_1 = rand_01();
+			float rand_2 = rand_01();	
+
+			float cx = width * rand_01();
+			float cy = height * rand_01();
+
+			int vertices = rand() % 5 + 3;
+
+			for (int i = 0; i < vertices; i++)
+			{
+				float x = (rand_1 * 12.0f + 24.0f) * cosf(2.0f * M_PI * float(i) / float(vertices) + rand_2 * 2.0f * M_PI) + cx;
+				float y = (rand_1 * 12.0f + 24.0f) * sinf(2.0f * M_PI * float(i) / float(vertices) + rand_2 * 2.0f * M_PI) + cy;
+
+				brand_spanking_new_shape.push_back(point(x, y));
+			}
+
+			shapes.push_back(brand_spanking_new_shape);
+		}
+	}
+
+	void draw() override
+	{
+		black();
+
+		// Draw the shapes.
+
+		shapes[0] = shape();
+
+		shapes[0].push_back(point(mouse_x, mouse_y));
+
+		shapes[0].push_back(point(mouse_x + 32.0f, mouse_y));
+
+		shapes[0].push_back(point(mouse_x + 32.0f, mouse_y + 32.0f));
+
+		shapes[0].push_back(point(mouse_x, mouse_y + 32.0f));
+
+		for (int i = 0; i < shapes.size(); i++)
+		{
+			unsigned int color = rgb(255, 255, 255);
+
+			for (int j = 0; j < shapes.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				if (separating_axis_theorem(shapes[i], shapes[j]))
+				{
+					color = rgb(255, 0, 0);
+
+					break;
+				}
+			}
+
+			for (int j = 0; j < shapes[i].size(); j++)
+			{
+				linergb
+				(
+					shapes[i][j].x,
+					shapes[i][j].y,
+
+					shapes[i][(j + 1) % shapes[i].size()].x,
+					shapes[i][(j + 1) % shapes[i].size()].y,
+
+					color
+				);
+			}
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
