@@ -102,6 +102,15 @@ struct game: boiler
 
 				bodies.push_back(body(angx * r2 * xr, angy * r2 * yr));
 			}
+			else
+			{
+				// Rectangular placement.
+
+				real x = rand_11() * xr;
+				real y = rand_11() * yr;
+
+				bodies.push_back(body(x, y));
+			}
 		}
 	}
 
