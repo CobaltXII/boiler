@@ -458,6 +458,10 @@ struct game: boiler
 				selection->locked = !selection->locked;
 			}
 		}
+		else if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
+		}
 	}
 };
 
