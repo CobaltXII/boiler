@@ -83,6 +83,8 @@ struct game: boiler
 
 		title = "Emptyness (using Boiler)";
 
+		srand(time(NULL));
+
 		const real xr = 1000.0f;
 		const real yr = 1000.0f;
 
