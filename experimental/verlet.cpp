@@ -344,6 +344,70 @@ struct game: boiler
 			s2[i]->y += overlap * dy / s * h;
 		}
 	}
+
+	// Generate a random polygon.
+
+	void random_polygon(float cx, float cy, float vx, float vy)
+	{
+		int sides = 3 + rand() % 5;
+
+		float radius = (1.0f + float(rand()) / float(RAND_MAX)) * 16.0f;
+
+		float rot = degrad(360.0f / (sides * 2));
+
+		float x[sides];
+		float y[sides];
+
+		for (int i = 0; i < sides; i++)
+		{
+			x[i] = cx + cos(rot + degrad(360.0f / sides * i)) * radius;
+			y[i] = cy + sin(rot + degrad(360.0f / sides * i)) * radius;
+		}
+
+		point* p[sides];
+
+		for (int i = 0; i < sides; i++)
+		{
+			points.push_back(p[i] = new point(x[i], y[i], x[i] - vx, y[i] - vy));
+		}
+
+
+		for (int i = 0; i < sides; i++)
+		{
+			constraints.push_back(new constraint(p[i], p[(i + 1) % sides]));
+		}
+
+		point* center = new point(cx, cy, false, true);
+
+		points.push_back(center);
+
+		for (int i = 0; i < sides; i++)
+		{
+			constraints.push_back(new constraint(center, p[i], false));
+		}
+
+		shape new_shape;
+
+		for (int i = 0; i < sides; i++)
+		{
+			new_shape.push_back(p[i]);
+		}
+
+		shapes.push_back(new_shape);
+
+		for (int i = 0; i < sides; i++)
+		{
+			for (int j = 0; j < sides; j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				constraints.push_back(new constraint(p[i], p[j], false));
+			}
+		}
+	}
 };
 
 // Entry point for the software renderer.
