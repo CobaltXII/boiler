@@ -417,6 +417,31 @@ struct game: boiler
 		// Update the fluid.
 
 		simulation.step(1);
+
+		// Render the fluid.
+
+		for (int j = 1; j < simulation.y_res - 1; j++)
+		for (int i = 1; i < simulation.x_res - 1; i++)
+		{
+			#ifdef RENDER_COLOR
+
+			unsigned char r = clamprgb(simulation.density[simulation.idx(i, j)] * 2);
+
+			unsigned char g = clamprgb(simulation.density[simulation.idx(i, j)] * 2 - 256);
+			unsigned char b = clamprgb(simulation.density[simulation.idx(i, j)] * 4 - 768);
+
+			frectrgb
+			(
+				(i - 1) * scale, 
+				(j - 1) * scale, 
+
+				scale, 
+				scale, 
+
+				rgb(r, g, b)
+			);
+			#endif
+		}
 	}
 };
 
