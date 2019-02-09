@@ -181,4 +181,40 @@ struct fluid
 
 		lin_solve(b, x, x0, a, 1 + 6 * a, iterations);
 	}
+
+	// Mike Ash: Remember when I said that we're only simulating
+	// incompressible fluids? This means that the amount of fluid in each box
+	// has to stay constant. That means that the amount of fluid going in has
+	// to be exactly equal to the amount of fluid going out. The other
+	// operations tend to screw things up so that you get some boxes with a
+	// net outflow, and some with a net inflow. This operation runs through
+	// all the cells and fixes them up so everything is in equilibrium.
+
+	void project(float* vx, float* vy, float* p, float* div, int iterations)
+	{
+		for (int j = 1; j < y_res - 1; j++)
+		for (int i = 1; i < x_res - 1; i++)
+		{
+			div[idx(i, j)] = -0.5f * (vx[idx(i + 1, j)] - vx[idx(i - 1, j)] + vy[idx(i, j + 1)] - vy[idx(i, j - 1)]) / ((x_res + y_res) * 0.5f);
+			
+			p[idx(i, j)] = 0.0f;
+		}
+
+		set_bnd(0, div);
+
+		set_bnd(0, p);
+
+		lin_solve(0, p, div, 1, 6, iterations);
+
+		for (int j = 1; j < y_res - 1; j++)
+		for (int i = 1; i < x_res - 1; i++)
+		{
+			vx[idx(i, j)] -= 0.5f * (p[idx(i + 1, j)] - p[idx(i - 1, j)]) * x_res;
+
+			vy[idx(i, j)] -= 0.5f * (p[idx(i, j + 1)] - p[idx(i, j - 1)]) * y_res;
+		}
+
+		set_bnd(1, vx);
+		set_bnd(2, vy);
+	}
 };
