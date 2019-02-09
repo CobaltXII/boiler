@@ -425,6 +425,20 @@ struct game: boiler
 	void keydown(SDL_Event e) override
 	{
 		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_SPACE)
+		{
+			float vx = rand_11() * 0.1f;
+			float vy = rand_11() * 0.1f;
+
+			random_polygon
+			(
+				mouse_x - border, 
+				mouse_y - border, 
+
+				vx, vy
+			);
+		}
 	}
 };
 
