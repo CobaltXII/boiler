@@ -183,3 +183,7 @@ struct constraint
 		}
 	}
 };
+
+// A shape.
+
+typedef std::vector<point*> shape;
