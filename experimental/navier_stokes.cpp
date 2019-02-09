@@ -327,4 +327,16 @@ struct fluid
 
 		advect(0, density, scratch, vx, vy, timestep);
 	}
+
+	// Add density.
+
+	inline void add_density(int x, int y, float amount)
+	{
+		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		{
+			return;
+		}
+
+		density[idx(x, y)] += amount;
+	}
 };
