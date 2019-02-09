@@ -167,4 +167,18 @@ struct fluid
 
 		set_bnd(b, x);
 	}
+
+	// Mike Ash: Put a drop of soy sauce in some water, and you'll notice that
+	// it doesn't stay still, but it spreads out. This happens even if the
+	// water and sauce are both perfectly still. This is called diffusion. We
+	// use diffusion both in the obvious case of making the dye spread out,
+	// and also in the less obvious case of making the velocities of the fluid
+	// spread out.
+
+	inline void diffuse(int b, float* x, float* x0, float diffusion, float timestep, int iterations)
+	{
+		float a = timestep * diffusion * (x_res - 2) * (y_res - 2);
+
+		lin_solve(b, x, x0, a, 1 + 6 * a, iterations);
+	}
 };
