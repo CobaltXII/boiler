@@ -201,6 +201,18 @@ struct game: boiler
 	const float bounce = 0.5f;
 
 	const float border = 32.0f;
+
+	// The points in the simulation.
+
+	std::vector<point*> points;
+
+	// The constraints in the simulation.
+
+	std::vector<constraint*> constraints;
+
+	// The shapes in the simulation.
+
+	std::vector<shape> shapes;
 };
 
 // Entry point for the software renderer.
