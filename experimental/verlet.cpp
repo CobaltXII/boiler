@@ -419,6 +419,13 @@ struct game: boiler
 
 		title = "Verlet sandbox (using Boiler)";
 	}
+
+	// Handle a key press using Boiler.
+
+	void keydown(SDL_Event e) override
+	{
+		SDL_Keycode key = e.key.keysym.sym;
+	}
 };
 
 // Entry point for the software renderer.
