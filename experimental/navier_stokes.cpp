@@ -353,3 +353,49 @@ struct fluid
 		vy[idx(x, y)] += vel_y;
 	}
 };
+struct game: boiler
+{
+	int scale = 2;
+
+	fluid simulation = fluid(256, 256, 0.01f, 0.000001f, 0.000000001f);
+
+	void steam() override
+	{
+		width = (simulation.x_res - 2) * scale;
+
+		height = (simulation.y_res - 2) * scale;
+
+		title = "Navier-Stokes fluid simulation (using Boiler)";
+
+		// Randomness.
+
+		for (int i = 0; i < 0; i++)
+		{
+			int x = rand() % (simulation.x_res - 2) + 1;
+			int y = rand() % (simulation.y_res - 2) + 1;
+
+			simulation.add_density(x, y, rand() % (8 * 1024));
+
+			simulation.add_velocity(x, y, rand_11() * 32.0f, rand_11() * 32.0f);
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
