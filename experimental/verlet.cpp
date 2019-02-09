@@ -575,6 +575,27 @@ struct game: boiler
 				);
 			}
 		}
+
+		// Draw all visible constraints.
+
+		for (int i = 0; i < constraints.size(); i++)
+		{
+			constraint* c = constraints[i];
+
+			if (c->visible)
+			{
+				linergb
+				(
+					c->p1->x + border,
+					c->p1->y + border,
+
+					c->p2->x + border,
+					c->p2->y + border,
+
+					rgb(255, 255, 255)
+				);
+			}
+		}
 	}
 };
 
