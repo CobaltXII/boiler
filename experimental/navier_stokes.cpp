@@ -217,4 +217,95 @@ struct fluid
 		set_bnd(1, vx);
 		set_bnd(2, vy);
 	}
+
+	// Mike Ash: Every cell has a set of velocities, and these velocities
+	// make things move. This is called advection. As with diffusion,
+	// advection applies both to the dye and to the velocities themselves.
+
+	void advect(int b, float* d, float* d0, float* vx, float* vy, float timestep)
+	{
+		float i0, i1;
+		float j0, j1;
+
+		float dtx = timestep * (x_res - 2);
+		float dty = timestep * (y_res - 2);
+
+		float s0, s1;
+		float t0, t1;
+
+		float tmp1; 
+		float tmp2;
+
+		float x;
+		float y;
+
+		float x_resfloat = x_res;
+		float y_resfloat = y_res;
+
+		float ifloat;
+		float jfloat;
+
+		int i;
+		int j;
+
+		for (j = 1, jfloat = 1; j < y_res - 1; j++, jfloat++) 
+		for (i = 1, ifloat = 1; i < x_res - 1; i++, ifloat++)
+		{
+			tmp1 = dtx * vx[idx(i, j)];
+			tmp2 = dty * vy[idx(i, j)];
+
+			x = ifloat - tmp1; 
+			y = jfloat - tmp2;
+
+			if (x < 0.5f)
+			{
+				x = 0.5f;
+			}
+
+			if (x > x_resfloat + 0.5f)
+			{
+				x = x_resfloat + 0.5f;
+			}
+
+			i0 = floor(x);
+
+			i1 = i0 + 1.0f;
+
+			if (y < 0.5f)
+			{
+				y = 0.5f;
+			}
+
+			if (y > y_resfloat + 0.5f)
+			{
+				y = y_resfloat + 0.5f;
+			}
+
+			j0 = floor(y);
+
+			j1 = j0 + 1.0f;
+
+			s1 = x - i0;
+
+			s0 = 1.0f - s1;
+
+			t1 = y - j0;
+
+			t0 = 1.0f - t1;
+
+			int i0i = int(i0);
+			int i1i = int(i1);
+
+			int j0i = int(j0);
+			int j1i = int(j1);
+
+			d[idx(i, j)] =
+			(
+				s0 * (t0 * d0[idx(i0i, j0i)] + t1 * d0[idx(i0i, j1i)]) + 
+				s1 * (t0 * d0[idx(i1i, j0i)] + t1 * d0[idx(i1i, j1i)])
+			);
+		}
+
+		set_bnd(b, d);
+	}
 };
