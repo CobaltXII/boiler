@@ -228,15 +228,20 @@ struct game: boiler
 
 			for (int j = 0; j < shapes[i].size(); j++)
 			{
-				linergb
+				// There's probably a better way to do this, but I'm lazy.
+				
+				ftrianglergb
 				(
-					shapes[i][j].x,
-					shapes[i][j].y,
+					shapes[i][0].x,
+					shapes[i][0].y,
 
 					shapes[i][(j + 1) % shapes[i].size()].x,
 					shapes[i][(j + 1) % shapes[i].size()].y,
 
-					color
+					shapes[i][(j + 2) % shapes[i].size()].x,
+					shapes[i][(j + 2) % shapes[i].size()].y,
+
+					rgb(255, 255, 255)
 				);
 			}
 		}
