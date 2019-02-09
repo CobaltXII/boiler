@@ -77,4 +77,38 @@ struct fluid
 
 	float* vx0;
 	float* vy0;
+
+	// Default constructor.
+
+	fluid(int x_res, int y_res, float timestep, float diffusion, float viscosity)
+	{
+		// Increase the resolution by 2 in each dimension, as the borders are
+		// used for bounds control.
+
+		x_res += 2;
+		y_res += 2;
+
+		// Set the parameters.
+
+		this->x_res = x_res;
+		this->y_res = y_res;
+
+		this->timestep = timestep;
+
+		this->diffusion = diffusion;
+
+		this->viscosity = viscosity;
+
+		// Allocate the arrays.
+
+		scratch = (float*)malloc(x_res * y_res * sizeof(float));
+
+		density = (float*)malloc(x_res * y_res * sizeof(float));
+
+		vx = (float*)malloc(x_res * y_res * sizeof(float));
+		vy = (float*)malloc(x_res * y_res * sizeof(float));
+
+		vx0 = (float*)malloc(x_res * y_res * sizeof(float));
+		vy0 = (float*)malloc(x_res * y_res * sizeof(float));
+	}
 };
