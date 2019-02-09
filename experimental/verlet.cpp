@@ -541,6 +541,13 @@ struct game: boiler
 				p->oy = p->y + vy * bounce;
 			}
 		}
+
+		// Apply forces of all constraints.
+
+		for (int i = 0; i < constraints.size(); i++)
+		{
+			constraints[i]->do_constraint();
+		}
 	}
 };
 
