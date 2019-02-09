@@ -408,6 +408,17 @@ struct game: boiler
 			}
 		}
 	}
+
+	// Initialize Boiler.
+
+	void steam() override
+	{
+		width = 800;
+		
+		height = 600;
+
+		title = "Verlet sandbox (using Boiler)";
+	}
 };
 
 // Entry point for the software renderer.
