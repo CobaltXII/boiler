@@ -353,6 +353,7 @@ struct fluid
 		vy[idx(x, y)] += vel_y;
 	}
 };
+
 struct game: boiler
 {
 	int scale = 2;
@@ -377,6 +378,40 @@ struct game: boiler
 			simulation.add_density(x, y, rand() % (8 * 1024));
 
 			simulation.add_velocity(x, y, rand_11() * 32.0f, rand_11() * 32.0f);
+		}
+	}
+
+	void draw() override
+	{
+		black();
+
+		// Add some fluid.
+
+		if (mouse_l || mouse_r)
+		{
+			// Calculate the delta mouse position.
+
+			int delta_x = mouse_x - mouse_ox;
+			int delta_y = mouse_y - mouse_oy;
+
+			simulation.add_density
+			(
+				mouse_x / scale,
+				mouse_y / scale,
+
+				1024.0f
+			);
+
+			float v_factor = 2.0f;
+
+			simulation.add_velocity
+			(
+				mouse_x / scale, 
+				mouse_y / scale,
+
+				delta_x * v_factor,
+				delta_y * v_factor
+			);
 		}
 	}
 };
