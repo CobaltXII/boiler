@@ -308,4 +308,23 @@ struct fluid
 
 		set_bnd(b, d);
 	}
+
+	// Iterate one step of the fluid simulation.
+
+	inline void step(int iterations)
+	{
+		diffuse(1, vx0, vx, viscosity, timestep, iterations);
+		diffuse(2, vy0, vy, viscosity, timestep, iterations);
+
+		project(vx0, vy0, vx, vy, iterations);
+
+		advect(1, vx, vx0, vx0, vy0, timestep);
+		advect(2, vy, vy0, vx0, vy0, timestep);
+
+		project(vx, vy, vx0, vy0, iterations);
+
+		diffuse(0, scratch, density, diffusion, timestep, iterations);
+
+		advect(0, density, scratch, vx, vy, timestep);
+	}
 };
