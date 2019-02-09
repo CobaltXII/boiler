@@ -548,6 +548,33 @@ struct game: boiler
 		{
 			constraints[i]->do_constraint();
 		}
+
+		// Draw all points.
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			point* p = points[i];
+
+			if (p->anchor)
+			{
+				unsigned int color = rgb(255, 255, 255);
+
+				if (p->locked)
+				{
+					color = rgb(255, 0, 0);
+				}
+
+				circlergb
+				(
+					p->x + border,
+					p->y + border,
+
+					3,
+
+					color
+				);
+			}
+		}
 	}
 };
 
