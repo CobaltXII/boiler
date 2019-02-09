@@ -447,6 +447,10 @@ struct game: boiler
 
 			shapes.clear();
 		}
+		if (key == SDLK_j)
+		{
+			jelly = !jelly;
+		}
 	}
 };
 
