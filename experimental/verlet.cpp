@@ -78,3 +78,46 @@ struct point
 		anchor = _anchor;
 	}
 };
+
+// A constraint.
+
+struct constraint
+{
+	// Connected points.
+
+	point* p1;
+	point* p2;
+
+	// Distance to maintain.
+
+	float d;
+
+	// Visible constraints are drawn.
+
+	bool visible;
+
+	// Default constructor.
+
+	constraint
+	(
+		point* _p1,
+		point* _p2,
+
+		bool _visible = true
+	)
+	{
+		p1 = _p1;
+		p2 = _p2;
+
+		float dx = p2->x - p1->x;
+		float dy = p2->y - p1->y;
+
+		d = sqrtf
+		(
+			dx * dx +
+			dy * dy
+		);
+
+		visible = _visible;
+	}
+};
