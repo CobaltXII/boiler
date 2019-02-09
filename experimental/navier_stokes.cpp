@@ -65,4 +65,10 @@ struct fluid
 	// each fluid cell.
 
 	float* density;
+
+	// The 'vx' and 'vy' arrays are used as arrays to represent the current
+	// velocity of each fluid cell.
+
+	float* vx;
+	float* vy;
 };
