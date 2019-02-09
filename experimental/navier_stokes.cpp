@@ -440,6 +440,22 @@ struct game: boiler
 
 				rgb(r, g, b)
 			);
+
+			#else
+
+			unsigned char grey = clamprgb(simulation.density[simulation.idx(i, j)]);
+
+			frectrgb
+			(
+				(i - 1) * scale, 
+				(j - 1) * scale, 
+
+				scale, 
+				scale, 
+
+				rgb(grey, grey, grey)
+			);
+
 			#endif
 		}
 	}
