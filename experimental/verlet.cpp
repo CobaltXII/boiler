@@ -192,6 +192,15 @@ typedef std::vector<point*> shape;
 
 struct game: boiler
 {	
+	// Universal constants.
+
+	const float friction = 0.999f;
+
+	const float gravity = 0.02f;
+
+	const float bounce = 0.5f;
+
+	const float border = 32.0f;
 };
 
 // Entry point for the software renderer.
