@@ -39,4 +39,20 @@ struct fluid
 
 		return y * x_res + x;
 	}
+
+	// The variable 'timestep' defines how much time should pass between each
+	// iteration step. A higher timestep will cause a lower precision.
+
+	float timestep;
+
+	// The variable 'diffusion' is the diffusion factor. A lower diffusion
+	// rate will cause fluid to disappear faster. A diffusion rate of 1.0f is
+	// a stable fluid. Anything higher should not be used.
+
+	float diffusion;
+
+	// Viscosity is the fluid's resistance to flow. A higher viscosity will
+	// cause the fluid to flow slower.
+
+	float viscosity;
 };
