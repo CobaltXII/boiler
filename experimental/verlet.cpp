@@ -451,6 +451,13 @@ struct game: boiler
 		{
 			jelly = !jelly;
 		}
+		if (key == SDLK_l)
+		{
+			if (selection)
+			{
+				selection->locked = !selection->locked;
+			}
+		}
 	}
 };
 
