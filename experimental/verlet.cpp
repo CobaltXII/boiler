@@ -469,6 +469,21 @@ struct game: boiler
 	void draw() override
 	{
 		black();
+
+		// Shape vs. shape collisions.
+
+		for (int i = 0; i < shapes.size(); i++)
+		{
+			for (int j = 0; j < shapes.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				separating_axis_theorem(shapes[i], shapes[j]);
+			}
+		}
 	}
 };
 
