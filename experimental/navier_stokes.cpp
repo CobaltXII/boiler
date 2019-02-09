@@ -146,4 +146,25 @@ struct fluid
 
 		x[idx(x_res - 1, y_res - 1)] = 0.5f * (x[idx(x_res - 2, y_res - 1)] + x[idx(x_res - 1, y_res - 2)]);
 	}
+
+	// Mike Ash: I honestly don't know exactly what this function does or how
+	// it works. What I do know is that it's used for both diffuse and
+	// project. It's solving a linear differential equation of some sort,
+	// although how and what is not entirely clear to me.
+
+	inline void lin_solve(int b, float* x, float* x0, float a, float c, int iterations)
+	{
+		float inv_c = 1.0f / c;
+
+		for (int k = 0; k < iterations; k++)
+		{
+			for (int j = 1; j < y_res - 1; j++)
+			for (int i = 1; i < x_res - 1; i++)
+			{
+				x[idx(i, j)] = (x0[idx(i, j)] + a * (x[idx(i + 1, j)] + x[idx(i - 1, j)] + x[idx(i, j + 1)] + x[idx(i, j - 1)])) * inv_c;
+			}
+		}
+
+		set_bnd(b, x);
+	}
 };
