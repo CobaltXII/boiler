@@ -33,3 +33,5 @@ struct point
 		y = 0.0f;
 	}
 };
+
+typedef std::vector<point> shape;
