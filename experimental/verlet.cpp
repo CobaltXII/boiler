@@ -120,4 +120,66 @@ struct constraint
 
 		visible = _visible;
 	}
+
+	// Do constraint.
+
+	void do_constraint()
+	{
+		float dx = p2->x - p1->x;
+		float dy = p2->y - p1->y;
+
+		float cd = sqrtf
+		(
+			dx * dx +
+			dy * dy
+		);
+
+		// Calculate half of the difference between the constraint distance
+		// and the current distance. Each point will be pushed away from each
+		// other by this factor.
+
+		float nd = (d - cd) / cd / 2.0f;
+
+		float ox = dx * nd;
+		float oy = dy * nd;
+
+		// Currently, the simulation is rigid. To make it jelly-like, set h
+		// to a small number.
+
+		float h;
+
+		if (jelly)
+		{
+			h = 0.025f;
+		}
+		else
+		{
+			h = 1.0f;
+		}
+
+		if (p1->locked == false)
+		{
+			if (p2->locked == false)
+			{		
+				p1->x -= ox * h;
+				p1->y -= oy * h;	
+
+				p2->x += ox * h;
+				p2->y += oy * h;
+			}
+			else
+			{
+				p1->x -= ox * 2.0;
+				p1->y -= oy * 2.0;	
+			}
+		}
+		else
+		{
+			if (p2->locked == false)
+			{		
+				p2->x += ox * 2.0;
+				p2->y += oy * 2.0;
+			}
+		}
+	}
 };
