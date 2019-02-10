@@ -396,6 +396,8 @@ struct game: boiler
 
 	int color = 0;
 
+	bool vorticity = true;
+
 	void steam() override
 	{
 		width = (simulation.x_res - 2) * scale;
@@ -412,6 +414,10 @@ struct game: boiler
 		if (key == SDLK_ESCAPE)
 		{
 			running = SDL_FALSE;
+		}
+		else if (key == SDLK_v)
+		{
+			vorticity = !vorticity;
 		}
 		else if (key == SDLK_1)
 		{
@@ -485,7 +491,10 @@ struct game: boiler
 
 		// Do vorticity confinement.
 
-		simulation.vorticity_confinement(10.0f);
+		if (vorticity)
+		{
+			simulation.vorticity_confinement(10.0f);
+		}
 
 		// Render the fluid.
 
