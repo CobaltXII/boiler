@@ -455,6 +455,10 @@ struct game: boiler
 
 		simulation.step(1);
 
+		// Do vorticity confinement.
+
+		simulation.vorticity_confinement(10.0f);
+
 		// Render the fluid.
 
 		for (int j = 1; j < simulation.y_res - 1; j++)
