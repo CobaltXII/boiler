@@ -368,8 +368,8 @@ struct fluid
 
 	inline void vorticity_confinement(float vorticity)
 	{
-		memcpy(vx0, vx, x_res * y_res * sizeof(float));
-		memcpy(vy0, vy, x_res * y_res * sizeof(float));
+		std::swap(vx0, vx);
+		std::swap(vy0, vy);
 
 		for (int y = 1; y < y_res - 1; y++)
 		for (int x = 1; x < x_res - 1; x++)
