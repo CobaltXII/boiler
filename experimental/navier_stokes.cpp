@@ -390,7 +390,7 @@ struct fluid
 
 struct game: boiler
 {
-	int scale = 2;
+	int scale = 3;
 
 	fluid simulation = fluid(256, 256, 0.01f, 1e-6f, 1e-9f);
 
