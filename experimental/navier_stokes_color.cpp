@@ -419,14 +419,6 @@ struct game: boiler
 		height = (simulation.y_res - 2) * scale;
 
 		title = "Navier-Stokes fluid simulation (using Boiler)";
-
-		// Initialize d_r, d_g and d_b.
-
-		unsigned int hsl = hsl_to_rgb(degree % 360, 1.0f, 0.5f);
-
-		d_r = mgetr(hsl) * (1024.0f / 255.0f);
-		d_g = mgetg(hsl) * (1024.0f / 255.0f);
-		d_b = mgetb(hsl) * (1024.0f / 255.0f);
 	}
 
 	void draw() override
@@ -435,14 +427,11 @@ struct game: boiler
 
 		// Add some fluid.
 
-		degree++;
+		unsigned int hsl = hsl_to_rgb(degree++ % 360, 1.0f, 0.5f);
 
-		unsigned int hsl = hsl_to_rgb(degree % 360, 1.0f, 0.5f);
-
-		d_r = std::max(static_cast<unsigned char>(64), mgetr(hsl)) * 16;
-
-		d_g = std::max(static_cast<unsigned char>(64), mgetg(hsl)) * 16 - 256;
-		d_b = std::max(static_cast<unsigned char>(64), mgetb(hsl)) * 32 - 768;
+		d_r = mgetr(hsl) * (1024.0f / 64.0f);
+		d_g = mgetg(hsl) * (1024.0f / 64.0f);
+		d_b = mgetb(hsl) * (1024.0f / 64.0f);
 
 		if (mouse_l || mouse_r)
 		{
