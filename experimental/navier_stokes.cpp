@@ -492,40 +492,66 @@ struct game: boiler
 		for (int j = 1; j < simulation.y_res - 1; j++)
 		for (int i = 1; i < simulation.x_res - 1; i++)
 		{
-			#ifdef RENDER_COLOR
+			if (color != 6)
+			{
+				unsigned char r = clamprgb(simulation.density[simulation.idx(i, j)] * 2);
 
-			unsigned char r = clamprgb(simulation.density[simulation.idx(i, j)] * 2);
+				unsigned char g = clamprgb(simulation.density[simulation.idx(i, j)] * 2 - 256);
+				unsigned char b = clamprgb(simulation.density[simulation.idx(i, j)] * 4 - 768);
 
-			unsigned char g = clamprgb(simulation.density[simulation.idx(i, j)] * 2 - 256);
-			unsigned char b = clamprgb(simulation.density[simulation.idx(i, j)] * 4 - 768);
+				unsigned int color_rgb;
 
-			frectrgb
-			(
-				(i - 1) * scale, 
-				(j - 1) * scale, 
+				if (color == 0)
+				{
+					color_rgb = rgb(r, g, b);
+				}
+				else if (color == 1)
+				{
+					color_rgb = rgb(r, b, g);
+				}
+				else if (color == 2)
+				{
+					color_rgb = rgb(g, r, b);
+				}
+				else if (color == 3)
+				{
+					color_rgb = rgb(g, b, r);
+				}
+				else if (color == 4)
+				{
+					color_rgb = rgb(b, r, g);
+				}
+				else if (color == 5)
+				{
+					color_rgb = rgb(b, g, r);
+				}
 
-				scale, 
-				scale, 
+				frectrgb
+				(
+					(i - 1) * scale, 
+					(j - 1) * scale, 
 
-				rgb(r, g, b)
-			);
+					scale, 
+					scale, 
 
-			#else
+					color_rgb
+				);
+			}
+			else
+			{
+				unsigned char grey = clamprgb(simulation.density[simulation.idx(i, j)]);
 
-			unsigned char grey = clamprgb(simulation.density[simulation.idx(i, j)]);
+				frectrgb
+				(
+					(i - 1) * scale, 
+					(j - 1) * scale, 
 
-			frectrgb
-			(
-				(i - 1) * scale, 
-				(j - 1) * scale, 
+					scale, 
+					scale, 
 
-				scale, 
-				scale, 
-
-				rgb(grey, grey, grey)
-			);
-
-			#endif
+					rgb(grey, grey, grey)
+				);
+			}
 		}
 	}
 };
