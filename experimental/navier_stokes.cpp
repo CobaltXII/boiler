@@ -401,18 +401,6 @@ struct game: boiler
 		height = (simulation.y_res - 2) * scale;
 
 		title = "Navier-Stokes fluid simulation (using Boiler)";
-
-		// Randomness.
-
-		for (int i = 0; i < 0; i++)
-		{
-			int x = rand() % (simulation.x_res - 2) + 1;
-			int y = rand() % (simulation.y_res - 2) + 1;
-
-			simulation.add_density(x, y, rand() % (8 * 1024));
-
-			simulation.add_velocity(x, y, rand_11() * 32.0f, rand_11() * 32.0f);
-		}
 	}
 
 	void draw() override
