@@ -407,6 +407,40 @@ struct game: boiler
 
 	void keydown(SDL_Event e) override
 	{
+		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
+		}
+		else if (key == SDLK_1)
+		{
+			color = 0;
+		}
+		else if (key == SDLK_2)
+		{
+			color = 1;
+		}
+		else if (key == SDLK_3)
+		{
+			color = 2;
+		}
+		else if (key == SDLK_4)
+		{
+			color = 3;
+		}
+		else if (key == SDLK_5)
+		{
+			color = 4;
+		}
+		else if (key == SDLK_6)
+		{
+			color = 5;
+		}
+		else if (key == SDLK_7)
+		{
+			color = 6;
+		}
 	}
 
 	void draw() override
