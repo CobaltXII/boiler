@@ -405,6 +405,10 @@ struct game: boiler
 		title = "Navier-Stokes fluid simulation (using Boiler)";
 	}
 
+	void keydown(SDL_Event e) override
+	{
+	}
+
 	void draw() override
 	{
 		black();
