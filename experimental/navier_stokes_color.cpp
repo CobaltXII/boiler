@@ -435,13 +435,14 @@ struct game: boiler
 
 		// Add some fluid.
 
-		degree += 1;
+		degree++;
 
 		unsigned int hsl = hsl_to_rgb(degree % 360, 1.0f, 0.5f);
 
-		d_r = mgetr(hsl) * (1024.0f / 255.0f);
-		d_g = mgetg(hsl) * (1024.0f / 255.0f);
-		d_b = mgetb(hsl) * (1024.0f / 255.0f);
+		d_r = std::max(static_cast<unsigned char>(64), mgetr(hsl)) * 16;
+
+		d_g = std::max(static_cast<unsigned char>(64), mgetg(hsl)) * 16 - 256;
+		d_b = std::max(static_cast<unsigned char>(64), mgetb(hsl)) * 32 - 768;
 
 		if (mouse_l || mouse_r)
 		{
