@@ -392,7 +392,7 @@ struct game: boiler
 {
 	int scale = 2;
 
-	fluid simulation = fluid(256, 256, 0.01f, 0.000001f, 0.000000001f);
+	fluid simulation = fluid(256, 256, 0.01f, 1e-6f, 1e-9f);
 
 	void steam() override
 	{
