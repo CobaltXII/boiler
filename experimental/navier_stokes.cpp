@@ -352,6 +352,15 @@ struct fluid
 		vx[idx(x, y)] += vel_x;
 		vy[idx(x, y)] += vel_y;
 	}
+
+	// Calculate 'curl'.
+	//
+	// https://www.youtube.com/watch?v=TxxZ8gkGNAc
+
+	inline float curl(int x, int y)
+	{
+		return vx0[idx(x, y + 1)] - vx0[idx(x, y - 1)] + vy0[idx(x - 1, y)] - vy0[idx(x + 1, y)];
+	}
 };
 
 struct game: boiler
