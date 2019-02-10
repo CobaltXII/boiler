@@ -394,6 +394,8 @@ struct game: boiler
 
 	fluid simulation = fluid(256, 256, 0.01f, 1e-6f, 1e-9f);
 
+	int color = 0;
+
 	void steam() override
 	{
 		width = (simulation.x_res - 2) * scale;
