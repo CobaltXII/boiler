@@ -394,13 +394,16 @@ struct game: boiler
 			int delta_x = mouse_x - mouse_ox;
 			int delta_y = mouse_y - mouse_oy;
 
-			simulation.add_density
-			(
-				mouse_x / scale,
-				mouse_y / scale,
+			if (mouse_l)
+			{
+				simulation.add_density
+				(
+					mouse_x / scale,
+					mouse_y / scale,
 
-				1024.0f
-			);
+					1024.0f
+				);
+			}
 
 			float v_factor = 2.0f;
 
