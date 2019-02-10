@@ -361,6 +361,31 @@ struct fluid
 	{
 		return vx0[idx(x, y + 1)] - vx0[idx(x, y - 1)] + vy0[idx(x - 1, y)] - vy0[idx(x + 1, y)];
 	}
+
+	// Do vorticity confinement.
+	//
+	// https://www.youtube.com/watch?v=TxxZ8gkGNAc
+
+	inline void vorticity_confinement(float vorticity)
+	{
+		memcpy(vx0, vx, x_res * y_res * sizeof(float));
+		memcpy(vy0, vy, x_res * y_res * sizeof(float));
+
+		for (int y = 1; y < y_res - 1; y++)
+		for (int x = 1; x < x_res - 1; x++)
+		{
+			float dx = std::abs(curl(x + 0, y - 1)) - std::abs(curl(x + 0, y + 1));
+			float dy = std::abs(curl(x + 1, y + 0)) - std::abs(curl(x - 1, y + 0));
+
+			float len_d_eps = sqrtf(dx * dx + dy * dy) + 1e-5f;
+
+			dx = vorticity / len_d_eps * dx;
+			dy = vorticity / len_d_eps * dy;
+
+			vx[idx(x, y)] = vx0[idx(x, y)] + timestep * curl(x, y) * dx;
+			vy[idx(x, y)] = vy0[idx(x, y)] + timestep * curl(x, y) * dy;
+		}
+	}
 };
 
 struct game: boiler
