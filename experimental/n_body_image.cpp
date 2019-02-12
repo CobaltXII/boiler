@@ -11,6 +11,11 @@
 
 typedef float real;
 
+inline real degrad(real x)
+{
+	return 2.0f * M_PI * (x / 360.0f);
+}
+
 struct body
 {
 	real x;
