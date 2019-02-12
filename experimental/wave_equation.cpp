@@ -34,4 +34,31 @@ struct wave_equation
 
 		return y * x_res + x;
 	}
+
+	inline void step(float timestep, float diffuse)
+	{
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			vx[idx(i, j)] += (values[idx(i, j)] - values[idx(i + 1, j)]) * timestep;
+
+			vy[idx(i, j)] += (values[idx(i, j)] - values[idx(i, j + 1)]) * timestep;
+		}
+
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			values[idx(i, j)] -= vx[idx(i, j)] + vy[idx(i, j)];
+
+			values[idx(i + 1, j)] += vx[idx(i, j)];
+
+			values[idx(i, j + 1)] += vy[idx(i, j)];
+		}
+
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			values[idx(i, j)] *= diffuse;
+		}
+	}
 };
