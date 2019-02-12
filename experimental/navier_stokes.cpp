@@ -78,6 +78,17 @@ struct game: boiler
 				);
 			}
 		}
+		else if (key == SDLK_c)
+		{
+			for (int j = 0; j < simulation.y_res; j++)
+			for (int i = 0; i < simulation.x_res; i++)
+			{
+				simulation.vx[simulation.idx(i, j)] = 0.0f;
+				simulation.vy[simulation.idx(i, j)] = 0.0f;
+
+				simulation.density[simulation.idx(i, j)] = 0.0f;
+			}
+		}
 		else if (key == SDLK_1)
 		{
 			color = 0;
