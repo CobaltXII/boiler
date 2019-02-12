@@ -32,7 +32,7 @@ struct body
 
 void body_force(std::vector<body>& bodies, real timestep)
 {
-	const real softening = 10.0f;
+	const real softening = 1024.0f * 4.0f;
 
 	#pragma omp parallel for schedule(dynamic)
 
@@ -51,7 +51,12 @@ void body_force(std::vector<body>& bodies, real timestep)
 			real dx = bodies[j].x - bodies[i].x;
 			real dy = bodies[j].y - bodies[i].y;
 
-			real dist_sqr = dx * dx + dy * dy + softening;
+			real dist_sqr = dx * dx + dy * dy;
+
+			if (dist_sqr < softening)
+			{
+				dist_sqr = softening;
+			}
 
 			real inv_dist = 1.0f / sqrtf(dist_sqr);
 
