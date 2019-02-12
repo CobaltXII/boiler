@@ -82,4 +82,21 @@ struct wave_equation
 		vx[idx(x, y)] += velocity_x;
 		vy[idx(x, y)] += velocity_y;
 	}
+
+	inline void add_wave(int x, int y, int r, float amplitude)
+	{
+    	for (int x2 = x - r; x2 <= x + r; x2++)
+    	for (int y2 = y - r; y2 <= y + r; y2++)
+    	{
+    		int x3 = x2 - x;
+    		int y3 = y2 - y;
+
+    		float radius = sqrt(x3 * x3 + y3 * y3) / float(r);
+
+    		if (radius < 1.0f)
+    		{
+    			add_value(x2, y2, (cosf(radius * M_PI) + 1.0f) * amplitude);
+    		}
+    	}
+	}
 };
