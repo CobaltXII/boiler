@@ -26,4 +26,12 @@ struct wave_equation
 		vx = (float*)malloc(x_res * y_res * sizeof(float));
 		vy = (float*)malloc(x_res * y_res * sizeof(float));
 	}
+
+	inline int idx(int x, int y)
+	{
+		x = std::max(0, std::min(x_res - 1, x));
+		y = std::max(0, std::min(y_res - 1, y));
+
+		return y * x_res + x;
+	}
 };
