@@ -165,3 +165,34 @@ struct gradient
 		return cksum;
 	}
 };
+
+gradient gradient_from_string(std::string encoded)
+{
+	gradient decoded;
+
+	std::stringstream reader(encoded);
+
+	while (true)
+	{
+		float position;
+
+		float r;
+		float g;
+		float b;
+
+		reader >> position;
+
+		reader >> r;
+		reader >> g;
+		reader >> b;
+
+		if (reader.fail())
+		{
+			break;
+		}
+
+		decoded.stops.push_back(gradient_stop(position, {r, g, b}));
+	}
+
+	return decoded;
+}
