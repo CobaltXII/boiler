@@ -21,6 +21,42 @@ application like this:
 #include <utility>
 #include <iostream>
 
+struct game: boiler
+{	
+	gradient my_gradient;
+
+	gradient_stop* my_stop = nullptr;
+
+	gradient_stop* my_old_stop = nullptr;
+
+	int my_color = 0;
+
+	void steam() override
+	{
+		width = 576;
+		
+		height = 384;
+
+		title = "Gradient (using Boiler)";
+
+		f_No_Debug = SDL_TRUE;
+	}
+
+	void keydown(SDL_Event e) override
+	{
+		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
+		}
+		else if (key == SDLK_e)
+		{
+			std::cout << my_gradient.encode() << std::endl;
+		}
+	}
+};
+
 // Entry point for the software renderer.
 
 int main(int argc, char** argv)
