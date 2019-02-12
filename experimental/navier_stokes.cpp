@@ -58,6 +58,26 @@ struct game: boiler
 		{
 			vorticity = !vorticity;
 		}
+		else if (key == SDLK_r)
+		{
+			for (int i = 0; i < 16; i++)
+			{
+				int x = rand() % (simulation.x_res - 2) + 1;
+				int y = rand() % (simulation.y_res - 2) + 1;
+
+				simulation.add_density(x, y, 10239.0f);
+
+				float v_factor = 64.0f;
+
+				simulation.add_velocity
+				(
+					x, y, 
+
+					rand_11() * v_factor, 
+					rand_11() * v_factor
+				);
+			}
+		}
 		else if (key == SDLK_1)
 		{
 			color = 0;
