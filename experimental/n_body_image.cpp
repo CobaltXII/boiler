@@ -19,13 +19,13 @@ struct body
 	real vx;
 	real vy;
 
-	body(real _x, real _y)
+	body(real _x, real _y, real _vx = 0.0f, real _vy = 0.0f)
 	{
 		x = _x;
 		y = _y;
 
-		vx = 0.0f;
-		vy = 0.0f;
+		vx = _vx;
+		vy = _vy;
 	}
 };
 
