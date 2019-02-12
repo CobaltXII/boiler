@@ -109,4 +109,15 @@ struct gradient
 			return lerp(g1.color, g2.color, (t - g1.position) * (1.0f / (g2.position - g1.position)));
 		}
 	}
+
+	inline unsigned int sample_uint(float t)
+	{
+		rgb_tuple color = sample(t);
+
+		unsigned char r = color.r * 255;
+		unsigned char g = color.g * 255;
+		unsigned char b = color.b * 255;
+
+		return r << 16 | g << 8 | b;
+	}
 };
