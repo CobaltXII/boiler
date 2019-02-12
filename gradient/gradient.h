@@ -72,4 +72,41 @@ struct gradient
 			a.b + (b.b - a.b) * t
 		};
 	}
+
+	inline rgb_tuple sample(float t)
+	{
+		if (stops.size() == 0)
+		{
+			return {0.0f, 0.0f, 0.0f};
+		}
+		else if (stops.size() == 1)
+		{
+			return stops[0].color;
+		}
+		else
+		{
+			gradient_stop g1 = gradient_stop(0.0f - INFINITY, {0.0f, 0.0f, 0.0f});
+			gradient_stop g2 = gradient_stop(0.0f + INFINITY, {0.0f, 0.0f, 0.0f});
+
+			for (int i = 0; i < stops.size(); i++)
+			{
+				if (stops[i].position == t)
+				{
+					return stops[i].color;
+				}
+
+				if (stops[i].position > g1.position && stops[i].position < t)
+				{
+					g1 = stops[i];
+				}
+
+				if (stops[i].position < g2.position && stops[i].position > t)
+				{
+					g2 = stops[i];
+				}
+			}
+
+			return lerp(g1.color, g2.color, (t - g1.position) * (1.0f / (g2.position - g1.position)));
+		}
+	}
 };
