@@ -120,4 +120,25 @@ struct gradient
 
 		return r << 16 | g << 8 | b;
 	}
+
+	std::string encode()
+	{
+		std::stringstream builder;
+
+		for (int i = 0; i < stops.size(); i++)
+		{
+			builder << stops[i].position;
+
+			builder << " " << stops[i].color.r;
+			builder << " " << stops[i].color.g;
+			builder << " " << stops[i].color.b;
+
+			if (i != stops.size() - 1)
+			{
+				builder << " ";
+			}
+		}
+
+		return builder.str();
+	}
 };
