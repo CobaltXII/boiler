@@ -146,9 +146,9 @@ struct game: boiler
 			black();
 		}
 
-		body_force(bodies, 10.0f);
+		body_force(bodies, 800.0f);
 
-		real inv_scale = 10.0f;
+		real inv_scale = 32.0f;
 
 		for (int i = 0; i < bodies.size(); i++)
 		{
@@ -157,7 +157,26 @@ struct game: boiler
 			bi.x += bi.vx;
 			bi.y += bi.vy;
 
-			plotp(bi.x / inv_scale + h_width, bi.y / inv_scale + h_height, rgb(255, 255, 255));
+			if (additive_filtering)
+			{
+				int x = bi.x / inv_scale + h_width;
+				int y = bi.y / inv_scale + h_height;
+
+				if (x >= 0 && y >= 0 && x < width && y < height)
+				{
+					unsigned char low = mclamprgb(mgetr(pixels[y * width + x]) + 64);
+
+					unsigned char r = low;
+					unsigned char g = low;
+					unsigned char b = low;
+
+					plotp(bi.x / inv_scale + h_width, bi.y / inv_scale + h_height, rgb(r, g, b));
+				}
+			}
+			else
+			{
+				plotp(bi.x / inv_scale + h_width, bi.y / inv_scale + h_height, rgb(255, 255, 255));
+			}
 		}
 	}
 };
