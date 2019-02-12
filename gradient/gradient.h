@@ -44,3 +44,17 @@ rgb_tuple rgb_from_hex(std::string hex)
 
 	return {r, g, b};
 }
+
+struct gradient_stop
+{
+	float position;
+
+	rgb_tuple color;
+
+	gradient_stop(float position, rgb_tuple color)
+	{
+		this->position = position;
+
+		this->color = color;
+	}
+};
