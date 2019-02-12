@@ -87,19 +87,19 @@ struct wave_equation
 	{
 		// Thanks, Eriksonn.
 		
-    	for (int x2 = x - r; x2 <= x + r; x2++)
-    	for (int y2 = y - r; y2 <= y + r; y2++)
-    	{
-    		int x3 = x2 - x;
-    		int y3 = y2 - y;
+		for (int x2 = x - r; x2 <= x + r; x2++)
+		for (int y2 = y - r; y2 <= y + r; y2++)
+		{
+			int x3 = x2 - x;
+			int y3 = y2 - y;
 
-    		float radius = sqrt(x3 * x3 + y3 * y3) / float(r);
+			float radius = sqrt(x3 * x3 + y3 * y3) / float(r);
 
-    		if (radius < 1.0f)
-    		{
-    			add_value(x2, y2, (cosf(radius * M_PI) + 1.0f) * amplitude);
-    		}
-    	}
+			if (radius < 1.0f)
+			{
+				add_value(x2, y2, (cosf(radius * M_PI) + 1.0f) * amplitude);
+			}
+		}
 	}
 };
 
