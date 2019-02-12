@@ -100,3 +100,75 @@ struct wave_equation
     	}
 	}
 };
+
+struct game: boiler
+{	
+	int x_res = 200;
+	int y_res = 200;
+
+	int scale = 4;
+
+	wave_equation simulation = wave_equation(x_res, y_res);
+
+	void steam() override
+	{
+		width = x_res * scale;
+		
+		height = y_res * scale;
+
+		title = "Wave equation (using Boiler)";
+	}
+
+	void draw() override
+	{
+		black();
+
+		if (mouse_l)
+		{
+			int x = mouse_x / scale;
+			int y = mouse_y / scale;
+
+			simulation.add_wave(x, y, 10, 0.5f);
+		}
+
+		simulation.step(0.5f, 1.0f);
+
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			float value = (simulation.values[simulation.idx(i, j)] + 1.0f) / 2.0f;
+
+			if (value < 0.5f)
+			{
+				float b = mclamprgb((0.5f - value) * 512.0f);
+				
+				frectrgb(i * scale, j * scale, scale, scale, rgb(0, 0, b));
+			}
+			else
+			{
+				float r = mclamprgb((value - 0.5f) * 512.0f);
+
+				frectrgb(i * scale, j * scale, scale, scale, rgb(r, 0, 0));
+			}
+		}
+	}
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
