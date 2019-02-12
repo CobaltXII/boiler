@@ -61,4 +61,15 @@ struct gradient_stop
 
 struct gradient
 {
+	std::vector<gradient_stop> stops;
+
+	inline rgb_tuple lerp(rgb_tuple a, rgb_tuple b, float t)
+	{
+		return
+		{
+			a.r + (b.r - a.r) * t,
+			a.g + (b.g - a.g) * t,
+			a.b + (b.b - a.b) * t
+		};
+	}
 };
