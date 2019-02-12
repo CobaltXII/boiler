@@ -85,6 +85,8 @@ struct wave_equation
 
 	inline void add_wave(int x, int y, int r, float amplitude)
 	{
+		// Thanks, Eriksonn.
+		
     	for (int x2 = x - r; x2 <= x + r; x2++)
     	for (int y2 = y - r; y2 <= y + r; y2++)
     	{
