@@ -58,3 +58,7 @@ struct gradient_stop
 		this->color = color;
 	}
 };
+
+struct gradient
+{
+};
