@@ -61,4 +61,14 @@ struct wave_equation
 			values[idx(i, j)] *= diffuse;
 		}
 	}
+
+	inline void add_value(int x, int y, float value)
+	{
+		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		{
+			return;
+		}
+
+		values[idx(x, y)] += value;
+	}
 };
