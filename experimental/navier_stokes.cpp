@@ -132,9 +132,10 @@ struct game: boiler
 
 			// Do vorticity confinement.
 
-		if (vorticity)
-		{
-			simulation.vorticity_confinement(10.0f);
+			if (vorticity)
+			{
+				simulation.vorticity_confinement(10.0f);
+			}
 		}
 
 		// Render the fluid.
