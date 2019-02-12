@@ -78,22 +78,25 @@ void body_force(std::vector<body>& bodies, real timestep)
 
 struct game: boiler
 {	
+	bool temporal_filtering = false;
+	bool additive_filtering = false;
+
 	std::vector<body> bodies;
 
 	void steam() override
 	{
-		width = 800;
+		width = 512;
 		
-		height = 600;
+		height = 512;
 
 		title = "Emptyness (using Boiler)";
 
-		srand(time(NULL));
+		srand(1419);
 
-		const real xr = 1000.0f;
-		const real yr = 1000.0f;
+		const real xr = 6000.0f;
+		const real yr = 6000.0f;
 
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 8000; i++)
 		{
 			if (true)
 			{
@@ -105,7 +108,13 @@ struct game: boiler
 				real angx = cos(r1 * 2.0f * M_PI);
 				real angy = sin(r1 * 2.0f * M_PI);
 
-				bodies.push_back(body(angx * r2 * xr, angy * r2 * yr));
+				real x = angx * r2 * xr;
+				real y = angy * r2 * yr;
+
+				real vx = cos(r1 * 2.0f * M_PI + degrad(45.0f)) * r2 * 32.0f;
+				real vy = sin(r1 * 2.0f * M_PI + degrad(45.0f)) * r2 * 32.0f;
+
+				bodies.push_back(body(x, y, vx, vy));
 			}
 			else
 			{
@@ -117,9 +126,9 @@ struct game: boiler
 				bodies.push_back(body(x, y));
 			}
 		}
-	}
 
-	bool temporal_filtering = false;
+		additive_filtering = true;
+	}
 
 	void draw() override
 	{
