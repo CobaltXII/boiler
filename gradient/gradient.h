@@ -141,4 +141,27 @@ struct gradient
 
 		return builder.str();
 	}
+
+	int checksum()
+	{
+		int floats[stops.size() * 4];
+
+		for (int i = 0; i < stops.size(); i++)
+		{
+			floats[i * 4 + 0] = *(int*)(&stops[i].position);
+
+			floats[i * 4 + 1] = *(int*)(&stops[i].color.r);
+			floats[i * 4 + 2] = *(int*)(&stops[i].color.g);
+			floats[i * 4 + 3] = *(int*)(&stops[i].color.b);
+		}
+
+		int cksum = 0;
+
+		for (int i = 0; i < stops.size() * 4; i++)
+		{
+			cksum = cksum ^ floats[i];
+		}
+
+		return cksum;
+	}
 };
