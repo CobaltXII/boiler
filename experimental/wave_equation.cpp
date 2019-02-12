@@ -71,4 +71,15 @@ struct wave_equation
 
 		values[idx(x, y)] += value;
 	}
+
+	inline void add_velocity(int x, int y, float velocity_x, float velocity_y)
+	{
+		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		{
+			return;
+		}
+
+		vx[idx(x, y)] += velocity_x;
+		vy[idx(x, y)] += velocity_y;
+	}
 };
