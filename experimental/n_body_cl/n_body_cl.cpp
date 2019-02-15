@@ -119,6 +119,11 @@ struct game: boiler
 			clEnqueueWriteBuffer(command_queue, gpu_state1, CL_TRUE, 0, n * sizeof(cl_float4), state1, 0, NULL, NULL);
 		}
 	}
+
+	void draw() override
+	{
+		black();
+	}
 };
 
 // Entry point for the software renderer.
