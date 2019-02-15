@@ -78,6 +78,12 @@ int main(int argc, char** argv)
     // platforms.
 
     clGetPlatformIDs(1, &platform_id, &num_platforms);
+
+    // Get the first available device on the first available platform. Store
+    // the amount of available devices. This device will be referred to as the
+    // 'default device'.
+
+    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &num_devices);
 	// Initialize Boiler.
 
 	game demo;
