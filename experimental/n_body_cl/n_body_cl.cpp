@@ -69,6 +69,16 @@ struct game: boiler
 
 		title = "Emptyness (using Boiler)";
 	}
+
+	void wheelup(SDL_Event e) override
+	{
+		inv_scale -= 1.0f;
+	}
+
+	void wheeldown(SDL_Event e) override
+	{
+		inv_scale += 1.0f;
+	}
 };
 
 // Entry point for the software renderer.
