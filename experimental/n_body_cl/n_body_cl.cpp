@@ -196,6 +196,19 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Build the OpenCL program.
+
+	r_code = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
+
+	// Make sure the OpenCL program was built successfully.
+
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not build an OpenCL program.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
