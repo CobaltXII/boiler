@@ -66,6 +66,13 @@ int main(int argc, char** argv)
 	cl_platform_id platform_id = NULL;
 
     cl_device_id device_id = NULL;
+
+    // Create unsigned integer objects to hold the amount of available
+    // platforms and available devices.
+
+    cl_uint num_platforms;
+
+    cl_uint num_devices;
 	// Initialize Boiler.
 
 	game demo;
