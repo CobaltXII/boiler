@@ -53,6 +53,12 @@ struct game: boiler
 
 int main(int argc, char** argv)
 {
+	// Create variables to hold return codes.
+
+	cl_int r_code;
+
+	cl_int r_code1;
+	cl_int r_code2;
 	// Initialize Boiler.
 
 	game demo;
