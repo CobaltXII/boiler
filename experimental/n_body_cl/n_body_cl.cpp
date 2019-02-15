@@ -84,6 +84,19 @@ int main(int argc, char** argv)
     // 'default device'.
 
     clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &num_devices);
+
+    // Create an OpenCL context on the default device.
+
+    cl_context context = clCreateContext(0, 1, &device_id, NULL, NULL, &r_code);
+
+    // Make sure the OpenCL context was created successfully.
+
+    if (r_code != CL_SUCCESS)
+    {
+    	say("Could not create an OpenCL context.");
+
+    	return EXIT_FAILURE;
+    }
 	// Initialize Boiler.
 
 	game demo;
