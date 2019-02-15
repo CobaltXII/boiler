@@ -31,3 +31,5 @@ const char* kernel_source =
 #undef __stringify
 
 size_t kernel_source_size = strlen(kernel_source);
+
+#include "../../gradient/gradient.h"
