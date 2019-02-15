@@ -183,6 +183,19 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Create an OpenCL program from the kernel source.
+
+	cl_program program = clCreateProgramWithSource(context, 1, (const char**)&kernel_source, (const size_t*)&kernel_source_size, &r_code);
+
+	// Make sure the OpenCL program was created successfully.
+
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL program.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
