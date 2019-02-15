@@ -126,6 +126,34 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Initilize the n-body simulation.
+
+	const float xr = 16000.0f;
+	const float yr = 16000.0f;
+
+	for (int i = 0; i < n; i++)
+	{
+		// Generate a random body.
+
+		cl_float ang = rand_01() * 2.0f * M_PI;
+
+		cl_float rad = rand_01();
+
+		cl_float x = (xr * rad) * cos(ang);
+		cl_float y = (yr * rad) * sin(ang);
+
+		cl_float vx = cos(ang + degrad(90.0f)) * rad * 64.0f;
+		cl_float vy = sin(ang + degrad(90.0f)) * rad * 64.0f;
+
+		// Write the body to the first state.
+
+		state1[i] = {x, y, vx, vy};
+	}
+
+	// Clear the second state.
+
+	memset(state2, 0, n * sizeof(cl_float4));
 	// Initialize Boiler.
 
 	game demo;
