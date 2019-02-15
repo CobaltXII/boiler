@@ -33,3 +33,10 @@ const char* kernel_source =
 size_t kernel_source_size = strlen(kernel_source);
 
 #include "../../gradient/gradient.h"
+
+// Write a message to std::cout.
+
+void say(std::string message)
+{
+	std::cout << message << std::endl;
+}
