@@ -59,6 +59,13 @@ int main(int argc, char** argv)
 
 	cl_int r_code1;
 	cl_int r_code2;
+
+	// Create identifier objects to hold information about the available
+	// platforms and available devices.
+
+	cl_platform_id platform_id = NULL;
+
+    cl_device_id device_id = NULL;
 	// Initialize Boiler.
 
 	game demo;
