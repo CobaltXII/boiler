@@ -79,6 +79,46 @@ struct game: boiler
 	{
 		inv_scale += 1.0f;
 	}
+
+	void keydown(SDL_Event e) override
+	{
+		SDL_Keycode key = e.key.keysym.sym;
+
+		if (key == SDLK_ESCAPE)
+		{
+			running = SDL_FALSE;
+		}
+		else if (key == SDLK_r)
+		{
+			// Re-initialize the n-body simulation.
+
+			const float xr = 16000.0f;
+			const float yr = 16000.0f;
+
+			for (int i = 0; i < n; i++)
+			{
+				// Generate a random body.
+
+				cl_float ang = rand_01() * 2.0f * M_PI;
+
+				cl_float rad = rand_01();
+
+				cl_float x = (xr * rad) * cos(ang);
+				cl_float y = (yr * rad) * sin(ang);
+
+				cl_float vx = cos(ang + degrad(90.0f)) * rad * 64.0f;
+				cl_float vy = sin(ang + degrad(90.0f)) * rad * 64.0f;
+
+				// Write the body to the first state.
+
+				state1[i] = {x, y, vx, vy};
+			}
+
+			// Copy the new initial data to the GPU.
+
+			clEnqueueWriteBuffer(command_queue, gpu_state1, CL_TRUE, 0, n * sizeof(cl_float4), state1, 0, NULL, NULL);
+		}
+	}
 };
 
 // Entry point for the software renderer.
