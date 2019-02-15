@@ -265,11 +265,11 @@ struct boiler
 
 	Uint32* pixels;
 
-	Uint32 width;
-	Uint32 height;
+	Sint32 width;
+	Sint32 height;
 
-	Uint32 h_width;
-	Uint32 h_height;
+	Sint32 h_width;
+	Sint32 h_height;
 
 	std::string title;
 
