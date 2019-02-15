@@ -58,6 +58,17 @@ struct game: boiler
 	cl_command_queue command_queue;
 
 	cl_kernel kernel;
+
+	cl_float inv_scale = 32.0f;
+
+	void steam() override
+	{
+		width = 800;
+		
+		height = 800;
+
+		title = "Emptyness (using Boiler)";
+	}
 };
 
 // Entry point for the software renderer.
