@@ -110,6 +110,22 @@ int main(int argc, char** argv)
 
     	return EXIT_FAILURE;
     }
+
+    // Allocate CPU memory for the n-body simulation.
+
+    cl_int n = 1024 * 24;
+
+    cl_float4* state1 = (cl_float4*)malloc(n * sizeof(cl_float4));
+	cl_float4* state2 = (cl_float4*)malloc(n * sizeof(cl_float4));
+
+	// Make sure both arrays were allocated successfully.
+
+	if (!state1 || !state2)
+	{
+		say("Could not allocate local CPU memory.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
