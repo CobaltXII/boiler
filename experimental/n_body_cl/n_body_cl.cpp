@@ -32,7 +32,7 @@ const char* kernel_source =
 
 size_t kernel_source_size = strlen(kernel_source);
 
-#include "../../gradient/gradient.h"
+#include "../thermal_colormap.h"
 
 // Write a message to std::cout.
 
@@ -44,9 +44,7 @@ void say(std::string message)
 // The Boiler rendering context.
 
 struct game: boiler
-{	
-	gradient colormap = gradient_from_string("1.000000 0.941177 0.588235 0.039215 0.666666 0.745098 0.392157 0.117647 0.333333 0.627451 0.196078 0.274510 0.000000 0.078431 0.078431 0.352941");
-
+{
 	cl_int n;
 
 	cl_float4* state1;
@@ -122,7 +120,7 @@ struct game: boiler
 
 	void draw() override
 	{
-		black();
+		clear(thermal_colormap[15]);
 
 		// Do one iteration of the n-body simulation.
 
@@ -164,7 +162,7 @@ struct game: boiler
 			{
 				unsigned char value = mgetr(pixels[y * width + x]);
 
-				plotp(x, y, colormap.sample_uint(value / 255.0f));
+				plotp(x, y, thermal_colormap[value]);
 			}
 		}
 
