@@ -266,5 +266,31 @@ int main(int argc, char** argv)
 	demo.engine();
 	demo.sweep();
 
+	// Free the kernel.
+
+	clReleaseKernel(kernel);
+
+	// Free the program.
+
+	clReleaseProgram(program);
+
+	// Free the GPU memory.
+
+	clReleaseMemObject(gpu_state1);
+	clReleaseMemObject(gpu_state2);
+
+	// Free the command queue.
+
+	clReleaseCommandQueue(command_queue);
+
+	// Free the context.
+
+	clReleaseContext(context);
+
+	// Free the CPU memory.
+
+	free(state1);
+	free(state2);
+
 	return 0;
 }
