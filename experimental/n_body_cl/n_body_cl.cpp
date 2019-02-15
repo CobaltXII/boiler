@@ -193,57 +193,57 @@ int main(int argc, char** argv)
 
 	cl_platform_id platform_id = NULL;
 
-    cl_device_id device_id = NULL;
+	cl_device_id device_id = NULL;
 
-    // Create unsigned integer objects to hold the amount of available
-    // platforms and available devices.
+	// Create unsigned integer objects to hold the amount of available
+	// platforms and available devices.
 
-    cl_uint num_platforms;
+	cl_uint num_platforms;
 
-    cl_uint num_devices;
+	cl_uint num_devices;
 
-    // Get the first available platform and store the amount of available
-    // platforms.
+	// Get the first available platform and store the amount of available
+	// platforms.
 
-    clGetPlatformIDs(1, &platform_id, &num_platforms);
+	clGetPlatformIDs(1, &platform_id, &num_platforms);
 
-    // Get the first available device on the first available platform. Store
-    // the amount of available devices. This device will be referred to as the
-    // 'default device'.
+	// Get the first available device on the first available platform. Store
+	// the amount of available devices. This device will be referred to as the
+	// 'default device'.
 
-    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &num_devices);
+	clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &num_devices);
 
-    // Create an OpenCL context on the default device.
+	// Create an OpenCL context on the default device.
 
-    cl_context context = clCreateContext(0, 1, &device_id, NULL, NULL, &r_code);
+	cl_context context = clCreateContext(0, 1, &device_id, NULL, NULL, &r_code);
 
-    // Make sure the OpenCL context was created successfully.
+	// Make sure the OpenCL context was created successfully.
 
-    if (r_code != CL_SUCCESS)
-    {
-    	say("Could not create an OpenCL context.");
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL context.");
 
-    	return EXIT_FAILURE;
-    }
+		return EXIT_FAILURE;
+	}
 
-    // Create an OpenCL command queue.
+	// Create an OpenCL command queue.
 
-    cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &r_code);
+	cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &r_code);
 
-    // Make sure the OpenCL command queue was created successfully.
+	// Make sure the OpenCL command queue was created successfully.
 
-    if (r_code != CL_SUCCESS)
-    {
-    	say("Could not create an OpenCL command queue.");
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL command queue.");
 
-    	return EXIT_FAILURE;
-    }
+		return EXIT_FAILURE;
+	}
 
-    // Allocate CPU memory for the n-body simulation.
+	// Allocate CPU memory for the n-body simulation.
 
-    cl_int n = 1024 * 24;
+	cl_int n = 1024 * 24;
 
-    cl_float4* state1 = (cl_float4*)malloc(n * sizeof(cl_float4));
+	cl_float4* state1 = (cl_float4*)malloc(n * sizeof(cl_float4));
 	cl_float4* state2 = (cl_float4*)malloc(n * sizeof(cl_float4));
 
 	// Make sure both arrays were allocated successfully.
