@@ -40,3 +40,30 @@ void say(std::string message)
 {
 	std::cout << message << std::endl;
 }
+
+// The Boiler rendering context.
+
+struct game: boiler
+{	
+};
+
+// Entry point for the software renderer.
+
+int main(int argc, char** argv)
+{
+	// Initialize Boiler.
+
+	game demo;
+
+	if (demo.make() != 0)
+	{
+		std::cout << "Could not initialize Boiler." << std::endl;
+
+		return 1;
+	}
+
+	demo.engine();
+	demo.sweep();
+
+	return 0;
+}
