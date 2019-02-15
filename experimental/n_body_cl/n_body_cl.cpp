@@ -97,6 +97,19 @@ int main(int argc, char** argv)
 
     	return EXIT_FAILURE;
     }
+
+    // Create an OpenCL command queue.
+
+    cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &r_code);
+
+    // Make sure the OpenCL command queue was created successfully.
+
+    if (r_code != CL_SUCCESS)
+    {
+    	say("Could not create an OpenCL command queue.");
+
+    	return EXIT_FAILURE;
+    }
 	// Initialize Boiler.
 
 	game demo;
