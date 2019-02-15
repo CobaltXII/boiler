@@ -136,6 +136,38 @@ struct game: boiler
 
 		clEnqueueReadBuffer(command_queue, gpu_state2, CL_TRUE, 0, n * sizeof(cl_float4), state2, 0, NULL, NULL);
 
+		// Render the n-body simulation.
+
+		for (int i = 0; i < n; i++)
+		{
+			int x = state2[i].s[0] / inv_scale + h_width;
+			int y = state2[i].s[1] / inv_scale + h_width;
+
+			if (x >= 0 && y >= 0 && x < width && y < height)
+			{
+				unsigned char low = mclamprgb(mgetr(pixels[y * width + x]) + 4096 / inv_scale);
+
+				unsigned char r = low;
+				unsigned char g = low;
+				unsigned char b = low;
+
+				plotp(x, y, rgb(r, g, b));
+			}
+		}
+
+		for (int i = 0; i < n; i++)
+		{
+			int x = state2[i].s[0] / inv_scale + h_width;
+			int y = state2[i].s[1] / inv_scale + h_width;
+
+			if (x >= 0 && y >= 0 && x < width && y < height)
+			{
+				unsigned char value = mgetr(pixels[y * width + x]);
+
+				plotp(x, y, colormap.sample_uint(value / 255.0f));
+			}
+		}
+
 		// Swap buffers.
 
 		std::swap(gpu_state1, gpu_state2);
