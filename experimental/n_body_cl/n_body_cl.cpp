@@ -168,6 +168,21 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Copy the contents of the CPU n-body simulation memory to the GPU n-body
+	// simulation memory.
+
+	r_code1 = clEnqueueWriteBuffer(command_queue, gpu_state1, CL_TRUE, 0, n * sizeof(cl_float4), state1, 0, NULL, NULL);
+	r_code2 = clEnqueueWriteBuffer(command_queue, gpu_state2, CL_TRUE, 0, n * sizeof(cl_float4), state2, 0, NULL, NULL);
+
+	// Make sure both arrays were copied successfully.
+
+	if (r_code1 != CL_SUCCESS || r_code2 != CL_SUCCESS)
+	{
+		say("Could not copy CPU memory to GPU memory.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
