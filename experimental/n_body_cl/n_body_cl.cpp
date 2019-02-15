@@ -19,3 +19,15 @@
 #include <CL/cl.h>
 
 #endif
+
+// Include the kernel source.
+
+#define __stringify(source) #source
+
+const char* kernel_source =
+
+#include "n_body_cl.cl"
+
+#undef __stringify
+
+size_t kernel_source_size = strlen(kernel_source);
