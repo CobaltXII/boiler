@@ -223,6 +223,23 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Set the timestep and softening parameters of the kernel.
+
+	cl_float gpu_float_args[2] = {1200.0f, 50000.0f};
+
+	clSetKernelArg(kernel, 0, sizeof(cl_float), &(gpu_float_args[0]));
+	clSetKernelArg(kernel, 1, sizeof(cl_float), &(gpu_float_args[1]));
+
+	// Set the n-body count paramater of the kernel.
+
+	clSetKernelArg(kernel, 2, sizeof(cl_int), &n);
+
+	// Set the state parameters of the kernel.
+
+	clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*)&gpu_state1);
+	clSetKernelArg(kernel, 4, sizeof(cl_mem), (void*)&gpu_state2);
+
 	// Initialize Boiler.
 
 	game demo;
