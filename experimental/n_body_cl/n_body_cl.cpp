@@ -244,6 +244,18 @@ int main(int argc, char** argv)
 
 	game demo;
 
+	demo.n = n;
+
+	demo.state1 = state1;
+	demo.state2 = state2;
+
+	demo.gpu_state1 = gpu_state1;
+	demo.gpu_state2 = gpu_state2;
+
+	demo.command_queue = command_queue;
+
+	demo.kernel = kernel;
+
 	if (demo.make() != 0)
 	{
 		std::cout << "Could not initialize Boiler." << std::endl;
