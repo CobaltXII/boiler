@@ -154,6 +154,20 @@ int main(int argc, char** argv)
 	// Clear the second state.
 
 	memset(state2, 0, n * sizeof(cl_float4));
+
+	// Allocate GPU memory for the n-body simulation.
+
+	cl_mem gpu_state1 = clCreateBuffer(context, CL_MEM_READ_WRITE, n * sizeof(cl_float4), NULL, &r_code1);
+	cl_mem gpu_state2 = clCreateBuffer(context, CL_MEM_READ_WRITE, n * sizeof(cl_float4), NULL, &r_code2);
+
+	// Make sure both arrays were allocated successfully.
+
+	if (r_code1 != CL_SUCCESS || r_code2 != CL_SUCCESS)
+	{
+		say("Could not allocate GPU memory.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
