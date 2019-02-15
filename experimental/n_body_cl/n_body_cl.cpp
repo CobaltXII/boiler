@@ -255,6 +255,8 @@ int main(int argc, char** argv)
 
 	// Initilize the n-body simulation.
 
+	srand(time(NULL));
+
 	const float xr = 16000.0f;
 	const float yr = 16000.0f;
 
