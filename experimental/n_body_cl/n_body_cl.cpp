@@ -209,6 +209,20 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	// Create the OpenCL kernel from the function "n_body_cl" within the
+	// OpenCL program.
+
+	cl_kernel kernel = clCreateKernel(program, "n_body_cl", &r_code);
+
+	// Make sure the OpenCL kernel was created successfully.
+
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL kernel.");
+
+		return EXIT_FAILURE;
+	}
 	// Initialize Boiler.
 
 	game demo;
