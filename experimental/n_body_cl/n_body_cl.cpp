@@ -45,6 +45,8 @@ void say(std::string message)
 
 struct game: boiler
 {	
+	gradient colormap = gradient_from_string("1.000000 0.941177 0.588235 0.039215 0.666666 0.745098 0.392157 0.117647 0.333333 0.627451 0.196078 0.274510 0.000000 0.078431 0.078431 0.352941");
+
 };
 
 // Entry point for the software renderer.
