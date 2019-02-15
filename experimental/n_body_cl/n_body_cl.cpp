@@ -123,6 +123,25 @@ struct game: boiler
 	void draw() override
 	{
 		black();
+
+		// Do one iteration of the n-body simulation.
+
+		size_t global_work_size = n;
+
+		size_t local_work_size = 256;
+
+		clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_size, &local_work_size, 0, NULL, NULL);
+
+		// Read state2 back into local CPU memory.
+
+		clEnqueueReadBuffer(command_queue, gpu_state2, CL_TRUE, 0, n * sizeof(cl_float4), state2, 0, NULL, NULL);
+
+		// Swap buffers.
+
+		std::swap(gpu_state1, gpu_state2);
+
+		clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*)&gpu_state1);
+		clSetKernelArg(kernel, 4, sizeof(cl_mem), (void*)&gpu_state2);
 	}
 };
 
