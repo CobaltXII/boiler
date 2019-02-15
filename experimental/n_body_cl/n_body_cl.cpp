@@ -73,6 +73,11 @@ int main(int argc, char** argv)
     cl_uint num_platforms;
 
     cl_uint num_devices;
+
+    // Get the first available platform and store the amount of available
+    // platforms.
+
+    clGetPlatformIDs(1, &platform_id, &num_platforms);
 	// Initialize Boiler.
 
 	game demo;
