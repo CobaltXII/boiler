@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <sstream>
 
 // Include OpenCL.
 
@@ -115,6 +116,14 @@ struct game: boiler
 			// Copy the new initial data to the GPU.
 
 			clEnqueueWriteBuffer(command_queue, gpu_state1, CL_TRUE, 0, n * sizeof(cl_float4), state1, 0, NULL, NULL);
+		}
+		else if (key == SDLK_e)
+		{
+			std::stringstream name_builder;
+
+			name_builder << "export_" << time(NULL) << ".bmp";
+
+			savebmp(name_builder.str(), pixels, width, height);
 		}
 	}
 
