@@ -77,10 +77,14 @@ gl/Spyro2.png
 gl/Spyro3.obj
 gl/Spyro3.png
 
-# Ignore n-body simulation output
+# Ignore n-body simulation output.
 
 experimental/n_body_image/*
 
-# Ignore smoothed particle hydrodynamics simulation output
+# Ignore smoothed particle hydrodynamics simulation output.
 
 experimental/fluid_image/*
+
+# Ignore OpenCL n-body simulation exports.
+
+experimental/n_body_cl/*.bmp
