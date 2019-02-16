@@ -60,6 +60,8 @@ struct game: boiler
 
 	cl_float inv_scale = 32.0f;
 
+	bool simulating = true;
+
 	void steam() override
 	{
 		width = 800;
@@ -125,23 +127,30 @@ struct game: boiler
 
 			savebmp(name_builder.str(), pixels, width, height);
 		}
+		else if (key == SDLK_s)
+		{
+			simulating = !simulating;
+		}
 	}
 
 	void draw() override
 	{
 		clear(thermal_colormap[15]);
 
-		// Do one iteration of the n-body simulation.
+		if (simulating)
+		{
+			// Do one iteration of the n-body simulation.
 
-		size_t global_work_size = n;
+			size_t global_work_size = n;
 
-		size_t local_work_size = 256;
+			size_t local_work_size = 256;
 
-		clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_size, &local_work_size, 0, NULL, NULL);
+			clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_size, &local_work_size, 0, NULL, NULL);
 
-		// Read state2 back into local CPU memory.
+			// Read state2 back into local CPU memory.
 
-		clEnqueueReadBuffer(command_queue, gpu_state2, CL_TRUE, 0, n * sizeof(cl_float4), state2, 0, NULL, NULL);
+			clEnqueueReadBuffer(command_queue, gpu_state2, CL_TRUE, 0, n * sizeof(cl_float4), state2, 0, NULL, NULL);
+		}
 
 		// Render the n-body simulation.
 
