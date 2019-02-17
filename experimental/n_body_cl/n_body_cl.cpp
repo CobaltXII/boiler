@@ -328,6 +328,13 @@ int main(int argc, char** argv)
 
 		cl_float rad = rand_01();
 
+		if (false)
+		{
+			// Uniform distribution.
+
+			rad = sqrtf(rad);
+		}
+
 		cl_float x = (xr * rad) * cos(ang);
 		cl_float y = (yr * rad) * sin(ang);
 
