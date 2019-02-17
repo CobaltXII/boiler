@@ -74,3 +74,25 @@ kernel edge_detect_2()
 
 	return kern;
 }
+
+kernel edge_detect_3()
+{
+	int x = 3;
+
+	kernel kern = {x, x, (float*)malloc(x * x * sizeof(float))};
+
+	float k[3][3] =
+	{
+		{0.0f - 1.0f, 0.0f - 1.0f, 0.0f - 1.0f},
+		{0.0f - 1.0f, 0.0f + 8.0f, 0.0f - 1.0f},
+		{0.0f - 1.0f, 0.0f - 1.0f, 0.0f - 1.0f}
+	};
+
+	for (int i = 0; i < x; i++)
+	for (int j = 0; j < x; j++)
+	{
+		kern.k[j * x + i] = k[j][i];
+	}
+
+	return kern;
+}
