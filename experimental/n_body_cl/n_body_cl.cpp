@@ -33,6 +33,8 @@ const char* kernel_source =
 
 size_t kernel_source_size = strlen(kernel_source);
 
+// Include the thermal colormap.
+
 #include "../thermal_colormap.h"
 
 // Write a message to std::cout.
@@ -135,7 +137,19 @@ struct game: boiler
 
 	void draw() override
 	{
-		clear(thermal_colormap[15]);
+		inv_scale = iteration / 60.0f;
+
+		// Set the timestep and softening parameters.
+
+		cl_float gpu_float_args[2] = {float(iteration + 1), float(iteration + 1)};
+
+		// PARAM: gpu_float_args[0] is the timestep.
+		// PARAM: gpu_float_args[1] is the softening.
+
+		clSetKernelArg(kernel, 0, sizeof(cl_float), &(gpu_float_args[0]));
+		clSetKernelArg(kernel, 1, sizeof(cl_float), &(gpu_float_args[1]));
+
+		black();
 
 		if (simulating)
 		{
@@ -180,7 +194,10 @@ struct game: boiler
 			{
 				unsigned char value = mgetr(pixels[y * width + x]);
 
-				plotp(x, y, thermal_colormap[value]);
+				if (value == mgetg(pixels[y * width + x]))
+				{
+					plotp(x, y, thermal_colormap[value]);
+				}
 			}
 		}
 
