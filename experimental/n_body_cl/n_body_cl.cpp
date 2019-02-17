@@ -162,6 +162,8 @@ struct game: boiler
 		}
 	}
 
+	void draw() override
+	{
 		black();
 
 		if (simulating)
@@ -211,6 +213,16 @@ struct game: boiler
 				{
 					plotp(x, y, thermal_colormap[value]);
 				}
+			}
+		}
+
+		if (false)
+		{
+			// Draw palette.
+
+			for (int i = 0; i < height; i++)
+			{
+				linergb(0, i, 32, i, thermal_colormap[255 - i * 255 / (height - 1)]);
 			}
 		}
 
