@@ -132,3 +132,35 @@ float popular_guassian_2d(float x, float y, float stdev)
 {
 	return exp(-(x * x + y * y) / (2.0f * stdev * stdev)) / (2.0f * M_PI * stdev * stdev);
 }
+
+kernel guassian(int x, float stdev)
+{
+	kernel kern = {x, x, (float*)malloc(x * x * sizeof(float))};
+
+	for (int i = 0; i < x; i++)
+	for (int j = 0; j < x; j++)
+	{
+		float kx = i - (x - 1) / 2;
+		float ky = j - (x - 1) / 2;
+
+		kern.k[j * x + i] = popular_guassian_2d(kx, ky, stdev);
+	}
+
+	// Normalize.
+
+	float sum = 0.0f;
+
+	for (int i = 0; i < x; i++)
+	for (int j = 0; j < x; j++)
+	{
+		sum += kern.k[j * x + i];
+	}
+
+	for (int i = 0; i < x; i++)
+	for (int j = 0; j < x; j++)
+	{
+		kern.k[j * x + i] /= sum;	
+	}
+
+	return kern;
+}
