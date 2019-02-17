@@ -125,3 +125,10 @@ float guassian_2d(float x, float y, float stdev)
 {
 	return 1.0f / (2.0f * M_PI * (stdev * stdev)) * pow(M_E, -(x * x + y * y) / (2.0f * (stdev * stdev)));
 }
+
+// However, most programmers seem to use this one.
+
+float popular_guassian_2d(float x, float y, float stdev)
+{
+	return exp(-(x * x + y * y) / (2.0f * stdev * stdev)) / (2.0f * M_PI * stdev * stdev);
+}
