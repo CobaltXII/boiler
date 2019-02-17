@@ -6,6 +6,7 @@
 #include <utility>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 // Include OpenCL.
 
@@ -33,9 +34,21 @@ const char* kernel_source =
 
 size_t kernel_source_size = strlen(kernel_source);
 
-// Include the thermal colormap.
+// Include the colormap.
+
+#define I_LIKE_JET
+
+#ifdef I_LIKE_JET
+
+#include "../jet.h"
+
+#define thermal_colormap jet_colormap
+
+#else
 
 #include "../thermal_colormap.h"
+
+#endif
 
 // Write a message to std::cout.
 
