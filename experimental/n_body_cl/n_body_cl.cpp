@@ -146,21 +146,21 @@ struct game: boiler
 		{
 			simulating = !simulating;
 		}
+		else if (key == SDLK_f)
+		{
+			// Save raw export data.
+
+			std::stringstream name_builder;
+
+			name_builder << "export_" << time(NULL) << ".dat";
+
+			std::ofstream frame(name_builder.str());
+
+			frame.write((const char*)state2, n * sizeof(cl_float4));
+
+			frame.close();
+		}
 	}
-
-	void draw() override
-	{
-		inv_scale = iteration / 60.0f;
-
-		// Set the timestep and softening parameters.
-
-		cl_float gpu_float_args[2] = {float(iteration + 1), float(iteration + 1)};
-
-		// PARAM: gpu_float_args[0] is the timestep.
-		// PARAM: gpu_float_args[1] is the softening.
-
-		clSetKernelArg(kernel, 0, sizeof(cl_float), &(gpu_float_args[0]));
-		clSetKernelArg(kernel, 1, sizeof(cl_float), &(gpu_float_args[1]));
 
 		black();
 
