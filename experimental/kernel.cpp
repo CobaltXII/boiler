@@ -17,3 +17,16 @@ struct kernel
 
 	float* k;
 };
+
+kernel box_blur(int x)
+{
+	kernel kern = {x, x, (float*)malloc(x * x * sizeof(float))};
+
+	for (int i = 0; i < x; i++)
+	for (int j = 0; j < x; j++)
+	{
+		kern.k[j * x + i] = 1.0f / float(x * x);
+	}
+
+	return kern;
+}
