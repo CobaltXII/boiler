@@ -97,7 +97,7 @@ struct game: boiler
 			int x = mouse_x / scale;
 			int y = mouse_y / scale;
 
-			simulation.add_heat(x, y, 20, 30.0f);
+			simulation.add_heat(x, y, 20, 3.0f);
 		}
 		else if (mouse_r)
 		{
