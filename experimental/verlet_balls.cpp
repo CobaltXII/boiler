@@ -57,9 +57,9 @@ struct game: boiler
 
 	void steam() override
 	{
-		width = 960;
+		width = 720;
 		
-		height = 540;
+		height = 720;
 
 		title = "Verlet sandbox (using Boiler)";
 	}
@@ -73,6 +73,20 @@ struct game: boiler
 		if (key == SDLK_ESCAPE)
 		{
 			running = SDL_FALSE;
+		}
+		else if (key == SDLK_d)
+		{
+			float r = 200.0f;
+
+			float step = 20.0f;
+
+			float brownian = 1.0f;
+
+			for (float x = -r; x <= r; x += step)
+			for (float y = -r; y <= r; y += step)
+			{
+				points.push_back(new point(x + width / 2.0f + rand_11() * brownian, y + height / 2.0f + rand_11() * brownian));
+			}
 		}
 		else
 		{
@@ -143,7 +157,7 @@ struct game: boiler
 			p->x += vx;
 			p->y += vy;
 
-			p->y += 0.2f;
+			p->y += 0.1f;
 		}
 
 		// Drag points with left click.
