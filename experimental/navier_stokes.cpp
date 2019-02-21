@@ -27,7 +27,7 @@ struct game: boiler
 
 	fluid simulation = fluid(256, 256, 0.01f, 1e-6f, 1e-9f);
 
-	int color = 0;
+	int color = 7;
 
 	bool vorticity = true;
 
