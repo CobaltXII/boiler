@@ -8,7 +8,7 @@
 #include <utility>
 #include <iostream>
 
-#include "jet.h"
+#include "thermal_colormap.h"
 
 const char* kernel_source =
 
@@ -22,13 +22,13 @@ struct game: boiler
 
 	const float bounds = 4000.0f;
 
-	const float r = 40.0f;
+	const float r = 30.0f;
 
 	const float viscosity = 1.0f;
 
 	boiler_opencl opencl = load_opencl();
 
-	cl_int n = 1024 * 4;
+	cl_int n = 1024 * 8;
 
 	cl_mem gpu_state0;
 	cl_mem gpu_state1;
@@ -232,11 +232,11 @@ struct game: boiler
 
 			if (r * scale > 1.0f)
 			{
-				fcirclergb(x, y, r * scale, jet_colormap[int(mclamprgb(cpu_state1[i].s[2]))]);
+				fcirclergb(x, y, r * scale, thermal_colormap[int(mclamprgb(cpu_state1[i].s[2] + 63))]);
 			}
 			else
 			{
-				plotp(x, y, jet_colormap[int(mclamprgb(cpu_state1[i].s[2]))]);
+				plotp(x, y, thermal_colormap[int(mclamprgb(cpu_state1[i].s[2] + 63))]);
 			}
 		}
 	}
