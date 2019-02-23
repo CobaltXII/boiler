@@ -88,12 +88,12 @@ struct game: boiler
 
 	void wheelup(SDL_Event e) override
 	{
-		inv_scale -= 1.0f;
+		inv_scale /= 1.1f;
 	}
 
 	void wheeldown(SDL_Event e) override
 	{
-		inv_scale += 1.0f;
+		inv_scale *= 1.1f;
 	}
 
 	void keydown(SDL_Event e) override
