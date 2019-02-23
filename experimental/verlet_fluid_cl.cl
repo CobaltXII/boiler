@@ -100,17 +100,17 @@ __stringify
 
 		// Retain density.
 
-		next_state[global_id].z = particle.z;
+		next_state[global_id].z = particle.z * 2.0f;
 
 		// Do boundary constaints.
 
-		if (next_state[global_id].x < -bounds)
+		if (next_state[global_id].x < -bounds * 1.5f)
 		{
-			next_state[global_id].x = -bounds;
+			next_state[global_id].x = -bounds * 1.5f;
 		}
-		else if (next_state[global_id].x > bounds)
+		else if (next_state[global_id].x > bounds * 1.5f)
 		{
-			next_state[global_id].x = bounds;
+			next_state[global_id].x = bounds * 1.5f;
 		}
 
 		if (next_state[global_id].y < -bounds)
