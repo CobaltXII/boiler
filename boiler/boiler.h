@@ -2073,4 +2073,28 @@ inline double rand_01()
 inline double rand_11()
 {
 	return double(rand()) / double(RAND_MAX) * 2.0 - 1.0;
-}
+}}
+
+// Simple OpenCL "starterpack".
+
+#ifdef BOIL_USE_OPENCL
+
+// Stringification macro.
+
+#define __stringify(source) #source
+
+// Include OpenCL.
+
+#ifdef __APPLE__
+
+#define CL_SILENCE_DEPRECATION
+
+#include <OpenCL/OpenCL.h>
+
+#else
+
+#include <CL/cl.h>
+
+#endif
+
+#endif
