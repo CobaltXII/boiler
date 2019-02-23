@@ -2238,4 +2238,172 @@ const char* cl_error_string(cl_int error)
 		default: return "Unknown OpenCL error";
 	}
 }
+
+// Write a message to std::cout.
+
+void say(std::string message)
+{
+	std::cout << message << std::endl;
+}
+
+// The basics of all OpenCL programs.
+
+struct boiler_opencl
+{
+	cl_device_id device_id;
+
+	cl_context context;
+
+	cl_command_queue command_queue;
+
+	// Load a program.
+
+	cl_program load_program(const char* kernel_source, size_t kernel_source_size)
+	{
+		// Create a variable to hold return codes.
+
+		cl_int r_code;
+
+		// Create an OpenCL program from the kernel source.
+
+		cl_program program = clCreateProgramWithSource(context, 1, (const char**)&kernel_source, (const size_t*)&kernel_source_size, &r_code);
+
+		// Make sure the OpenCL program was created successfully.
+
+		if (r_code != CL_SUCCESS)
+		{
+			say("Could not create an OpenCL program.");
+
+			exit(EXIT_FAILURE);
+		}
+
+		// Build the OpenCL program.
+
+		r_code = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
+
+		// Make sure the OpenCL program was built successfully.
+
+		if (r_code != CL_SUCCESS)
+		{
+			say("Could not build an OpenCL program.");
+
+			// https://stackoverflow.com/questions/18973371/build-opencl-kernel-failure
+
+			size_t len;
+
+			clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &len);
+
+			char* log = new char[len];
+
+			clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG, len, log, NULL);
+
+			std::cout << log << std::endl;
+
+			exit(EXIT_FAILURE);
+		}
+
+		return program;
+	}
+
+	// Load a kernel.
+
+	cl_kernel load_kernel(cl_program program, const char* kernel_name)
+	{
+		// Create a variable to hold return codes.
+
+		cl_int r_code;
+
+		// Create the OpenCL kernel from the function within the OpenCL
+		// program.
+
+		cl_kernel kernel = clCreateKernel(program, kernel_name, &r_code);
+
+		// Make sure the OpenCL kernel was created successfully.
+
+		if (r_code != CL_SUCCESS)
+		{
+			say("Could not create an OpenCL kernel.");
+
+			exit(EXIT_FAILURE);
+		}
+
+		return kernel;
+	}
+
+	// Clean up.
+
+	void sweep()
+	{
+		// Free the command queue.
+
+		clReleaseCommandQueue(command_queue);
+
+		// Free the context.
+
+		clReleaseContext(context);
+	}
+};
+
+// Load the basics of all OpenCL programs.
+
+boiler_opencl load_opencl()
+{
+	// Create a variable to hold return codes.
+
+	cl_int r_code;
+
+	// Create identifier objects to hold information about the available
+	// platforms and available devices.
+
+	cl_platform_id platform_id = NULL;
+
+	cl_device_id device_id = NULL;
+
+	// Create unsigned integer objects to hold the amount of available
+	// platforms and available devices.
+
+	cl_uint num_platforms;
+
+	cl_uint num_devices;
+
+	// Get the first available platform and store the amount of available
+	// platforms.
+
+	clGetPlatformIDs(1, &platform_id, &num_platforms);
+
+	// Get the first available device on the first available platform. Store
+	// the amount of available devices. This device will be referred to as the
+	// 'default device'.
+
+	clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &num_devices);
+
+	// Create an OpenCL context on the default device.
+
+	cl_context context = clCreateContext(0, 1, &device_id, NULL, NULL, &r_code);
+
+	// Make sure the OpenCL context was created successfully.
+
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL context.");
+
+		exit(EXIT_FAILURE);
+	}
+
+	// Create an OpenCL command queue.
+
+	cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &r_code);
+
+	// Make sure the OpenCL command queue was created successfully.
+
+	if (r_code != CL_SUCCESS)
+	{
+		say("Could not create an OpenCL command queue.");
+
+		exit(EXIT_FAILURE);
+	}
+
+	return {device_id, context, command_queue};
+};
+
 #endif
