@@ -2081,7 +2081,7 @@ inline double rand_11()
 
 // Stringification macro.
 
-#define __stringify(source) #source
+#define __stringify(...) #__VA_ARGS__
 
 // Include OpenCL.
 
