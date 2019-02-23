@@ -2241,7 +2241,7 @@ const char* cl_error_string(cl_int error)
 
 // Write a message to std::cout.
 
-void say(std::string message)
+void __boiler_cl_say(std::string message)
 {
 	std::cout << message << std::endl;
 }
@@ -2272,7 +2272,7 @@ struct boiler_opencl
 
 		if (r_code != CL_SUCCESS)
 		{
-			say("Could not create an OpenCL program.");
+			__boiler_cl_say("Could not create an OpenCL program.");
 
 			exit(EXIT_FAILURE);
 		}
@@ -2285,7 +2285,7 @@ struct boiler_opencl
 
 		if (r_code != CL_SUCCESS)
 		{
-			say("Could not build an OpenCL program.");
+			__boiler_cl_say("Could not build an OpenCL program.");
 
 			// https://stackoverflow.com/questions/18973371/build-opencl-kernel-failure
 
@@ -2322,7 +2322,7 @@ struct boiler_opencl
 
 		if (r_code != CL_SUCCESS)
 		{
-			say("Could not create an OpenCL kernel.");
+			__boiler_cl_say("Could not create an OpenCL kernel.");
 
 			exit(EXIT_FAILURE);
 		}
@@ -2385,7 +2385,7 @@ boiler_opencl load_opencl()
 
 	if (r_code != CL_SUCCESS)
 	{
-		say("Could not create an OpenCL context.");
+		__boiler_cl_say("Could not create an OpenCL context.");
 
 		exit(EXIT_FAILURE);
 	}
@@ -2398,7 +2398,7 @@ boiler_opencl load_opencl()
 
 	if (r_code != CL_SUCCESS)
 	{
-		say("Could not create an OpenCL command queue.");
+		__boiler_cl_say("Could not create an OpenCL command queue.");
 
 		exit(EXIT_FAILURE);
 	}
