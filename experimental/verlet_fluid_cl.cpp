@@ -232,7 +232,7 @@ struct game: boiler
 
 			if (r * scale > 1.0f)
 			{
-				circlergb(x, y, r * scale + 1, 0xFFFFFF);
+				fcirclergb(x, y, r * scale, jet_colormap[int(mclamprgb(cpu_state1[i].s[2]))]);
 			}
 			else
 			{
