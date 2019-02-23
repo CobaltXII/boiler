@@ -76,7 +76,7 @@ struct game: boiler
 
 		if (!cpu_state0 || !cpu_state1)
 		{
-			say("Could not allocate CPU memory.");
+			__boiler_cl_say("Could not allocate CPU memory.");
 
 			exit(EXIT_FAILURE);
 		}
@@ -93,7 +93,7 @@ struct game: boiler
 
 		if (r_code0 != CL_SUCCESS || r_code1 != CL_SUCCESS || r_code2 != CL_SUCCESS)
 		{
-			say("Could not allocate GPU memory.");
+			__boiler_cl_say("Could not allocate GPU memory.");
 
 			exit(EXIT_FAILURE);
 		}
@@ -136,7 +136,7 @@ struct game: boiler
 
 		if (r_code0 != CL_SUCCESS || r_code1 != CL_SUCCESS)
 		{
-			say("Could not copy CPU memory to GPU memory.");
+			__boiler_cl_say("Could not copy CPU memory to GPU memory.");
 
 			exit(EXIT_FAILURE);
 		}
