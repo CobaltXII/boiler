@@ -47,3 +47,20 @@ unsigned int* ___JET_jet_colormap()
 }
 
 unsigned int* jet_colormap = ___JET_jet_colormap();
+
+template <typename T>
+
+inline unsigned int sample_jet(T value)
+{
+	if (value < T(0.0f))
+	{
+		value = T(0.0f);
+	}
+
+	if (value > T(255.0f))
+	{
+		value = T(255.0f);
+	}
+
+	return jet_colormap[int(value)];
+}
