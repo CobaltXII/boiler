@@ -107,13 +107,15 @@ __stringify
 
 		// Do boundary constaints.
 
-		if (next_state[global_id].x < -bounds * 1.5f)
+		float width = 1.6f;
+
+		if (next_state[global_id].x < -bounds * width)
 		{
-			next_state[global_id].x = -bounds * 1.5f;
+			next_state[global_id].x = -bounds * width;
 		}
-		else if (next_state[global_id].x > bounds * 1.5f)
+		else if (next_state[global_id].x > bounds * width)
 		{
-			next_state[global_id].x = bounds * 1.5f;
+			next_state[global_id].x = bounds * width;
 		}
 
 		if (next_state[global_id].y < -bounds)
