@@ -41,7 +41,7 @@ struct game: boiler
 
 	// Scaling.
 
-	float scale = 1.0f / powf(1.1f, 23.0f);
+	float scale = 1280.0f / 8000.0f / pow(1.1f, 5.0f);
 
 	void wheelup(SDL_Event e) override
 	{
@@ -57,9 +57,9 @@ struct game: boiler
 
 	void steam() override
 	{
-		width = 960;
+		width = 1280;
 		
-		height = 960;
+		height = 800;
 
 		title = "Verlet sandbox (using Boiler)";
 
@@ -192,7 +192,8 @@ struct game: boiler
 		// Send mouse parameters.
 
 		cl_float cl_mouse_x = (mouse_x - h_width) / scale;
-		cl_float cl_mouse_y = (mouse_y - h_width) / scale;
+
+		cl_float cl_mouse_y = (mouse_y - h_height) / scale;
 
 		cl_int cl_mouse_down = mouse_l;
 
@@ -228,7 +229,8 @@ struct game: boiler
 		for (int i = 0; i < n; i++)
 		{
 			float x = cpu_state1[i].s[0] * scale + h_width;
-			float y = cpu_state1[i].s[1] * scale + h_width;
+
+			float y = cpu_state1[i].s[1] * scale + h_height;
 
 			if (r * scale + 1.0f > 1.0f)
 			{
