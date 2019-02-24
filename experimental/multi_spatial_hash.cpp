@@ -82,8 +82,8 @@ struct game: boiler
 				x, y,
 				x, y,
 
-				float(rand_11()) * 0.0f,
-				float(rand_11()) * 0.0f
+				float(rand_11()) * 1.0f,
+				float(rand_11()) * 1.0f
 			};
 
 			balls.push_back(new_ball);
