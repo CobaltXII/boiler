@@ -1,9 +1,4 @@
 // Spatial hash grid? Awesome.
-//
-// Note that this implementation assumes that two balls will never be within
-// the same cell. This assumption is made to add a lot of speed. If the
-// assumption is not true, it would be better to use a spatial hash that uses
-// a list of balls within a cell.
 
 #include "../boiler/boiler.h"
 
