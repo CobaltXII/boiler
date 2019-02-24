@@ -230,9 +230,9 @@ struct game: boiler
 			float x = cpu_state1[i].s[0] * scale + h_width;
 			float y = cpu_state1[i].s[1] * scale + h_width;
 
-			if (r * scale > 1.0f)
+			if (r * scale + 1.0f > 1.0f)
 			{
-				fcirclergb(x, y, r * scale, thermal_colormap[int(mclamprgb(cpu_state1[i].s[2] + 63))]);
+				fcirclergb(x, y, r * scale + 1, thermal_colormap[int(mclamprgb(cpu_state1[i].s[2] + 63))]);
 			}
 			else
 			{
