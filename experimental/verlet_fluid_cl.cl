@@ -55,6 +55,9 @@ __stringify
 				particle.x -= dx / d * overlap / 2.0f * dt;
 				particle.y -= dy / d * overlap / 2.0f * dt;
 
+				this_state[j].x += dx / d * overlap / 2.0f * dt;
+				this_state[j].y += dy / d * overlap / 2.0f * dt;
+
 				// Increase this worker's particle's density.
 
 				particle.z += fabs(overlap);
