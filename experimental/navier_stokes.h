@@ -309,7 +309,7 @@ struct fluid
 
 	inline void add_density(int x, int y, float amount)
 	{
-		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		if (x < 0 || y < 0 || x >= x_res - 1 || y >= y_res - 1)
 		{
 			return;
 		}
@@ -321,7 +321,7 @@ struct fluid
 
 	inline void add_velocity(int x, int y, float vel_x, float vel_y)
 	{
-		if (x < 0 || y < 0 || x >= x_res || y >= y_res)
+		if (x < 0 || y < 0 || x >= x_res - 1 || y >= y_res - 1)
 		{
 			return;
 		}
