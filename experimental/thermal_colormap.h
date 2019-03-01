@@ -550,3 +550,20 @@ unsigned int* __compile_thermal_colormap_data()
 }
 
 unsigned int* thermal_colormap = __compile_thermal_colormap_data();
+
+template <typename T>
+
+inline unsigned int sample_thermal(T value)
+{
+	if (value < T(0.0f))
+	{
+		value = T(0.0f);
+	}
+
+	if (value > T(255.0f))
+	{
+		value = T(255.0f);
+	}
+
+	return thermal_colormap[int(value)];
+}
