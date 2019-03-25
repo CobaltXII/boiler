@@ -268,6 +268,9 @@ struct boiler
 	Sint32 width;
 	Sint32 height;
 
+	#define boiler_x_res width
+	#define boiler_y_res height
+
 	Sint32 h_width;
 	Sint32 h_height;
 
