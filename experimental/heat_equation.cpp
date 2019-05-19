@@ -15,12 +15,18 @@ struct heat_equation
 
 	float* values;
 
+	float* vx;
+	float* vy;
+
 	heat_equation(int x_res, int y_res)
 	{
 		this->x_res = x_res;
 		this->y_res = y_res;
 
 		values = (float*)malloc(x_res * y_res * sizeof(float));
+
+		vx = (float*)malloc(x_res * y_res * sizeof(float));
+		vy = (float*)malloc(x_res * y_res * sizeof(float));
 	}
 
 	inline int idx(int x, int y)
@@ -36,7 +42,25 @@ struct heat_equation
 		for (int j = 0; j < y_res; j++)
 		for (int i = 0; i < x_res; i++)
 		{
-			values[idx(i, j)] = std::max(0.0f, values[idx(i, j)] * diffuse);
+			vx[idx(i, j)] = (values[idx(i, j)] - values[idx(i + 1, j)]) * timestep;
+
+			vy[idx(i, j)] = (values[idx(i, j)] - values[idx(i, j + 1)]) * timestep;
+		}
+
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			values[idx(i, j)] -= vx[idx(i, j)] + vy[idx(i, j)];
+
+			values[idx(i + 1, j)] += vx[idx(i, j)];
+
+			values[idx(i, j + 1)] += vy[idx(i, j)];
+		}
+
+		for (int j = 0; j < y_res; j++)
+		for (int i = 0; i < x_res; i++)
+		{
+			values[idx(i, j)] *= diffuse;
 		}
 	}
 
@@ -107,12 +131,12 @@ struct game: boiler
 			simulation.add_heat(x, y, 20, -3.0f);
 		}
 
-		simulation.step(0.5f, 1.0f);
+		simulation.step(0.1f, 1.0f);
 
 		for (int j = 0; j < y_res; j++)
 		for (int i = 0; i < x_res; i++)
 		{
-			int value = mclamprgb(simulation.values[simulation.idx(i, j)]);
+			int value = mclamprgb(simulation.values[simulation.idx(i, j)] + 128.0f);
 
 			frectrgb(i * scale, j * scale, scale, scale, jet_colormap[value]);
 		}

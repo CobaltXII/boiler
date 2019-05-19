@@ -320,30 +320,131 @@ int main(int argc, char** argv)
 	const float xr = 16000.0f;
 	const float yr = 16000.0f;
 
-	for (int i = 0; i < n; i++)
+	if (false)
 	{
-		// Generate a random body.
-
-		cl_float ang = rand_01() * 2.0f * M_PI;
-
-		cl_float rad = rand_01();
-
-		if (false)
+		for (int i = 0; i < n; i++)
 		{
-			// Uniform distribution.
+			// Generate a random body.
 
-			rad = sqrtf(rad);
+			cl_float ang = rand_01() * 2.0f * M_PI;
+
+			cl_float rad = rand_01();
+
+			if (false)
+			{
+				// Uniform distribution.
+
+				rad = sqrtf(rad);
+			}
+
+			cl_float x = (xr * rad) * cos(ang);
+			cl_float y = (yr * rad) * sin(ang);
+
+			cl_float vx = cos(ang + degrad(90.0f)) * rad * 64.0f;
+			cl_float vy = sin(ang + degrad(90.0f)) * rad * 64.0f;
+
+			// Write the body to the first state.
+
+			state1[i] = {x, y, vx, vy};
+		}
+	}
+	else
+	{
+		// http://itinerantgames.tumblr.com/post/78592276402/a-2d-procedural-galaxy-with-c
+
+		int galaxy_arms = 2;
+
+		float arm_seperation_distance = 2.0f * M_PI / galaxy_arms;
+
+		float arm_offset_max = 0.5f;
+
+		float rotation_factor = 5.0f;
+
+		float random_offset = 0.02f;
+
+		for (int i = 0; i < n / 2; i++)
+		{
+			// Generate a random body.
+
+			float distance = powf(rand_01(), 2.0f);
+
+			float angle = rand_01() * 2.0f * M_PI;
+
+			float arm_offset = rand_01() * arm_offset_max;
+
+			arm_offset -= arm_offset_max / 2.0f;
+
+			arm_offset *= 1.0f / distance;
+
+			float squared_arm_offset = powf(arm_offset, 2.0f);
+
+			if (arm_offset < 0.0f)
+			{
+				squared_arm_offset *= -1.0f;
+			}
+
+			arm_offset = squared_arm_offset;
+
+			float rotation = distance * rotation_factor;
+
+			angle = (int)(angle / arm_seperation_distance) * arm_seperation_distance + arm_offset + rotation;
+
+			cl_float x = (distance * cos(angle) + rand_11() * random_offset) * xr;
+			cl_float y = (distance * sin(angle) + rand_11() * random_offset) * yr;
+
+			float difference_step = 0.1f;
+
+			float velocity = 512.0f;
+
+			cl_float vx = ((distance * cos(angle - difference_step)) - (distance * cos(angle))) * velocity;
+			cl_float vy = ((distance * sin(angle - difference_step)) - (distance * sin(angle))) * velocity;
+
+			// Write the body to the first state.
+
+			state1[i] = {x - xr * 2.0f, y, vx + velocity * 0.1f, vy - velocity * 0.025f};
 		}
 
-		cl_float x = (xr * rad) * cos(ang);
-		cl_float y = (yr * rad) * sin(ang);
+		for (int i = 0; i < n / 2; i++)
+		{
+			// Generate a random body.
 
-		cl_float vx = cos(ang + degrad(90.0f)) * rad * 64.0f;
-		cl_float vy = sin(ang + degrad(90.0f)) * rad * 64.0f;
+			float distance = powf(rand_01(), 2.0f);
 
-		// Write the body to the first state.
+			float angle = rand_01() * 2.0f * M_PI;
 
-		state1[i] = {x, y, vx, vy};
+			float arm_offset = rand_01() * arm_offset_max;
+
+			arm_offset -= arm_offset_max / 2.0f;
+
+			arm_offset *= 1.0f / distance;
+
+			float squared_arm_offset = powf(arm_offset, 2.0f);
+
+			if (arm_offset < 0.0f)
+			{
+				squared_arm_offset *= -1.0f;
+			}
+
+			arm_offset = squared_arm_offset;
+
+			float rotation = distance * rotation_factor;
+
+			angle = (int)(angle / arm_seperation_distance) * arm_seperation_distance + arm_offset + rotation;
+
+			cl_float x = (distance * cos(angle) + rand_11() * random_offset) * xr;
+			cl_float y = (distance * sin(angle) + rand_11() * random_offset) * yr;
+
+			float difference_step = 0.1f;
+
+			float velocity = 512.0f;
+
+			cl_float vx = ((distance * cos(angle - difference_step)) - (distance * cos(angle))) * velocity;
+			cl_float vy = ((distance * sin(angle - difference_step)) - (distance * sin(angle))) * velocity;
+
+			// Write the body to the first state.
+
+			state1[i + n / 2] = {x + xr * 2.0f, y, vx - velocity * 0.1f, vy + velocity * 0.025f};
+		}
 	}
 
 	// Clear the second state.
