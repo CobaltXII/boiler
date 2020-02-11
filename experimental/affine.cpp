@@ -213,8 +213,7 @@ struct game: boiler
 
 		mat3 mc = mat_scalar
 		(
-			1.0 + sin(iteration / f) * 0.5, 
-			1.0 + sin(iteration / f) * 0.5
+			1.0f, 1.0f
 		);
 
 		// Translate to the center of the screen, so that all the effects and transformations can
